@@ -36,6 +36,12 @@ public class BattleSystem : MonoBehaviour {
 			{
 				camCtrl.des = new Vector3(0, 100, -50);
 				ui.isSelectWord = false;
+				
+				int []shuffleNum = new int[ui.length];
+				shuffleNum = ui.shuffle();
+				ui.chooseWords = new int[4];
+				for(int i = 0 ; i < 4 ; i++)
+					ui.chooseWords[i] = shuffleNum[i];
 			}
 		}
 		else
@@ -52,7 +58,7 @@ public class BattleSystem : MonoBehaviour {
 	
 	void Fight()
 	{
-		if(ui.error < 30.0f)
+		if(ui.error < 150.0f)
 		{
 			GameObject snd = (GameObject) Instantiate(Sound_O);
 			Destroy(snd, 2);
@@ -64,5 +70,7 @@ public class BattleSystem : MonoBehaviour {
 			GameObject snd = (GameObject) Instantiate(Sound_X);
 			Destroy(snd, 2);
 		}
+		
+		ui.showE = ui.error;
 	}
 }

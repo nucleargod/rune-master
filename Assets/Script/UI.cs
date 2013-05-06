@@ -11,6 +11,7 @@ public class UI : MonoBehaviour {
 	public WordDisplay backWordDisplay;
 	public ArrayList wordList = new ArrayList();
 	public float error;
+	public float showE;
 	private float a;
 	
 	private int wordIdx = 1;
@@ -18,17 +19,21 @@ public class UI : MonoBehaviour {
 	public bool isSelectWord;
 	public bool isFight;
 	
+	private Texture2D []img2D;
+	public int []chooseWords;
+	public int length;
+	
 	void LoadWords()
 	{
-		string []filename = {"metal",
-						     "wood" ,
-						     "water",
-						     "fire" ,
-						     "earth"};
+		Object []wordsInfo = Resources.LoadAll("WordsInfo");
+		length = wordsInfo.Length;
+		string []filename = new string[length];
+		for(int i = 0 ; i < length ; i++)
+			filename[i] = wordsInfo[i].name;
 		
 		for(int n = 0 ; n < filename.Length ; n++)
 		{
-			StreamReader sr = new StreamReader("./Assets/resource/" + filename[n] + ".txt");
+			StringReader sr = new StringReader(((TextAsset)wordsInfo[n]).text);
 			
 			Word rWord = new Word();
 			rWord.wordName = filename[n];
@@ -58,6 +63,20 @@ public class UI : MonoBehaviour {
 			sr.Close();
 		}
 		
+		Object[]textures = Resources.LoadAll("Words");
+		img2D = new Texture2D[textures.Length];
+		
+		for(int i = 0 ; i < textures.Length ; i++)
+			img2D[i] = (Texture2D)textures[i];
+		
+		
+		int []shuffleNum = new int[length];
+		shuffleNum = shuffle();
+		chooseWords = new int[4];
+		for(int i = 0 ; i < 4 ; i++)
+			chooseWords[i] = shuffleNum[i];
+		
+		
 		canvas.word = new Word();
 		frontWord = canvas.word;
 		wordDisplay.SetTarget(frontWord);
@@ -68,7 +87,8 @@ public class UI : MonoBehaviour {
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 		wordDisplay = GameObject.Find("Displayer").GetComponent<WordDisplay>();
 		backWordDisplay = GameObject.Find("BackDisplayer").GetComponent<WordDisplay>();
-		
+		showE = 0.0f;
+			
 		// load words
 		LoadWords();
 		
@@ -98,15 +118,17 @@ public class UI : MonoBehaviour {
 		wordDisplay.SetTarget(frontWord);
 	}
 	
-	private Vector2 scrollPosition;
 	void OnGUI () {
-		if(GUI.Button( new Rect(Screen.width-100,  0, 100, 50), "New Word"))
+		float W  = Screen.width/720.0f*200.0f;
+		float W2 = Screen.width/720.0f*100.0f;
+		
+		if(GUI.Button( new Rect(Screen.width-W,  0, W, W2), "New Word"))
 		{
 			canvas.word.wordName = "word " + (wordIdx++).ToString();
 			wordList.Add(canvas.word);
 			ClearCanvas();
 		}
-		if(GUI.Button( new Rect(Screen.width-100, 50, 100, 50), "Clear Canvas"))
+		if(GUI.Button( new Rect(Screen.width-W, W2, W, W2), "Clear Canvas"))
 		{
 			ClearCanvas();
 		}
@@ -115,39 +137,19 @@ public class UI : MonoBehaviour {
 		{
 			ShowError();
 			
-			scrollPosition = 
-			GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width(100), GUILayout.Height(Screen.height) );
-			foreach( Word word in wordList )
+			for(int i = 0 ; i < 4 ; i++)
 			{
-				if( GUILayout.Button(word.wordName))
+				Word word = (Word)wordList[chooseWords[i]];
+				if( GUI.Button(new Rect(0, i*W, W, W), (Texture)img2D[chooseWords[i]]))
 				{
-					// save words
-					/*StreamWriter sw = new StreamWriter("./Assets/resource/haha.txt");
-					sw.WriteLine(word.finishIndex);
-					for(int i = 0 ; i < word.strokeList.Count ; i++)
-					{
-						Stroke s = (Stroke)word.strokeList[i];
-						for(int j = 0 ; j < s.pointList.Count ; j++)
-						{
-							Vector3 v = (Vector3)s.pointList[j];
-							string line = "";
-							line = v.x.ToString() + " " + v.y.ToString() + " " + v.z.ToString();
-							sw.WriteLine(line);
-						}
-					
-						sw.WriteLine("Stroke End");
-					}
-					sw.Close();*/
-					
 					backWord = word;
-					backWordDisplay.SetTarget(backWord);
+					//backWordDisplay.SetTarget(backWord);
 				
 					camCtrl.des = new Vector3(0, 1, -50);
 					isSelectWord = true;
 					isFight = false;
 				}
 			}
-			GUILayout.EndScrollView();
 		}
 	}
 	
@@ -176,6 +178,24 @@ public class UI : MonoBehaviour {
 		GUI.Box(new Rect(Screen.width * 0.8f , 
 						 Screen.height* 0.9f , 
 						 Screen.width / 5.0f , 
-						 Screen.height/10.0f), "Error " + error.ToString("0.000"));
+						 Screen.height/10.0f), "Error " + showE.ToString("0.000"));
+	}
+	
+	public int[] shuffle()
+	{
+		int []nums = new int[length];
+		for(int i = 0 ; i < length ; i++)
+			nums[i] = i;
+		
+		for(int j = 0 ; j < 500 ; j++)	
+		{
+			int a = Random.Range(0, length);
+			int b = Random.Range(0, length);
+			int tmp = nums[a];
+			nums[a] = nums[b];
+			nums[b] = tmp;
+		}
+		
+		return nums;
 	}
 }
