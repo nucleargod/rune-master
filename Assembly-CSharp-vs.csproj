@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{26C8A451-C313-37CB-33C6-250C03370E87}</ProjectGuid>
+	<ProjectGuid>{5163836C-578B-83D1-4BA7-C07163CF2F92}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_SUBSTANCE;ENABLE_GENERICS;UNITY_ANDROID_API;ENABLE_CLOTH;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;UNITY_4_1_2;UNITY_4_1;ENABLE_PROFILER;UNITY_EDITOR;UNITY_TEAM_LICENSE</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_GENERICS;UNITY_ANDROID_API;ENABLE_CLOTH;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;UNITY_4_0_1;UNITY_4_0;ENABLE_PROFILER;UNITY_EDITOR;UNITY_TEAM_LICENSE</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -44,15 +44,16 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Script\BattleSystem.cs" />
-     <Compile Include="Assets\Script\CameraControl.cs" />
-     <Compile Include="Assets\Script\Canvas.cs" />
-     <Compile Include="Assets\Script\Stroke.cs" />
-     <Compile Include="Assets\Script\UI.cs" />
-     <Compile Include="Assets\Script\Word.cs" />
-     <Compile Include="Assets\Script\dbAccess.cs" />
-     <Compile Include="Assets\Script\model.cs" />
+     <Compile Include="Assets\Scripts\battle\b_BattleSystem.cs" />
+     <Compile Include="Assets\Scripts\battle\b_CameraControl.cs" />
+     <Compile Include="Assets\Scripts\battle\b_UI.cs" />
+     <Compile Include="Assets\Scripts\practice\BattleSystem.cs" />
+     <Compile Include="Assets\Scripts\practice\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\practice\UI.cs" />
+     <Compile Include="Assets\Tools\Canvas.cs" />
+     <Compile Include="Assets\Tools\Stroke.cs" />
      <Compile Include="Assets\Tools\StrokeDisplay.cs" />
+     <Compile Include="Assets\Tools\Word.cs" />
      <Compile Include="Assets\Tools\WordDisplay.cs" />
      <None Include="Assets\Resources\WordsInfo\girl.txt" />
      <None Include="Assets\Resources\WordsInfo\heart.txt" />
@@ -73,27 +74,6 @@
      <None Include="Assets\Resources\WordsInfo\man.txt" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
- </Reference>
- <Reference Include="Mono.Data.Sqlite">
- <HintPath>Assets\Plugins\Mono.Data.Sqlite.dll</HintPath>
- </Reference>
- <Reference Include="System.EnterpriseServices">
- <HintPath>Assets\Plugins\System.EnterpriseServices.dll</HintPath>
- </Reference>
- <Reference Include="System.Data">
- <HintPath>Assets\Plugins\System.Data.dll</HintPath>
- </Reference>
- <Reference Include="Mono.Data.SqliteClient">
- <HintPath>Assets\Plugins\Mono.Data.SqliteClient.dll</HintPath>
- </Reference>
- <Reference Include="System.Security">
- <HintPath>Assets\Plugins\System.Security.dll</HintPath>
- </Reference>
- <Reference Include="System.Configuration">
- <HintPath>Assets\Plugins\System.Configuration.dll</HintPath>
- </Reference>
- <Reference Include="Mono.Data">
- <HintPath>Assets\Plugins\Mono.Data.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

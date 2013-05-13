@@ -45,4 +45,14 @@ public class Word {
 		finishIndex++;
 	}
 	
+	public static string Judge(float error)
+	{
+		if(error <=  50) return "S";
+		if(error <=  80) return "A";
+		if(error <= 120) return "B";
+		if(error <= 150) return "C";
+		
+		return "Fail";
+	}
+	
 }
