@@ -14,14 +14,12 @@ public class UI : MonoBehaviour {
 	public float showE;
 	private float a;
 	
-	private int wordIdx = 1;
-	private CameraControl camCtrl;
-	public bool isSelectWord;
-	public bool isFight;
-	
 	private Texture2D []img2D;
-	public int []chooseWords;
+	public int chooseWords;
 	public int length;
+	
+	public Object sound_O;
+	public Object sound_X;
 	
 	void LoadWords()
 	{
@@ -72,10 +70,9 @@ public class UI : MonoBehaviour {
 		
 		int []shuffleNum = new int[length];
 		shuffleNum = shuffle();
-		chooseWords = new int[4];
-		for(int i = 0 ; i < 4 ; i++)
-			chooseWords[i] = shuffleNum[i];
-		
+		chooseWords = shuffleNum[0];
+		Word word = (Word)wordList[chooseWords];
+		backWord = word;
 		
 		canvas.word = new Word();
 		frontWord = canvas.word;
@@ -83,32 +80,82 @@ public class UI : MonoBehaviour {
 	}
 	
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 		wordDisplay = GameObject.Find("Displayer").GetComponent<WordDisplay>();
 		backWordDisplay = GameObject.Find("BackDisplayer").GetComponent<WordDisplay>();
 		showE = 0.0f;
+		showError = true;
 			
 		// load words
 		LoadWords();
-		
-		camCtrl = GameObject.Find("Camera").GetComponent<CameraControl>();
-		isSelectWord = false;
-		isFight = true;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		if(frontWord != null && backWord != null)
 		{
-			showError = true;
 			error = frontWord.GetError(backWord);
 		}
 		else
 		{
-			showError = false;
+			//showError = false;
 			error = a;
 		}
+		
+		if(frontWord.finishIndex >= backWord.finishIndex)
+		{
+			int []shuffleNum = new int[length];
+			shuffleNum = shuffle();
+			chooseWords = shuffleNum[0];
+			Word word = (Word)wordList[chooseWords];
+			backWord = word;
+			showE = error;
+			if(Word.Judge(showE) != "Fail")
+			{
+				Object snd = Instantiate(sound_O);
+				Destroy(snd, 1);
+			}
+			else
+			{
+				Object snd = Instantiate(sound_X);
+				Destroy(snd, 1);
+			}
+			
+			ClearCanvas();
+		}
+	}
+	
+	void OnGUI()
+	{
+		float W  = Screen.width/720.0f*200.0f;
+		float W2 = Screen.width/720.0f*100.0f;
+		
+		if(GUI.Button( new Rect(Screen.width-W, 0, W, W2), "Clear Canvas"))
+		{
+			ClearCanvas();
+		}		
+		if(GUI.Button( new Rect(Screen.width-W, W2, W, W2), "Menu"))
+		{
+			Application.LoadLevel("menuScene");
+		}
+		
+		ShowError();
+		
+		GUI.Button(new Rect(0, 0, W, W), (Texture)img2D[chooseWords]);
+	}
+	
+	private bool showError;
+	void ShowError() 
+	{
+		if(!showError) return;
+		
+		GUI.Box(new Rect(Screen.width * 0.8f , 
+						 Screen.height* 0.9f , 
+						 Screen.width / 5.0f , 
+						 Screen.height/10.0f), "Error " + showE.ToString("0.000") + "\nRank: " + Word.Judge(showE));
 	}
 	
 	public void ClearCanvas()
@@ -116,69 +163,6 @@ public class UI : MonoBehaviour {
 		canvas.word = new Word();
 		frontWord = canvas.word;
 		wordDisplay.SetTarget(frontWord);
-	}
-	
-	void OnGUI () {
-		float W  = Screen.width/720.0f*200.0f;
-		float W2 = Screen.width/720.0f*100.0f;
-		
-		if(GUI.Button( new Rect(Screen.width-W,  0, W, W2), "New Word"))
-		{
-			canvas.word.wordName = "word " + (wordIdx++).ToString();
-			wordList.Add(canvas.word);
-			ClearCanvas();
-		}
-		if(GUI.Button( new Rect(Screen.width-W, W2, W, W2), "Clear Canvas"))
-		{
-			ClearCanvas();
-		}
-		
-		if(!isSelectWord)
-		{
-			ShowError();
-			
-			for(int i = 0 ; i < 4 ; i++)
-			{
-				Word word = (Word)wordList[chooseWords[i]];
-				if( GUI.Button(new Rect(0, i*W, W, W), (Texture)img2D[chooseWords[i]]))
-				{
-					backWord = word;
-					//backWordDisplay.SetTarget(backWord);
-				
-					camCtrl.des = new Vector3(0, 1, -50);
-					isSelectWord = true;
-					isFight = false;
-				}
-			}
-		}
-	}
-	
-	private bool showError;
-	private Vector2 scrollPosition2;
-	void ShowError() 
-	{
-		if(!showError) return;
-		/*
-		GUILayout.BeginArea( new Rect(Screen.width-200, 100, 200, Screen.height - 100), "");
-		scrollPosition2 = 
-		GUILayout.BeginScrollView ( scrollPosition2, GUILayout.Width(200), GUILayout.Height(Screen.height - 100) );
-		for(int i = 0; i < frontWord.strokeList.Count; i++)
-		{
-			if(i >= backWord.strokeList.Count) break;
-			GUILayout.BeginHorizontal();
-			GUILayout.Box(((Stroke)frontWord.strokeList[i]).GetError((Stroke)backWord.strokeList[i]).ToString("0.000"));
-			GUILayout.Box(((Stroke)frontWord.strokeList[i]).GetDotError((Stroke)backWord.strokeList[i]).ToString("0.000"));
-			GUILayout.Box(((Stroke)frontWord.strokeList[i]).GetSlopeError((Stroke)backWord.strokeList[i]).ToString("0.000"));
-			GUILayout.EndHorizontal();
-		}
-		GUILayout.Box("Error "+error.ToString("0.000"));
-		GUILayout.EndScrollView();
-		GUILayout.EndArea();
-		*/
-		GUI.Box(new Rect(Screen.width * 0.8f , 
-						 Screen.height* 0.9f , 
-						 Screen.width / 5.0f , 
-						 Screen.height/10.0f), "Error " + showE.ToString("0.000"));
 	}
 	
 	public int[] shuffle()

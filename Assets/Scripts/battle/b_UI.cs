@@ -31,6 +31,11 @@ public class b_UI : MonoBehaviour {
 	public int levelNum;
 	public int levelNow;
 	
+	public Object snd_Pass;
+	public Object snd_Fail;
+	public Object pass;
+	public Object Fail;
+	
 	void LoadWords()
 	{
 		Object []wordsInfo = Resources.LoadAll("WordsInfo");
@@ -137,13 +142,42 @@ public class b_UI : MonoBehaviour {
 		wordDisplay.SetTarget(frontWord);
 	}
 	
-	void OnGUI () {
+	void OnGUI ()
+	{
 		float W  = Screen.width/4.0f;
 		float W2 = Screen.width/8.0f;
 		
+		int eHP = (int)battle.HP_enemy_now;
+		if(eHP < 0) eHP = 0;
 		GUI.Box(new Rect(Screen.width-W, 0, W, W2), mode);
-		GUI.Box(new Rect(Screen.width/2.0f - W/2.0f, 				0, W, W2), ((int)(battle.HP_enemy_now)).ToString());
+		GUI.Box(new Rect(Screen.width/2.0f - W/2.0f, 				0, W, W2), ((int)(eHP)).ToString());
 		GUI.Box(new Rect(Screen.width/2.0f - W/2.0f, Screen.height-W2, W, W2), ((int)(battle.HP_player_now)).ToString());
+		
+		if(isGameOver)
+		{
+			if(battle.HP_player_now == 0 && !Fail)
+			{
+				Fail = Instantiate(snd_Fail);
+			}
+			else
+			{
+				int eHP2 = (int)battle.HP_enemy_now;
+				if(eHP2 < 0) eHP2 = 0;
+				
+				if(eHP2 == 0 && !pass)
+				{
+					pass = Instantiate(snd_Pass);
+				}
+			}
+			
+			if(GUI.Button(new Rect(Screen.width/4.0f, Screen.height/4.0f, Screen.width/2.0f, Screen.height/4.0f), "Munu"))
+				Application.LoadLevel("menuScene");
+			
+			if(GUI.Button(new Rect(Screen.width/4.0f, Screen.height/2.0f, Screen.width/2.0f, Screen.height/4.0f), "Retry"))
+				Application.LoadLevel("battleScene");
+			
+			return;
+		}
 		
 		if(!isSelectWord)
 		{
@@ -154,7 +188,7 @@ public class b_UI : MonoBehaviour {
 				Word word = (Word)wordList[chooseWords[i]];
 				
 				Vector2 tmp = chooseWordPos[i];
-				chooseWordPos[i] = Vector2.MoveTowards(tmp, new Vector2(i*W, Screen.height/2.0f-W/2.0f), Time.deltaTime*500);
+				chooseWordPos[i] = Vector2.MoveTowards(tmp, new Vector2(i*W, Screen.height/2.0f-W/2.0f), Time.deltaTime*700);
 				
 				if(Vector2.Distance(selectWordPos, new Vector2(i*W, Screen.height/2.0f-W/2.0f)) <= 1.0f)
 					chooseWordPos[i] = new Vector2(i*W, Screen.height/2.0f-W/2.0f);

@@ -47,8 +47,7 @@
      <Compile Include="Assets\Scripts\battle\b_BattleSystem.cs" />
      <Compile Include="Assets\Scripts\battle\b_CameraControl.cs" />
      <Compile Include="Assets\Scripts\battle\b_UI.cs" />
-     <Compile Include="Assets\Scripts\practice\BattleSystem.cs" />
-     <Compile Include="Assets\Scripts\practice\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\menu\m_UI.cs" />
      <Compile Include="Assets\Scripts\practice\UI.cs" />
      <Compile Include="Assets\Tools\Canvas.cs" />
      <Compile Include="Assets\Tools\Stroke.cs" />

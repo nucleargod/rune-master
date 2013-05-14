@@ -23,6 +23,7 @@ public class b_BattleSystem : MonoBehaviour {
 	public int HP_enemy;
 	public float ATK_player;
 	public float ATK_enemy;
+	public string attackObj;
 	
 	// Use this for initialization
 	void Start ()
@@ -37,8 +38,10 @@ public class b_BattleSystem : MonoBehaviour {
 		
 		HP_player_max = 100;
 		HP_enemy_max  = 100;
+		HP_player_now = 0;
+		HP_enemy_now  = 0;
 		ATK_player = 100;
-		ATK_enemy  = 50;
+		ATK_enemy  = 45;
 		HP_initial();
 	}
 	
@@ -49,9 +52,39 @@ public class b_BattleSystem : MonoBehaviour {
 		else if(explosionTime < 0.0f) 
 		{
 			explosionTime = 0.0f;
-			if(ui.mode == "Defense mode") Instantiate(explosion, new Vector3(0, 91, 0), Quaternion.identity);
-			if(ui.mode == "Attack mode") Instantiate(explosion, new Vector3(0, 80, -40), Quaternion.identity);
+			GameObject snd;
+			if(attackObj == "Enemy")  
+				snd = (GameObject)Instantiate(explosion, new Vector3(0, 91, 0),   Quaternion.identity);
+			else 
+				snd = (GameObject)Instantiate(explosion, new Vector3(0, 80, -40), Quaternion.identity);
+			
+			if(ui.isGameOver) snd.audio.volume = 0;
 		}
+		
+		//HP of enemy
+		if(Mathf.Abs(HP_enemy_now - HP_enemy) >= 1.0f)
+		{
+			if(HP_enemy_now > HP_enemy)
+				HP_enemy_now -= Time.deltaTime*50;
+			else
+				HP_enemy_now += Time.deltaTime*50;
+			
+			if(Mathf.Abs(HP_enemy_now - HP_enemy) < 1.0f)
+				HP_enemy_now = HP_enemy;
+		}		
+		// HP of player
+		if(Mathf.Abs(HP_player_now - HP_player) >= 1.0f)
+		{
+			if(HP_player_now > HP_player)
+				HP_player_now -= Time.deltaTime*50;
+			else
+				HP_player_now += Time.deltaTime*50;
+			
+			if(Mathf.Abs(HP_player_now - HP_player) < 1.0f)
+				HP_player_now = HP_player;
+		}
+		
+		if(ui.isGameOver) return;
 		
 		if(ui.isSelectWord)
 		{
@@ -84,7 +117,7 @@ public class b_BattleSystem : MonoBehaviour {
 		// monster destination
 		if(Vector3.Distance(monsterDes, monster.transform.position) >= 5.0f)
 		{
-			monster.transform.position = Vector3.MoveTowards(monster.transform.position, monsterDes, Time.deltaTime*500.0f);
+			monster.transform.position = Vector3.MoveTowards(monster.transform.position, monsterDes, Time.deltaTime*400.0f);
 			if(Vector3.Distance(monsterDes, monster.transform.position) < 5.0f)
 			{
 				monster.transform.position = monsterDes;
@@ -92,39 +125,17 @@ public class b_BattleSystem : MonoBehaviour {
 			}
 		}
 		
-		// HP of player
-		if(Mathf.Abs(HP_player_now - HP_player) >= 1.0f)
-		{
-			if(HP_player_now > HP_player)
-				HP_player_now -= Time.deltaTime*100;
-			else
-				HP_player_now += Time.deltaTime*100;
-			
-			if(Mathf.Abs(HP_player_now - HP_player) < 1.0f)
-				HP_player_now = HP_player;
-		}
-		
-		//HP of enemy
-		if(Mathf.Abs(HP_enemy_now - HP_enemy) >= 1.0f)
-		{
-			if(HP_enemy_now > HP_enemy)
-				HP_enemy_now -= Time.deltaTime*100;
-			else
-				HP_enemy_now += Time.deltaTime*100;
-			
-			if(Mathf.Abs(HP_enemy_now - HP_enemy) < 1.0f)
-				HP_enemy_now = HP_enemy;
-		}
-		
 		// Game over?
 		if(HP_enemy == 0 && explosionTime == 0.0f)
 		{
 			HP_enemy = -1;
 			HP_enemy_max += 50;
+			attackObj = "Enemy";
 			ui.levelNow += 1;
 			ui.Initial();
 		}
-		if(HP_player <= 0)
+		
+		if(HP_player <= 0 || ui.levelNow > ui.levelNum)
 		{
 			// game over
 			ui.isGameOver = true;
@@ -157,15 +168,17 @@ public class b_BattleSystem : MonoBehaviour {
 					ui.mode = "Defense mode";
 					defenseTime = 2.0f;
 				}
+				
+				attackObj = "Enemy";
 			}
 			else
 			{
 				switch(Word.Judge(ui.error))
 				{
-					case "S": HP_player -= (int)(ATK_enemy * 0.5f + Random.Range(-5.0f, 0.0f)); break;
-					case "A": HP_player -= (int)(ATK_enemy * 0.7f + Random.Range(-5.0f, 0.0f)); break;
-					case "B": HP_player -= (int)(ATK_enemy * 0.8f + Random.Range(-5.0f, 0.0f)); break;
-					case "C": HP_player -= (int)(ATK_enemy * 0.9f + Random.Range(-5.0f, 0.0f)); break;
+					case "S": HP_player -= (int)(ATK_enemy * 0.5f + Random.Range(-10.0f, 0.0f)); break;
+					case "A": HP_player -= (int)(ATK_enemy * 0.7f + Random.Range(-10.0f, 0.0f)); break;
+					case "B": HP_player -= (int)(ATK_enemy * 0.8f + Random.Range(-10.0f, 0.0f)); break;
+					case "C": HP_player -= (int)(ATK_enemy * 0.9f + Random.Range(-10.0f, 0.0f)); break;
 				}
 				
 				if(HP_player <= 0)
@@ -174,6 +187,8 @@ public class b_BattleSystem : MonoBehaviour {
 				{
 					ui.mode = "Attack mode";
 				}
+				
+				attackObj = "Player";
 			}
 		}
 		// Failed
@@ -186,13 +201,23 @@ public class b_BattleSystem : MonoBehaviour {
 			{
 				ui.mode = "Defense mode";
 				defenseTime = 2.0f;
+				
+				attackObj = "Enemy";
 			}
 			else
 			{
-				HP_player -= (int)(ATK_enemy * 1.0f + Random.Range(-5.0f, 0.0f));
-				ui.mode = "Attack mode";
+				HP_player -= (int)(ATK_enemy * 1.0f + Random.Range(-10.0f, 0.0f));	
+				
+				if(HP_player <= 0)
+					HP_player = 0;
+				else
+				{
+					ui.mode = "Attack mode";
+				}
 				
 				explosionTime = 0.6f;
+				
+				attackObj = "Player";
 			}
 		}
 		
@@ -201,7 +226,7 @@ public class b_BattleSystem : MonoBehaviour {
 	
 	void HP_initial()
 	{
-		HP_player_now = HP_player = HP_player_max;
-		HP_enemy_now  = HP_enemy  = HP_enemy_max;
+		HP_player = HP_player_max;
+		HP_enemy  = HP_enemy_max;
 	}
 }
