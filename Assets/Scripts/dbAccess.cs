@@ -1,0 +1,341 @@
+using UnityEngine;
+using System;
+using System.IO;
+using System.Collections;
+using System.Data;
+using System.Text;
+using Mono.Data.SqliteClient;
+
+public class dbAccess : MonoBehaviour {
+	private string connection;
+	private IDbConnection dbcon;
+	private IDbCommand dbcmd;
+	private IDataReader reader;
+	private StringBuilder builder;
+	
+	public string errMsg;
+
+	// Use this for initialization
+	void Start () {
+		errMsg = "";
+	}
+	
+	public void OpenDB(string p)
+	{
+		Debug.Log("Call to OpenDB:" + p);
+		// check if file exists in Application.persistentDataPath
+		string filepath = Application.persistentDataPath + "/" + p;
+		if(!File.Exists(filepath))
+		{
+			Debug.LogWarning("File \"" + filepath + "\" does not exist. Attempting to create from \"" +
+			                 Application.dataPath + "!/assets/" + p);
+			// if it doesn't ->
+			// open StreamingAssets directory and load the db -> 
+			WWW loadDB = new WWW("jar:file://" + Application.dataPath + "!/assets/" + p);
+			while(!loadDB.isDone) {}
+			// then save to Application.persistentDataPath
+			File.WriteAllBytes(filepath, loadDB.bytes);
+		}
+		
+		//open db connection
+		connection = "URI=file:" + filepath;
+		Debug.Log("Stablishing connection to: " + connection);
+		dbcon = new SqliteConnection(connection);
+		dbcon.Open();
+	}
+	
+	public void CloseDB(){
+		reader.Close(); // clean everything up
+  	 	reader = null;
+   		dbcmd.Dispose();
+   		dbcmd = null;
+   		dbcon.Close();
+   		dbcon = null;
+	}
+	
+	public IDataReader BasicQuery(string query){ // run a basic Sqlite query
+		dbcmd = dbcon.CreateCommand(); // create empty command
+		dbcmd.CommandText = query; // fill the command
+		reader = dbcmd.ExecuteReader(); // execute command which returns a reader
+		return reader; // return the reader
+	
+	}
+	
+	
+	public bool CreateTable(string name,string[] col, string[] colType){ // Create a table, name, column array, column type array
+		string query;
+		query  = "CREATE TABLE " + name + "(" + col[0] + " " + colType[0];
+		for(var i=1; i< col.Length; i++){
+			query += ", " + col[i] + " " + colType[i];
+		}
+		query += ")";
+		try{
+			dbcmd = dbcon.CreateCommand(); // create empty command
+			dbcmd.CommandText = query; // fill the command
+			reader = dbcmd.ExecuteReader(); // execute command which returns a reader
+		}
+		catch(Exception e){
+			errMsg = e.ToString();
+			Debug.Log(e);
+			return false;
+		}
+		return true;
+	}
+	
+	public int InsertIntoSingle(string tableName, string colName , string value ){ // single insert
+		string query;
+		query = "INSERT INTO " + tableName + "(" + colName + ") " + "VALUES (" + value + ")";
+		try
+		{
+			dbcmd = dbcon.CreateCommand(); // create empty command
+			dbcmd.CommandText = query; // fill the command
+			reader = dbcmd.ExecuteReader(); // execute command which returns a reader
+		}
+		catch(Exception e){
+			errMsg = e.ToString();
+			Debug.Log(e);
+			return 0;
+		}
+		return 1;
+	}
+	
+	public int InsertIntoSpecific(string tableName, string[] col, string[] values){ // Specific insert with col and values
+		string query;
+		query = "INSERT INTO " + tableName + "(" + col[0];
+		for(int i=1; i< col.Length; i++){
+			query += ", " + col[i];
+		}
+		query += ") VALUES (" + values[0];
+		for(int i=1; i< col.Length; i++){
+			query += ", " + values[i];
+		}
+		query += ")";
+		Debug.Log(query);
+		try
+		{
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		}
+		catch(Exception e){
+			errMsg = e.ToString();
+			Debug.Log(e);
+			return 0;
+		}
+		return 1;
+	}
+	
+	public int InsertInto(string tableName , string[] values ){ // basic Insert with just values
+		string query;
+		query = "INSERT INTO " + tableName + " VALUES (" + values[0];
+		for(int i=1; i< values.Length; i++){
+			query += ", " + values[i];
+		}
+		query += ")";
+		try
+		{
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		}
+		catch(Exception e){
+			errMsg = e.ToString();
+			Debug.Log(e);
+			return 0;
+		}
+		return 1;
+	}
+	
+	public IDataReader SingleSelectWhere(string tableName , string itemToSelect,string wCol,string wPar, string wValue){ // Selects a single Item
+		string query;
+		query = "SELECT " + itemToSelect + " FROM " + tableName + " WHERE " + wCol + wPar + wValue;	
+		dbcmd = dbcon.CreateCommand();
+		dbcmd.CommandText = query;
+		reader = dbcmd.ExecuteReader();
+		return reader;
+		//string[,] readArray = new string[reader, reader.FieldCount];
+		/*string[] row = new string[reader.FieldCount];
+		ArrayList readArray = new ArrayList();
+		while(reader.Read()){
+			int j=0;
+			while(j < reader.FieldCount)
+			{
+				row[j] = reader.GetString(j);
+				j++;
+			}
+			readArray.Add(row);
+		}
+		return readArray; // return matches*/
+	}
+	
+	public string Dquery(string query){ // An evil back door
+		try{
+			print("try Dquery");
+			dbcmd = dbcon.CreateCommand(); // create empty command
+			print("CreateCommand");
+			dbcmd.CommandText = query; // fill the command
+			print("fill the command");
+			reader = dbcmd.ExecuteReader(); // execute command which returns a reader
+			print("execute command");
+		}
+		catch(Exception e){
+			errMsg = e.ToString();
+			Debug.Log(e);
+			return null;
+		}
+		//string[] row = new string[reader.FieldCount];
+		string d = "";
+		while(reader.Read()){
+			int j=0;
+			while(j < reader.FieldCount)
+			{
+				d += reader.GetString(j) + "\t";
+				j++;
+			}
+			d += "\n";
+		}
+		return d;
+	}
+	
+	public System.Collections.Generic.List<string> getWords(){
+		string query = "SELECT word FROM words";	
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		System.Collections.Generic.List<string> d = new System.Collections.Generic.List<string>();
+		while(reader.Read()){
+			if(reader.FieldCount == 0){
+				Debug.Log("null Field");
+				errMsg = "null Field";
+				break;
+			}
+			else{
+				d.Add(reader.GetString(0));
+			}
+		}
+		return d;
+	}
+	
+	public Word getWord(string r){
+		string query = "SELECT * FROM words WHERE word = '" + r + "'";
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		Word d = null;
+		if(reader.Read()){
+			if(reader.FieldCount != 9){
+				errMsg = "FieldCount error!";
+				Debug.Log("FieldCount error!");
+			}
+			else{
+				string name = reader.GetString(0);
+				int stroke_count = (int)reader.GetValue(2);
+				string imgPath = (string)reader.GetValue(5);
+				string strokes = (string)reader.GetValue(6);
+				string buso    = (string)reader.GetValue(8);
+				try{
+					d = new Word(name, strokes, stroke_count, buso);
+				}catch (Exception e){
+					Debug.Log(e);
+					errMsg = e.ToString();
+				}
+				if(imgPath != null) d.loadImage(imgPath);
+			}
+		}
+		return d;
+	}
+	
+	public bool insertWord(Word w){
+		string query = "INSERT INTO words(word, stroke_count, stroke, buso) VALUES ";
+		query += "(" + w.wordName + ", " + w.finishIndex + ", " + w.writeStroke() + ", ";
+		if(w.buso != null) query += w.buso + ")";
+		else query += w.wordName + ")";
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return false;
+		}
+		return true;
+	}
+	
+	public bool updateWord(Word w){
+		string query = "UPDATE words SET stroke_count='" + w.finishIndex.ToString();
+		query += "', stroke='" + w.writeStroke() + "' WHERE word='" + w.wordName + "'";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return false;
+		}
+		return true;
+	}
+	
+	public bool isTerm(Word a, Word b){
+		if( a==null || b==null){
+			errMsg = "null Word";
+			Debug.Log(errMsg);
+			return false;
+		}
+		
+		string query = "SELECT * FROM terms WHERE firstWord='" + a.wordName + "'";
+		query += ", secondWord='" + b.wordName + "'";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return false;
+		}
+		return reader.Read();
+	}
+	
+	public bool isTerm(string a, string b){
+		if( a==null || b==null){
+			errMsg = "null Word";
+			Debug.Log(errMsg);
+			return false;
+		}
+		
+		string query = "SELECT * FROM terms WHERE firstWord='" + a + "'";
+		query += "AND secondWord='" + b + "'";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return false;
+		}
+		return reader.Read();
+	}
+
+	// Update is called once per frame
+	void Update () {
+	
+	}
+}
