@@ -6,10 +6,39 @@ public class Word {
 	public ArrayList strokeList;
 	public int finishIndex = 0;
 	public string wordName;
+	public const int pointPerStroke = 100;
+	public Texture2D image;
+	public string buso;
 	
 	private Stroke curStroke;
 	public Word () {
 		strokeList = new ArrayList();
+	}
+	
+	/*constructor for initial from database*/
+	public Word (string name, string strokes, int stroke_count, string rbuso) {
+		strokeList = new ArrayList();
+		
+		wordName = name;
+		buso = rbuso;
+		if(strokes == null) {
+			Debug.Log("null strokes");
+			//throw new UnityException("null strokes");
+		}
+		else{
+			System.IO.StringReader stokeReader = new System.IO.StringReader(strokes);
+			for(int i=0;i<stroke_count;i++){
+				Stroke t_stroke = new Stroke();
+				for(int j=0;j<pointPerStroke;j++){
+					string line=stokeReader.ReadLine();
+					string []split = line.Split(new char[]{' '});
+					Vector3 p = new Vector3(float.Parse(split[0]), float.Parse(split[1]), float.Parse(split[2]));
+					t_stroke.AddPoint(p);
+				}
+				strokeList.Add(t_stroke);
+			}
+		}
+		finishIndex = stroke_count;
 	}
 	
 	public float GetError( Word word )
@@ -41,7 +70,7 @@ public class Word {
 	
 	public void EndWriting()
 	{
-		curStroke.Resample(100);
+		curStroke.Resample(pointPerStroke);
 		finishIndex++;
 	}
 	
@@ -55,4 +84,20 @@ public class Word {
 		return "Fail";
 	}
 	
+	public string writeStroke(){
+		string d = "";
+		for(int i=0; i < finishIndex; i++){
+			Stroke t = (Stroke)(strokeList[i]);
+			for(int j=0;j<pointPerStroke;j++){
+				Vector3 p = (Vector3)(t.pointList[j]);
+				d += p.x.ToString() + " " + p.y.ToString() + " " + p.z.ToString() + "\n";
+			}
+		}
+		return d;
+	}
+	
+	public bool loadImage(string path){
+		image = (Texture2D)(Resources.Load(path));
+		return image != null;
+	}
 }
