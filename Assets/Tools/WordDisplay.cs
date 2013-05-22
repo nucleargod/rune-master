@@ -52,7 +52,7 @@ public class WordDisplay : MonoBehaviour {
 			if( i < targetWord.strokeList.Count )
 				strokeDisplayList[i].SetTarget( (Stroke)targetWord.strokeList[i] );
 			else
-				strokeDisplayList[i].SetTarget( S );
+				strokeDisplayList[i].SetTarget( new Stroke() );
 		}
 	}
 }

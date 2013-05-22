@@ -54,6 +54,9 @@ public class b_UI : MonoBehaviour {
 			int strokeNum = int.Parse(sr.ReadLine());
 			rWord.finishIndex = strokeNum;
 			
+			sr.ReadLine();	// property
+			sr.ReadLine();	// ATK
+			
 			int count = 0;
 			Stroke s = new Stroke();
 			while(count < strokeNum)

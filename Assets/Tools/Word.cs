@@ -9,6 +9,8 @@ public class Word {
 	public const int pointPerStroke = 100;
 	public Texture2D image;
 	public string buso;
+	public string property;
+	public float ATK;
 	
 	private Stroke curStroke;
 	public Word () {
@@ -21,6 +23,7 @@ public class Word {
 		
 		wordName = name;
 		buso = rbuso;
+		property = rbuso;
 		if(strokes == null) {
 			Debug.Log("null strokes");
 			//throw new UnityException("null strokes");
