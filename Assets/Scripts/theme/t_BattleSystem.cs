@@ -56,23 +56,25 @@ public class t_BattleSystem : MonoBehaviour {
 		//HP of enemy
 		if(Mathf.Abs(HP_enemy_now - HP_enemy) >= 1.0f)
 		{
+			float delta = HP_enemy_now - HP_enemy;
 			if(HP_enemy_now > HP_enemy)
 				HP_enemy_now -= Time.deltaTime*500;
 			else
 				HP_enemy_now += Time.deltaTime*500;
 			
-			if(Mathf.Abs(HP_enemy_now - HP_enemy) < 1.0f)
+			if(delta * (HP_enemy_now - HP_enemy) < 0.0f)
 				HP_enemy_now = HP_enemy;
 		}		
 		// HP of player
 		if(Mathf.Abs(HP_player_now - HP_player) >= 1.0f)
 		{
+			float delta = HP_player_now - HP_player;
 			if(HP_player_now > HP_player)
 				HP_player_now -= Time.deltaTime*500;
 			else
 				HP_player_now += Time.deltaTime*500;
 			
-			if(Mathf.Abs(HP_player_now - HP_player) < 1.0f)
+			if(delta * (HP_player_now - HP_player) < 0.0f)
 				HP_player_now = HP_player;
 		}
 		

@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{D4EFD312-7BFD-B95C-6719-F2E5D5C7852B}</ProjectGuid>
+	<ProjectGuid>{8AA662BF-5777-A43D-FAE9-8EAC6B96E9E7}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_GENERICS;UNITY_ANDROID_API;ENABLE_CLOTH;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;UNITY_4_0_1;UNITY_4_0;ENABLE_PROFILER;UNITY_EDITOR;UNITY_TEAM_LICENSE</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_SUBSTANCE;ENABLE_GENERICS;UNITY_ANDROID_API;ENABLE_CLOTH;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;UNITY_4_1_2;UNITY_4_1;ENABLE_PROFILER;UNITY_EDITOR;UNITY_TEAM_LICENSE</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -45,23 +45,54 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Particles\Legacy Particles\TimedObjectDestructor.js" />
-     <None Include="Assets\Resources\WordsInfo\girl.txt" />
-     <None Include="Assets\Resources\WordsInfo\heart.txt" />
-     <None Include="Assets\Resources\WordsInfo\sun.txt" />
+     <None Include="Assets\Resources\WordsInfo\pillow.txt" />
+     <None Include="Assets\Resources\WordsInfo\pine.txt" />
+     <None Include="Assets\Resources\WordsInfo\dismantle.txt" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Resources\WordsInfo\water.txt" />
-     <None Include="Assets\Resources\WordsInfo\towel.txt" />
+     <None Include="Assets\Resources\WordsInfo\timber.txt" />
+     <None Include="Assets\Resources\WordsInfo\nail.txt" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
-     <None Include="Assets\Resources\WordsInfo\knife.txt" />
-     <None Include="Assets\Resources\WordsInfo\big.txt" />
+     <None Include="Assets\Resources\WordsInfo\strong.txt" />
+     <None Include="Assets\Resources\WordsInfo\oil.txt" />
+     <None Include="Assets\Resources\WordsInfo\ocean.txt" />
      <None Include="Assets\Resources\WordsInfo\metal.txt" />
      <None Include="Assets\Resources\WordsInfo\wood.txt" />
-     <None Include="Assets\Resources\WordsInfo\stone.txt" />
+     <None Include="Assets\Resources\WordsInfo\forest.txt" />
+     <None Include="Assets\Resources\WordsInfo\city.txt" />
      <None Include="Assets\Resources\WordsInfo\fire.txt" />
-     <None Include="Assets\Resources\WordsInfo\mouth.txt" />
-     <None Include="Assets\Resources\WordsInfo\stand.txt" />
+     <None Include="Assets\Resources\WordsInfo\pit.txt" />
+     <None Include="Assets\Resources\WordsInfo\potassium.txt" />
+     <None Include="Assets\Resources\WordsInfo\cannon.txt" />
+     <None Include="Assets\Resources\WordsInfo\juice.txt" />
+     <None Include="Assets\Resources\WordsInfo\ground.txt" />
+     <None Include="Assets\Resources\WordsInfo\river.txt" />
      <None Include="Assets\Resources\WordsInfo\earth.txt" />
-     <None Include="Assets\Resources\WordsInfo\man.txt" />
+     <None Include="Assets\Resources\WordsInfo\flame.txt" />
+     <None Include="Assets\Resources\WordsInfo\needle.txt" />
+     <None Include="Assets\Resources\WordsInfo\banknote.txt" />
+     <None Include="Assets\Resources\WordsInfo\bomb.txt" />
+ <Reference Include="Mono.Data">
+ <HintPath>Assets\Plugins\Mono.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="Mono.Data.Sqlite">
+ <HintPath>Assets\Plugins\Mono.Data.Sqlite.dll</HintPath>
+ </Reference>
+ <Reference Include="Mono.Data.SqliteClient">
+ <HintPath>Assets\Plugins\Mono.Data.SqliteClient.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Configuration">
+ <HintPath>Assets\Plugins\System.Configuration.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Data">
+ <HintPath>Assets\Plugins\System.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="System.EnterpriseServices">
+ <HintPath>Assets\Plugins\System.EnterpriseServices.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Security">
+ <HintPath>Assets\Plugins\System.Security.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
