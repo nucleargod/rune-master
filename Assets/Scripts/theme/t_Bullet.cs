@@ -26,48 +26,70 @@ public class t_Bullet : MonoBehaviour {
 	{
 		float dt = Time.deltaTime;
 		
-		if(Vector3.Distance(gameObject.transform.position, attackObj.transform.position) > 2.0f)
+		if(Vector3.Distance(gameObject.transform.position, attackObj.transform.position) > 5.0f)
 		{
 			Vector3 dir = attackObj.transform.position - gameObject.transform.position;
 			dir = Vector3.Normalize(dir);
 			
-			gameObject.transform.position += dir * dt * speed;
+			if(attackObj.transform.name == "MonsterWall")
+				gameObject.transform.position += dir * dt * speed;
+			else
+				gameObject.transform.position += dir * dt * speed / 4.0f;
 		}
 		else 
-		{		
-			Animation anim = attackObj.GetComponent<Animation>();
+		{	
+			// attack monster
 			if(attackObj.transform.name == "MonsterWall")
+			{
+				Animation anim = attackObj.GetComponent<Animation>();
 				anim.clip = anim.GetClip("MonsterShake");
-			anim.Play();
-			
-			//Instantiate(explosion);
-			
-			float atkRange = ATK + Random.Range(-10.0f, 10.0f);
-			if(atkRange < 0.0f) atkRange = 0.0f;
-			
-			if( (ui.backWord.property == "water" && battle.enemy_property == "fire" ) ||
-			    (ui.backWord.property == "wood"  && battle.enemy_property == "earth") ||
-			    (ui.backWord.property == "fire"  && battle.enemy_property == "metal") ||
-			    (ui.backWord.property == "earth" && battle.enemy_property == "water") ||
-			    (ui.backWord.property == "metal" && battle.enemy_property == "wood" ) )
-			{
-				atkRange *= 1.5f;
+				anim.Play();
+				
+				//Instantiate(explosion);
+				
+				float atkRange = ATK + Random.Range(-10.0f, 10.0f);
+				if(atkRange < 0.0f) atkRange = 0.0f;
+				
+				if( (ui.backWord.property == "water" && battle.enemy_property == "fire" ) ||
+					(ui.backWord.property == "wood"  && battle.enemy_property == "earth") ||
+					(ui.backWord.property == "fire"  && battle.enemy_property == "metal") ||
+					(ui.backWord.property == "earth" && battle.enemy_property == "water") ||
+					(ui.backWord.property == "metal" && battle.enemy_property == "wood" ) )
+				{
+					atkRange *= 1.5f;
+				}
+				
+				if( (ui.backWord.property == "water" && battle.enemy_property == "earth") ||
+					(ui.backWord.property == "wood"  && battle.enemy_property == "metal") ||
+					(ui.backWord.property == "fire"  && battle.enemy_property == "water") ||
+					(ui.backWord.property == "earth" && battle.enemy_property == "wood" ) ||
+					(ui.backWord.property == "metal" && battle.enemy_property == "fire" ) )
+				{
+					atkRange *= 0.5f;
+				}
+				
+				GameObject obj = (GameObject)Instantiate(ATK_Num);
+				obj.GetComponent<t_ATK>().toShow = ((int)atkRange).ToString();
+				
+				battle.HP_enemy -= (int)atkRange;
+				if(battle.HP_enemy < 0) battle.HP_enemy = 0;
 			}
 			
-			if( (ui.backWord.property == "water" && battle.enemy_property == "earth") ||
-			    (ui.backWord.property == "wood"  && battle.enemy_property == "metal") ||
-			    (ui.backWord.property == "fire"  && battle.enemy_property == "water") ||
-			    (ui.backWord.property == "earth" && battle.enemy_property == "wood" ) ||
-			    (ui.backWord.property == "metal" && battle.enemy_property == "fire" ) )
+			// attack player
+			if(attackObj.transform.name == "Canvas")
 			{
-				atkRange *= 0.5f;
+				Animation anim = GameObject.Find("Camera").GetComponent<Animation>();
+				anim.clip = anim.GetClip("CameraShake");
+				anim.Play();
+				
+				Instantiate(explosion);
+				
+				float atkRange = ATK + Random.Range(-10.0f, 10.0f);
+				if(atkRange < 0.0f) atkRange = 0.0f;
+				
+				battle.HP_player -= (int)atkRange;
+				if(battle.HP_player < 0) battle.HP_player = 0;
 			}
-			
-			GameObject obj = (GameObject)Instantiate(ATK_Num);
-			obj.GetComponent<t_ATK>().toShow = ((int)atkRange).ToString();
-			
-			battle.HP_enemy -= (int)atkRange;
-			if(battle.HP_enemy < 0) battle.HP_enemy = 0;
 			
 			Destroy(gameObject);
 		}

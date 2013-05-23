@@ -39,12 +39,12 @@ public class t_BattleSystem : MonoBehaviour {
 		isRecover = false;
 		
 		enemy_property = "fire";
-		HP_player_max = 100;
+		HP_player_max = 1000;
 		HP_enemy_max  = 1000;
 		HP_player_now = 0;
 		HP_enemy_now  = 0;
 		ATK_player = 100;
-		ATK_enemy  = 45;
+		ATK_enemy  = 300;
 		HP_initial();
 	}
 	
@@ -54,27 +54,25 @@ public class t_BattleSystem : MonoBehaviour {
 		if(bulletTime > 0.0f) bulletTime -= Time.deltaTime;
 		
 		//HP of enemy
-		if(Mathf.Abs(HP_enemy_now - HP_enemy) >= 1.0f)
+		if(Mathf.Abs(HP_enemy_now - HP_enemy) >= 5.0f)
 		{
-			float delta = HP_enemy_now - HP_enemy;
 			if(HP_enemy_now > HP_enemy)
-				HP_enemy_now -= Time.deltaTime*500;
+				HP_enemy_now -= Time.deltaTime*HP_enemy_max/2.0f;
 			else
-				HP_enemy_now += Time.deltaTime*500;
+				HP_enemy_now += Time.deltaTime*HP_enemy_max/2.0f;
 			
-			if(delta * (HP_enemy_now - HP_enemy) < 0.0f)
+			if(Mathf.Abs(HP_enemy_now - HP_enemy) < 5.0f)
 				HP_enemy_now = HP_enemy;
 		}		
 		// HP of player
-		if(Mathf.Abs(HP_player_now - HP_player) >= 1.0f)
+		if(Mathf.Abs(HP_player_now - HP_player) >= 5.0f)
 		{
-			float delta = HP_player_now - HP_player;
 			if(HP_player_now > HP_player)
-				HP_player_now -= Time.deltaTime*500;
+				HP_player_now -= Time.deltaTime*HP_player_max/2.0f;
 			else
-				HP_player_now += Time.deltaTime*500;
+				HP_player_now += Time.deltaTime*HP_player_max/2.0f;
 			
-			if(delta * (HP_player_now - HP_player) < 0.0f)
+			if(Mathf.Abs(HP_player_now - HP_player) < 5.0f)
 				HP_player_now = HP_player;
 		}
 		
@@ -122,9 +120,18 @@ public class t_BattleSystem : MonoBehaviour {
 					
 					if(isRecover)
 					{
-						HP_player += (int)ui.backWord.ATK;
+						HP_player += (int)(ui.backWord.ATK * 5.0f);
 						if(HP_player > HP_player_max) HP_player = HP_player_max;
+						
+						isRecover = false;
 					}
+					
+					GameObject bullet = (GameObject)Instantiate(Bullet, monster.transform.position - new Vector3(0, 0, 10), Quaternion.identity);
+					bullet.GetComponent<t_Bullet>().attackObj = GameObject.Find("Canvas");
+					bullet.GetComponent<t_Bullet>().ATK = ATK_enemy;
+					bullet.GetComponent<TrailRenderer>().time = 0.1f;
+					bullet.GetComponent<TrailRenderer>().startWidth = 3.0f;
+					bullet.GetComponent<TrailRenderer>().endWidth   = 3.0f;
 				}
 			}
 		}
@@ -173,7 +180,7 @@ public class t_BattleSystem : MonoBehaviour {
 			    (firstWord.property == "earth" && secondWord.property == "metal") ||
 			    (firstWord.property == "metal" && secondWord.property == "water") )
 			{
-				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK / ui.backWord.finishIndex;
+				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK / ui.backWord.finishIndex / 2.0f;
 				
 				isRecover = true;
 			}
