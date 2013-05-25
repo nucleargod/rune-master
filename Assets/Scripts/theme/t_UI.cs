@@ -115,8 +115,8 @@ public class t_UI : MonoBehaviour {
 	void Start () 
 	{
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-		wordDisplay = GameObject.Find("Displayer").GetComponent<WordDisplay>();
-		backWordDisplay = GameObject.Find("BackDisplayer").GetComponent<WordDisplay>();
+		wordDisplay = canvas.frontDisplay;
+		backWordDisplay = canvas.backDisplay;
 		showE = 0.0f;
 			
 		isGameOver = false;

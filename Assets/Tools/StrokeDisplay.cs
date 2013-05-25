@@ -117,8 +117,7 @@ public class StrokeDisplay : MonoBehaviour {
 	public void SetTarget(Stroke stroke)
 	{
 		targetStroke = stroke;
-		MakeDrawPoint(2.0f, stroke.pointList);
-		Debug.Log("SetTarget");
+		MakeDrawPoint(0.01f, stroke.pointList);
 	}
 	
 	private void MakeDrawPoint(float stepLength, ArrayList pointList)
@@ -134,7 +133,7 @@ public class StrokeDisplay : MonoBehaviour {
 			DrawPointList[0] = (Vector3)pointList[0];
 			return;
 		}
-		Debug.Log("MakeDrawPoint");
+		float canvasSize = GetComponent<MeshFilter>().mesh.bounds.size.x;
 		float totalLength = 0.0f;
 		for(int i = 0; i < pointList.Count-1; i++)
 		{
@@ -163,6 +162,7 @@ public class StrokeDisplay : MonoBehaviour {
 			}
 			
 			DrawPointList[i] = Vector3.Lerp(prePos, curPos, (curLength-tmpLength)/(curLength-preLength));
+			DrawPointList[i] = transform.localToWorldMatrix.MultiplyPoint(DrawPointList[i]*canvasSize);
 		}
 	}
 }
