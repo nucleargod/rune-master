@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{26C8A451-C313-37CB-33C6-250C03370E87}</ProjectGuid>
+	<ProjectGuid>{5163836C-578B-83D1-4BA7-C07163CF2F92}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_SUBSTANCE;ENABLE_GENERICS;UNITY_ANDROID_API;ENABLE_CLOTH;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;UNITY_4_1_2;UNITY_4_1;ENABLE_PROFILER;UNITY_EDITOR;UNITY_TEAM_LICENSE</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_GENERICS;UNITY_ANDROID_API;ENABLE_CLOTH;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;UNITY_4_0_1;UNITY_4_0;ENABLE_PROFILER;UNITY_EDITOR;UNITY_TEAM_LICENSE</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\Menu\MainMenu.cs" />
      <Compile Include="Assets\Scripts\battle\b_BattleSystem.cs" />
      <Compile Include="Assets\Scripts\battle\b_CameraControl.cs" />
      <Compile Include="Assets\Scripts\battle\b_UI.cs" />
@@ -60,6 +61,7 @@
      <Compile Include="Assets\Tools\HorizontalBar.cs" />
      <Compile Include="Assets\Tools\Stroke.cs" />
      <Compile Include="Assets\Tools\StrokeDisplay.cs" />
+     <Compile Include="Assets\Tools\TouchEffect.cs" />
      <Compile Include="Assets\Tools\Word.cs" />
      <Compile Include="Assets\Tools\WordDisplay.cs" />
      <None Include="Assets\Resources\WordsInfo\pillow.txt" />
@@ -81,6 +83,7 @@
      <None Include="Assets\Resources\WordsInfo\pit.txt" />
      <None Include="Assets\Resources\WordsInfo\potassium.txt" />
      <None Include="Assets\Resources\WordsInfo\cannon.txt" />
+     <None Include="Assets\Tools\Canvas.shader" />
      <None Include="Assets\Resources\WordsInfo\juice.txt" />
      <None Include="Assets\Resources\WordsInfo\ground.txt" />
      <None Include="Assets\Resources\WordsInfo\river.txt" />
