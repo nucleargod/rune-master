@@ -15,11 +15,13 @@ public class m_UI : MonoBehaviour {
 	
 	void OnGUI()
 	{
-		if(GUI.Button(new Rect(0, Screen.height/3.0f*0.0f, Screen.width, Screen.height/3.0f), "Battle mode"))
+		if(GUI.Button(new Rect(0, Screen.height/4.0f*0.0f, Screen.width, Screen.height/4.0f), "Battle mode"))
 			Application.LoadLevel("battleScene");
-		if(GUI.Button(new Rect(0, Screen.height/3.0f*1.0f, Screen.width, Screen.height/3.0f), "Practice mode"))
+		if(GUI.Button(new Rect(0, Screen.height/4.0f*1.0f, Screen.width, Screen.height/4.0f), "Practice mode"))
 			Application.LoadLevel("practiceScene");
-		if(GUI.Button(new Rect(0, Screen.height/3.0f*2.0f, Screen.width, Screen.height/3.0f), "Exit"))
+		if(GUI.Button(new Rect(0, Screen.height/4.0f*2.0f, Screen.width, Screen.height/4.0f), "theme mode"))
+			Application.LoadLevel("themeScene");
+		if(GUI.Button(new Rect(0, Screen.height/4.0f*3.0f, Screen.width, Screen.height/4.0f), "Exit"))
 			Application.Quit();
 	}
 }
