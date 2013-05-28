@@ -13,13 +13,13 @@ public class Canvas : MonoBehaviour {
 		word = new Word();
 		frontDisplay = GetComponents<WordDisplay>()[0];
 		backDisplay  = GetComponents<WordDisplay>()[1];
-		frontDisplay.SetTarget(word);
 		//GameObject.Find("Displayer").GetComponent<WordDisplay>().SetTarget(word);
 		canvasSize = GetComponent<MeshFilter>().mesh.bounds.size.x;
 	}
 	
 	void OnMouseDown()
 	{
+		frontDisplay.SetTarget(word);
 		word.BeginWriting();
 	}
 	
