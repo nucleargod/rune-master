@@ -50,20 +50,20 @@ public class t_Bullet : MonoBehaviour {
 				float atkRange = ATK + Random.Range(-10.0f, 10.0f);
 				if(atkRange < 0.0f) atkRange = 0.0f;
 				
-				if( (ui.backWord.property == "water" && battle.enemy_property == "fire" ) ||
-					(ui.backWord.property == "wood"  && battle.enemy_property == "earth") ||
-					(ui.backWord.property == "fire"  && battle.enemy_property == "metal") ||
-					(ui.backWord.property == "earth" && battle.enemy_property == "water") ||
-					(ui.backWord.property == "metal" && battle.enemy_property == "wood" ) )
+				if( (ui.backWord.property == ui.water && battle.enemy_property == ui.fire ) ||
+					(ui.backWord.property == ui.wood  && battle.enemy_property == ui.earth) ||
+					(ui.backWord.property == ui.fire  && battle.enemy_property == ui.metal) ||
+					(ui.backWord.property == ui.earth && battle.enemy_property == ui.water) ||
+					(ui.backWord.property == ui.metal && battle.enemy_property == ui.wood ) )
 				{
 					atkRange *= 1.5f;
 				}
 				
-				if( (ui.backWord.property == "water" && battle.enemy_property == "earth") ||
-					(ui.backWord.property == "wood"  && battle.enemy_property == "metal") ||
-					(ui.backWord.property == "fire"  && battle.enemy_property == "water") ||
-					(ui.backWord.property == "earth" && battle.enemy_property == "wood" ) ||
-					(ui.backWord.property == "metal" && battle.enemy_property == "fire" ) )
+				if( (ui.backWord.property == ui.water && battle.enemy_property == ui.earth) ||
+					(ui.backWord.property == ui.wood  && battle.enemy_property == ui.metal) ||
+					(ui.backWord.property == ui.fire  && battle.enemy_property == ui.water) ||
+					(ui.backWord.property == ui.earth && battle.enemy_property == ui.wood ) ||
+					(ui.backWord.property == ui.metal && battle.enemy_property == ui.fire ) )
 				{
 					atkRange *= 0.5f;
 				}

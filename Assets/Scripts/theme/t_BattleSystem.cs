@@ -38,13 +38,13 @@ public class t_BattleSystem : MonoBehaviour {
 		bulletTime = 0.0f;
 		isRecover = false;
 		
-		enemy_property = "fire";
+		enemy_property = ui.fire;
 		HP_player_max = 1000;
 		HP_enemy_max  = 1000;
 		HP_player_now = 0;
 		HP_enemy_now  = 0;
 		ATK_player = 100;
-		ATK_enemy  = 300;
+		ATK_enemy  = 150;
 		HP_initial();
 	}
 	
@@ -120,7 +120,7 @@ public class t_BattleSystem : MonoBehaviour {
 					
 					if(isRecover)
 					{
-						HP_player += (int)(ui.backWord.ATK * 5.0f);
+						HP_player += (int)(ui.backWord.ATK * 30.0f);
 						if(HP_player > HP_player_max) HP_player = HP_player_max;
 						
 						isRecover = false;
@@ -170,23 +170,23 @@ public class t_BattleSystem : MonoBehaviour {
 			
 			if(firstWord.property == secondWord.property)
 			{
-				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK / ui.backWord.finishIndex * 2.0f;
+				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK * 2.0f;
 				isRecover = true;
 			}
 			else
-			if( (firstWord.property == "water" && secondWord.property == "wood" ) ||
-			    (firstWord.property == "wood"  && secondWord.property == "fire" ) ||
-			    (firstWord.property == "fire"  && secondWord.property == "earth") ||
-			    (firstWord.property == "earth" && secondWord.property == "metal") ||
-			    (firstWord.property == "metal" && secondWord.property == "water") )
+			if( (firstWord.property == ui.water && secondWord.property == ui.wood ) ||
+			    (firstWord.property == ui.wood  && secondWord.property == ui.fire ) ||
+			    (firstWord.property == ui.fire  && secondWord.property == ui.earth) ||
+			    (firstWord.property == ui.earth && secondWord.property == ui.metal) ||
+			    (firstWord.property == ui.metal && secondWord.property == ui.water) )
 			{
-				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK / ui.backWord.finishIndex / 2.0f;
+				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK / 2.0f;
 				
 				isRecover = true;
 			}
 			else 
 			{
-				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK / ui.backWord.finishIndex;
+				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK;
 				isRecover = false;
 			}
 				

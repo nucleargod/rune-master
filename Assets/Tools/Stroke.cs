@@ -55,7 +55,7 @@ public class Stroke {
 	
 	public float GetMixError ( Stroke stroke )
 	{
-		return Mathf.Pow(GetError(stroke), 2.0f) + Mathf.Pow(GetSlopeError(stroke), 1.5f);
+		return Mathf.Pow(GetError(stroke), 0.2f) + GetSlopeError(stroke);
 	}
 	
 	public int AddPoint(Vector3 worldPoint)

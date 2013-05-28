@@ -8,6 +8,7 @@ public class Word {
 	public string wordName;
 	public const int pointPerStroke = 100;
 	public Texture2D image;
+	public Material mat;
 	public string buso;
 	public string property;
 	public float ATK;
@@ -79,10 +80,10 @@ public class Word {
 	
 	public static string Judge(float error)
 	{
-		if(error <=  50) return "S";
-		if(error <=  80) return "A";
-		if(error <= 120) return "B";
-		if(error <= 150) return "C";
+		if(error <=  5) return "S";
+		if(error <=  6) return "A";
+		if(error <= 15) return "B";
+		if(error <= 20) return "C";
 		
 		return "Fail";
 	}
@@ -101,6 +102,11 @@ public class Word {
 	
 	public bool loadImage(string path){
 		image = (Texture2D)(Resources.Load(path));
-		return image != null;
+		if(image != null){
+			mat = new Material(Shader.Find("Diffuse"));
+			mat.SetTexture("_MainTex", image);
+			return true;
+		}
+		else return false;
 	}
 }

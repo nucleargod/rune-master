@@ -9,10 +9,10 @@ public class t_UI : MonoBehaviour {
 	public Word backWord;
 	public WordDisplay wordDisplay;
 	public WordDisplay backWordDisplay;
-	public ArrayList wordList = new ArrayList();
+	public System.Collections.Generic.List<Word> wordList;
 	public float error;
 	public float showE;
-	private float a;
+	public float atkRate;
 	
 	public bool isGameOver;
 	
@@ -22,8 +22,8 @@ public class t_UI : MonoBehaviour {
 	public bool isFight;
 	public string mode;
 	
-	public Material []wordMat;
-	private Texture2D []img2D;
+	//public Material []wordMat;
+	//private Texture2D []img2D;
 	public int []chooseWords;
 	public int length;
 	public int levelNum;
@@ -34,10 +34,25 @@ public class t_UI : MonoBehaviour {
 	public Object pass;
 	public Object Fail;
 	
-	void LoadWords()
+	public string fire = "\u706B";
+	public string water = "\u6C34";
+	public string metal = "\u91D1";
+	public string earth = "\u571F";
+	public string wood = "\u6728";
+	
+	void LoadWords(model db)
 	{
 		// Words txt
 		// *****************
+		System.Collections.Generic.List<string> words = db.getWords();
+		length = words.Count;
+		wordList = new System.Collections.Generic.List<Word>();
+		foreach(string w in words){
+			Word s = db.getWord(w);
+			wordList.Add(s);
+			s.ATK = atkRate;
+		}
+		/*
 		Object []wordsInfo = Resources.LoadAll("WordsInfo");
 		length = wordsInfo.Length;
 		string []filename = new string[length];
@@ -87,17 +102,17 @@ public class t_UI : MonoBehaviour {
 		img2D = new Texture2D[textures.Length];
 		for(int i = 0 ; i < textures.Length ; i++)
 			img2D[i] = (Texture2D)textures[i];
-		// *****************
+		// *****************/
 		
 		
-		// Words material
+		/*/ Words material
 		// *****************
 		Object[]materials = Resources.LoadAll("WordMaterials");
 		wordMat = new Material[materials.Length];
 		for(int i = 0 ; i < materials.Length ; i++)
 			wordMat[i] = (Material)materials[i];
-		// *****************
-		
+		// *****************/
+		/*//*/
 		
 		int []shuffleNum = new int[length];
 		shuffleNum = shuffle();
@@ -120,9 +135,10 @@ public class t_UI : MonoBehaviour {
 		showE = 0.0f;
 			
 		isGameOver = false;
-			
+		
+		model db = GameObject.Find("database").GetComponent<model>();
 		// load words
-		LoadWords();
+		LoadWords(db);
 		
 		battle = GameObject.Find("Camera").GetComponent<t_BattleSystem>();
 		barHP  = GameObject.Find("Camera").GetComponent<HorizontalBar>();
@@ -145,7 +161,7 @@ public class t_UI : MonoBehaviour {
 		else
 		{
 			showError = false;
-			error = a;
+			error = 0.0f;
 		}
 		
 		if(isSelectWord == 2)

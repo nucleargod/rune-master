@@ -56,6 +56,8 @@
      <Compile Include="Assets\Scripts\theme\t_Bullet.cs" />
      <Compile Include="Assets\Scripts\theme\t_Card.cs" />
      <Compile Include="Assets\Scripts\theme\t_UI.cs" />
+     <Compile Include="Assets\Scripts\wordRecord.cs" />
+     <Compile Include="Assets\Scripts\writeRecord.cs" />
      <Compile Include="Assets\Tools\Canvas.cs" />
      <Compile Include="Assets\Tools\HorizontalBar.cs" />
      <Compile Include="Assets\Tools\Stroke.cs" />

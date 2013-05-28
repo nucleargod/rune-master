@@ -333,6 +333,31 @@ public class dbAccess : MonoBehaviour {
 		}
 		return reader.Read();
 	}
+	
+	public wordRecord getWordRecords(string r){
+		if(r == null) return null;
+		
+		string query = "SELECT * FROM history WHERE word='" + r + "'";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		
+		wordRecord record = new wordRecord(r);
+		
+		while(reader.Read()){
+			float score = reader.GetFloat(1);
+			string time = reader.GetValue(2) as string;
+			record.addRecord(score,time);
+		}
+		return record;
+	}
 
 	// Update is called once per frame
 	void Update () {

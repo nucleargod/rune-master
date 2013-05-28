@@ -39,18 +39,18 @@ public class t_Card : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		positive.renderer.material = ui.wordMat[ui.chooseWords[cardIdx-1]];
+		positive.renderer.material = ui.wordList[ui.chooseWords[cardIdx-1]].mat;
 		
 		Word word = (Word)ui.wordList[ui.chooseWords[cardIdx-1]];
-		if(word.property == "metal")
+		if(word.property == ui.metal)
 			negative.renderer.material = (Material)mat_metal;
-		if(word.property == "wood")
+		if(word.property == ui.wood)
 			negative.renderer.material = (Material)mat_wood;
-		if(word.property == "water")
+		if(word.property == ui.water)
 			negative.renderer.material = (Material)mat_water;
-		if(word.property == "fire")
+		if(word.property == ui.fire)
 			negative.renderer.material = (Material)mat_fire;
-		if(word.property == "earth")
+		if(word.property == ui.earth)
 			negative.renderer.material = (Material)mat_earth;
 		
 		if(anim.clip.name == "RotationToNegative" && anim.isPlaying == false)
