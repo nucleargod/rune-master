@@ -14,4 +14,14 @@ public class wordRecord {
 		writeRecord s = new writeRecord(word,score,time);
 		records.Add(s);
 	}
+	
+	/*get average score of this word. O(n)*/
+	public float avgScore(){
+		float avg = 0;
+		for(int i=0;i<records.Count;i++){
+			avg += records[i].score;
+		}
+		avg /= records.Count;
+		return avg;
+	}
 }

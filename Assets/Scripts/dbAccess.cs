@@ -334,6 +334,28 @@ public class dbAccess : MonoBehaviour {
 		return reader.Read();
 	}
 	
+	public string[] getRecordWords(){
+		string query = "SELECT DISTINCT word FROM history GROUP BY word";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		
+		System.Collections.Generic.List<string> words = new System.Collections.Generic.List<string>();
+		
+		while(reader.Read()){
+			string w = reader.GetValue(1) as string;
+			words.Add(w);
+		}
+		return words.ToArray();
+	}
+	
 	public wordRecord getWordRecords(string r){
 		if(r == null) return null;
 		

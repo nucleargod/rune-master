@@ -11,4 +11,12 @@ public class writeRecord {
 		score = rscore;
 		time = rtime;
 	}
+	
+	public string[] toStrings(){
+		string[] d = new string[3];
+		d[0] = word;
+		d[1] = score.ToString();
+		d[2] = time;
+		return d;
+	}
 }

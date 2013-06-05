@@ -70,6 +70,7 @@ public class model : MonoBehaviour {
 		}
 	}
 	
+	/*update the data of word w, developer only*/
 	public void updateWord(Word w){
 		if(db != null){
 			bool d = db.updateWord(w);
@@ -80,6 +81,7 @@ public class model : MonoBehaviour {
 		}
 	}
 	
+	/*insert word w into database. DON'T use this function*/
 	public void insertWord(Word w){
 		if(db != null){
 			bool d = db.insertWord(w);
@@ -90,6 +92,7 @@ public class model : MonoBehaviour {
 		}
 	}
 	
+	/*get word data of word w from database*/
 	public Word getWord(string w){
 		if(db != null){
 			Word d = db.getWord(w);
@@ -102,6 +105,7 @@ public class model : MonoBehaviour {
 		else return null;
 	}
 	
+	/*get all words from database*/
 	public System.Collections.Generic.List<string> getWords(){
 		if(db != null){
 			System.Collections.Generic.List<string> d = db.getWords();
@@ -110,6 +114,34 @@ public class model : MonoBehaviour {
 				toggle = true;
 			}
 			return d;
+		}
+		else return null;
+	}
+	
+	/*insert a write record into database*/
+	public void addRecord(writeRecord r){
+		if(db != null && r != null){
+			if(db.InsertInto("history", r.toStrings()) == 0){
+				description = db.errMsg;
+				toggle = true;
+			}
+		}
+	}
+	
+	/*get all write records*/
+	public wordRecord[] getRecords(){
+		if(db != null){
+			string[] words = db.getRecordWords();
+			if(words == null){
+				description = db.errMsg;
+				toggle = true;
+				return null;
+			}
+			wordRecord[] records = new wordRecord[words.Length];
+			for(int i=0;i<words.Length;i++){
+				records[i] = db.getWordRecords(words[i]);
+			}
+			return records;
 		}
 		else return null;
 	}
