@@ -16,11 +16,14 @@ public class t_UI : MonoBehaviour {
 	
 	public bool isGameOver;
 	
+	public model db;
 	private t_BattleSystem battle;
 	private HorizontalBar barHP;
+	private BlurEffect blur;
 	public int isSelectWord;
 	public bool isFight;
 	public string mode;
+	public GameObject mainWord;
 	
 	//public Material []wordMat;
 	//private Texture2D []img2D;
@@ -136,12 +139,16 @@ public class t_UI : MonoBehaviour {
 			
 		isGameOver = false;
 		
-		model db = GameObject.Find("database").GetComponent<model>();
+		db = GameObject.Find("database").GetComponent<model>();
+		
 		// load words
 		LoadWords(db);
 		
+		mainWord = GameObject.Find("mainWord");
 		battle = GameObject.Find("Camera").GetComponent<t_BattleSystem>();
 		barHP  = GameObject.Find("Camera").GetComponent<HorizontalBar>();
+		blur   = GameObject.Find("Camera").GetComponent<BlurEffect>();
+		blur.enabled = false;
 		
 		// initial
 		Initial();
@@ -193,10 +200,31 @@ public class t_UI : MonoBehaviour {
 		frontWord = canvas.word;
 		wordDisplay.SetTarget(frontWord);
 	}
-
+	
+	
+	public Texture2D winTexture;
 	
 	void OnGUI ()
 	{
+		float ScreenW = Screen.width;
+		float ScreenH = Screen.height;
+		
+		if(isGameOver == true)
+		{
+			blur.enabled = true;
+			
+			if(battle.HP_player > 0)
+			{
+				GUI.DrawTexture(new Rect(0, ScreenH/2.0f-ScreenW/winTexture.width*winTexture.height/2.0f, ScreenW, 
+										 ScreenW/winTexture.width*winTexture.height), winTexture);
+			}
+			else
+			{
+			}
+			
+			return;
+		}
+		
 		barHP.DrawBarViewer(new Vector3(Screen.width/2.0f, Screen.height*0.995f, 0.0f)
 							, battle.HP_enemy_now, battle.HP_enemy_max);
 		
@@ -264,6 +292,9 @@ public class t_UI : MonoBehaviour {
 	
 	public void Initial()
 	{
+		if(levelNow > levelNum) return;
+		
+		battle.sparkle_monster = (GameObject)Instantiate(battle.sparkle);
 		isSelectWord = 0;
 		isFight = true;
 		mode = "Attack mode";

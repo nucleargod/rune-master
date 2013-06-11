@@ -298,7 +298,7 @@ public class dbAccess : MonoBehaviour {
 		}
 		
 		string query = "SELECT * FROM terms WHERE firstWord='" + a.wordName + "'";
-		query += ", secondWord='" + b.wordName + "'";
+		query += "AND secondWord='" + b.wordName + "'";
 		
 		try {
 			dbcmd = dbcon.CreateCommand();

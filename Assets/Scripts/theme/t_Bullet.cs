@@ -82,7 +82,7 @@ public class t_Bullet : MonoBehaviour {
 				anim.clip = anim.GetClip("CameraShake");
 				anim.Play();
 				
-				Instantiate(explosion);
+				//Instantiate(explosion);
 				
 				float atkRange = ATK + Random.Range(-10.0f, 10.0f);
 				if(atkRange < 0.0f) atkRange = 0.0f;

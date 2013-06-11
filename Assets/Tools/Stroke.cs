@@ -18,7 +18,7 @@ public class Stroke {
 		{
 			error += Vector3.Distance((Vector3)stroke.pointList[i], (Vector3)this.pointList[i]);
 		}
-		return error/size;
+		return 4.0f*error/size;
 	}
 	
 	public float GetDotError ( Stroke stroke )
@@ -50,12 +50,13 @@ public class Stroke {
 				( (Vector3)this.pointList[i]-(Vector3)this.pointList[i+1] )
 				);
 		}
-		return error/size;
+		return error/(size*35.0f);
 	}
 	
 	public float GetMixError ( Stroke stroke )
 	{
-		return Mathf.Pow(GetError(stroke), 0.2f) + GetSlopeError(stroke);
+		//Debug.Log(GetSlopeError(stroke));
+		return Mathf.Pow(GetError(stroke), 2.0f)*100.0f + Mathf.Pow(GetSlopeError(stroke), 2.0f);
 	}
 	
 	public int AddPoint(Vector3 worldPoint)

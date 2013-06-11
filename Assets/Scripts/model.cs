@@ -146,9 +146,19 @@ public class model : MonoBehaviour {
 		else return null;
 	}
 	
+	public bool isTerm(Word a, Word b){
+		if(db != null)
+		{
+			return db.isTerm(a, b);
+		}
+		
+		return false;
+	}
+	
 	void OnDestroy(){
 		if(db != null){
 			db.CloseDB();
 		}
 	}
+	
 }

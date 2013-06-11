@@ -11,11 +11,14 @@ public class t_Card : MonoBehaviour {
 	public Animation anim;
 	public bool isSelect;
 	
+	public Object chooseCardSound;
+	
 	public Object mat_metal;
 	public Object mat_wood;
 	public Object mat_water;
 	public Object mat_fire;
 	public Object mat_earth;
+	public Object mat_mainWord;
 	
 	// Use this for initialization
 	void Start () 
@@ -55,22 +58,52 @@ public class t_Card : MonoBehaviour {
 		
 		if(anim.clip.name == "RotationToNegative" && anim.isPlaying == false)
 		{
+			if(gameObject.transform.localScale.x != 0.95f) gameObject.transform.localScale = new Vector3(0.95f, 0.95f, 0.95f);
 			anim.clip = anim.GetClip("CreateCard" + cardIdx.ToString());
 			anim.Play();
 			
 			this.isSelect = false;
 			battle.reShuffle();
 		}
+		
+		if(ui.isSelectWord == 1 && anim.isPlaying == false && anim.clip.name != "DestroyCard" && anim.clip.name != "RotationToPositive")
+		{
+			anim.clip = anim.GetClip("RotationToPositive");
+			anim.Play();
+		}
+		
+		if(ui.isSelectWord == 2 && anim.isPlaying == false && anim.clip.name != "DestroyCard")
+		{
+			anim.clip = anim.GetClip("DestroyCard");
+			anim.Play();
+		}
+		
+		if(ui.isSelectWord == 0 && anim.isPlaying == false && ui.isFight == true &&
+		   ui.mainWord.renderer.material.name != mat_mainWord.name + " (Instance)")
+		{
+			ui.mainWord.renderer.material = (Material)mat_mainWord;
+		}
+		
+		if(anim.isPlaying == false && anim.clip.name == "DestroyCard" &&
+		   ui.mainWord.renderer.material.name == mat_mainWord.name + " (Instance)")
+		{
+			ui.mainWord.renderer.material = positive.renderer.material;
+		}
 	}
 	
 	void OnMouseDown()
 	{
+		if(ui.isGameOver == true) return;
+		
 		if(ui.isSelectWord < 2 && this.isSelect == false && anim.isPlaying == false)
 		{
 			if(ui.isSelectWord == 0)
 			{
 				Word word = (Word)ui.wordList[ui.chooseWords[cardIdx-1]];
 				battle.firstWord = ui.backWord = word;
+				
+				anim.clip = anim.GetClip("DestroyCard");
+				anim.Play();
 			}
 			if(ui.isSelectWord == 1)
 			{
@@ -80,11 +113,14 @@ public class t_Card : MonoBehaviour {
 				ui.ClearCanvas();
 			}
 			
+			GameObject snd = (GameObject)Instantiate(chooseCardSound);
+			Destroy(snd, 1.5f);
+			
 			this.isSelect = true;
 			ui.isSelectWord++;
 			
-			anim.clip = anim.GetClip("RotationToPositive");
-			anim.Play();
+			//anim.clip = anim.GetClip("RotationToPositive");
+			//anim.Play();
 		}
 	}
 }
