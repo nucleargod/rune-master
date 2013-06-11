@@ -162,8 +162,8 @@ public class t_BattleSystem : MonoBehaviour {
 				else
 				{
 					print("no Term!!");
-				}*/
-				//print(firstWord.wordName + " " + secondWord.wordName);
+				}//*/
+				print(firstWord.wordName + " " + secondWord.wordName);
 			}
 		}
 		else
