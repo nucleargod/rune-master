@@ -155,7 +155,7 @@ public class t_BattleSystem : MonoBehaviour {
 				bulletNum = ui.frontWord.finishIndex;
 				bulletTime = 0.15f;
 				
-				/*if(ui.db.isTerm(firstWord, secondWord))
+				if(ui.db.isTerm(firstWord, secondWord))
 				{
 					print("is Term!!");
 				}
@@ -255,7 +255,7 @@ public class t_BattleSystem : MonoBehaviour {
 			
 			if(firstWord.property == secondWord.property)
 			{
-				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK * 2.0f;
+				bullet.GetComponent<t_Bullet>().ATK = (ui.backWord.ATK - ui.showE*0.15f) * 2.0f;
 				isRecover = false;
 			}
 			else
@@ -265,13 +265,13 @@ public class t_BattleSystem : MonoBehaviour {
 			    (firstWord.property == ui.earth && secondWord.property == ui.metal) ||
 			    (firstWord.property == ui.metal && secondWord.property == ui.water) )
 			{
-				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK / 2.0f;
+				bullet.GetComponent<t_Bullet>().ATK = (ui.backWord.ATK - ui.showE*0.15f) * 0.5f;
 				
 				isRecover = true;
 			}
 			else 
 			{
-				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK;
+				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK - ui.showE*0.15f;
 				isRecover = false;
 			}
 				
