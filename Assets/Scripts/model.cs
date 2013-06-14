@@ -51,6 +51,7 @@ public class model : MonoBehaviour {
 		else {
 			toggle = true;
 		}
+		DontDestroyOnLoad(gameObject);
 	}
 
 	// Update is called once per frame

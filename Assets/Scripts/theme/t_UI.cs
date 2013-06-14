@@ -2,7 +2,10 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 
-public class t_UI : MonoBehaviour {
+public class t_UI : MonoBehaviour 
+{
+	public GlobalRecord rcd;
+	
 	
 	public Canvas canvas;
 	public Word frontWord;
@@ -55,6 +58,67 @@ public class t_UI : MonoBehaviour {
 			wordList.Add(s);
 			s.ATK = atkRate;
 		}
+		/*
+		Object []wordsInfo = Resources.LoadAll("WordsInfo");
+		length = wordsInfo.Length;
+		string []filename = new string[length];
+		for(int i = 0 ; i < length ; i++)
+			filename[i] = wordsInfo[i].name;
+		
+		for(int n = 0 ; n < filename.Length ; n++)
+		{
+			StringReader sr = new StringReader(((TextAsset)wordsInfo[n]).text);
+			
+			Word rWord = new Word();
+			rWord.wordName = filename[n];
+			
+			int strokeNum = int.Parse(sr.ReadLine());	// stroke number
+			rWord.finishIndex = strokeNum;
+			
+			rWord.property = sr.ReadLine();				// property
+			rWord.ATK = float.Parse(sr.ReadLine());		// ATK
+			
+			int count = 0;
+			Stroke s = new Stroke();
+			while(count < strokeNum)
+			{
+				string line = sr.ReadLine();
+				if(line == "Stroke End")
+				{
+					count++;
+					rWord.strokeList.Add(s);
+					s = new Stroke();
+					continue;
+				}
+				
+				string []split = line.Split(new char[]{' '});
+				Vector3 p = new Vector3(float.Parse(split[0]), float.Parse(split[1]), float.Parse(split[2]));
+				s.pointList.Add(p);
+			}
+			
+			wordList.Add(rWord);
+			sr.Close();
+		}
+		// *****************
+		
+		
+		// Words png
+		// *****************
+		Object[]textures = Resources.LoadAll("Words");
+		img2D = new Texture2D[textures.Length];
+		for(int i = 0 ; i < textures.Length ; i++)
+			img2D[i] = (Texture2D)textures[i];
+		// *****************/
+		
+		
+		/*/ Words material
+		// *****************
+		Object[]materials = Resources.LoadAll("WordMaterials");
+		wordMat = new Material[materials.Length];
+		for(int i = 0 ; i < materials.Length ; i++)
+			wordMat[i] = (Material)materials[i];
+		// *****************/
+		/*//*/
 		
 		int []shuffleNum = new int[length];
 		shuffleNum = shuffle();
@@ -71,6 +135,9 @@ public class t_UI : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		rcd = GameObject.Find("GlobalRecord").GetComponent<GlobalRecord>();
+		
+		
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 		wordDisplay = canvas.frontDisplay;
 		backWordDisplay = canvas.backDisplay;
@@ -78,7 +145,8 @@ public class t_UI : MonoBehaviour {
 			
 		isGameOver = false;
 		
-		db = GameObject.Find("database").GetComponent<model>();
+		// receive database
+		db = rcd.database;
 		
 		// load words
 		LoadWords(db);

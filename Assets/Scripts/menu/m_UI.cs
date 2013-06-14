@@ -3,25 +3,55 @@ using System.Collections;
 
 public class m_UI : MonoBehaviour {
 	
+	private GlowEffect gleffect;
+	public string glstate;
+	
+	private GameObject button1;
+	private GameObject button2;
+	private GameObject button3;
+	private GameObject button4;
+	
 	// Use this for initialization
 	void Start () 
 	{
+		gleffect = GameObject.Find("Camera").GetComponent<GlowEffect>();
+		gleffect.glowIntensity = 3.5f;
+		glstate = "GlowUp";
+		// GlowUp
+		// GlowDown
+		// GlowBlance
+		
+		
+		button1 = GameObject.Find("BUTTON_practice"); button1.SetActive(false);
+		button2 = GameObject.Find("BUTTON_battle");   button2.SetActive(false);
+		button3 = GameObject.Find("BUTTON_special");  button3.SetActive(false);
+		button4 = GameObject.Find("BUTTON_exit");     button4.SetActive(false);
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-	}
-	
-	void OnGUI()
-	{
-		if(GUI.Button(new Rect(0, Screen.height/4.0f*0.0f, Screen.width, Screen.height/4.0f), "Battle mode"))
-			Application.LoadLevel("battleScene");
-		if(GUI.Button(new Rect(0, Screen.height/4.0f*1.0f, Screen.width, Screen.height/4.0f), "Practice mode"))
-			Application.LoadLevel("practiceScene");
-		if(GUI.Button(new Rect(0, Screen.height/4.0f*2.0f, Screen.width, Screen.height/4.0f), "theme mode"))
-			Application.LoadLevel("themeScene");
-		if(GUI.Button(new Rect(0, Screen.height/4.0f*3.0f, Screen.width, Screen.height/4.0f), "Exit"))
-			Application.Quit();
+		if(glstate == "GlowDown")
+		{
+			gleffect.glowIntensity -= Time.deltaTime*0.5f;
+			if(gleffect.glowIntensity < 3.0f)
+			{
+				glstate = "GLowBlance";
+			}
+		}
+		
+		if(glstate == "GlowUp")
+		{
+			gleffect.glowIntensity += Time.deltaTime*0.5f;
+			if(gleffect.glowIntensity > 5.6f)
+			{
+				glstate = "GlowDown";
+				
+				button1.SetActive(true);
+				button2.SetActive(true);
+				button3.SetActive(true);
+				button4.SetActive(true);
+			}
+		}
 	}
 }

@@ -44,11 +44,17 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\GlobalRecord.cs" />
      <Compile Include="Assets\Scripts\battle\b_BattleSystem.cs" />
      <Compile Include="Assets\Scripts\battle\b_CameraControl.cs" />
      <Compile Include="Assets\Scripts\battle\b_UI.cs" />
      <Compile Include="Assets\Scripts\dbAccess.cs" />
+     <Compile Include="Assets\Scripts\gallery\g_UI.cs" />
      <Compile Include="Assets\Scripts\menu\m_UI.cs" />
+     <Compile Include="Assets\Scripts\menu\m_battle.cs" />
+     <Compile Include="Assets\Scripts\menu\m_exit.cs" />
+     <Compile Include="Assets\Scripts\menu\m_practice.cs" />
+     <Compile Include="Assets\Scripts\menu\m_special.cs" />
      <Compile Include="Assets\Scripts\model.cs" />
      <Compile Include="Assets\Scripts\practice\UI.cs" />
      <Compile Include="Assets\Scripts\theme\t_ATK.cs" />

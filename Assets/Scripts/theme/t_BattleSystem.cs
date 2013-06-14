@@ -155,15 +155,34 @@ public class t_BattleSystem : MonoBehaviour {
 				bulletNum = ui.frontWord.finishIndex;
 				bulletTime = 0.15f;
 				
-				if(ui.db.isTerm(firstWord, secondWord))
+				// store record to database
+				bool isFind = false;
+				foreach(wordRecord word in ui.rcd.wordRecord)
+				{
+					if(word.word == firstWord.wordName)
+					{
+						isFind = true;
+						word.addRecord(ui.error, System.DateTime.Now.ToString());
+						print(word.records.Count);
+					}
+				}
+				// this is a new word record
+				if(isFind == false)
+				{
+					ui.db.addRecord(new writeRecord(firstWord.wordName, ui.error, System.DateTime.Now.ToString()));
+					ui.rcd.wordRecord = ui.db.getRecords();
+				}
+				
+				
+				/*if(ui.db.isTerm(firstWord, secondWord))
 				{
 					print("is Term!!");
 				}
 				else
 				{
 					print("no Term!!");
-				}//*/
-				print(firstWord.wordName + " " + secondWord.wordName);
+				}*/
+				//print(firstWord.wordName + " " + secondWord.wordName);
 			}
 		}
 		else
@@ -255,7 +274,7 @@ public class t_BattleSystem : MonoBehaviour {
 			
 			if(firstWord.property == secondWord.property)
 			{
-				bullet.GetComponent<t_Bullet>().ATK = (ui.backWord.ATK - ui.showE*0.15f) * 2.0f;
+				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK * 2.0f;
 				isRecover = false;
 			}
 			else
@@ -265,13 +284,13 @@ public class t_BattleSystem : MonoBehaviour {
 			    (firstWord.property == ui.earth && secondWord.property == ui.metal) ||
 			    (firstWord.property == ui.metal && secondWord.property == ui.water) )
 			{
-				bullet.GetComponent<t_Bullet>().ATK = (ui.backWord.ATK - ui.showE*0.15f) * 0.5f;
+				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK / 2.0f;
 				
 				isRecover = true;
 			}
 			else 
 			{
-				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK - ui.showE*0.15f;
+				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK;
 				isRecover = false;
 			}
 				
@@ -343,20 +362,20 @@ public class t_BattleSystem : MonoBehaviour {
 		else
 		if(ui.levelNow == 2)
 		{
-			monster.renderer.material = mat_water_monster;
-			enemy_property = ui.water;
+			monster.renderer.material = mat_earth_monster;
+			enemy_property = ui.earth;
 		}
 		else
 		if(ui.levelNow == 3)
 		{
-			monster.renderer.material = mat_wood_monster;
-			enemy_property = ui.wood;
+			monster.renderer.material = mat_water_monster;
+			enemy_property = ui.water;
 		}
 		else
 		if(ui.levelNow == 4)
 		{
-			monster.renderer.material = mat_earth_monster;
-			enemy_property = ui.earth;
+			monster.renderer.material = mat_wood_monster;
+			enemy_property = ui.wood;
 		}
 		else
 		if(ui.levelNow == 5)
