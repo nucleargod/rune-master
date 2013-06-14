@@ -147,12 +147,34 @@ public class model : MonoBehaviour {
 	}
 	
 	public bool isTerm(Word a, Word b){
-		if(db != null)
-		{
+		if(db != null){
 			return db.isTerm(a, b);
 		}
-		
 		return false;
+	}
+	
+	public string getTime(){
+		if(db!=null){
+			string time =  db.getTime();
+			if(time == null){
+				description = db.errMsg;
+				toggle = true;
+			}
+			return time;
+		}
+		return null;
+	}
+	
+	public wordRecord getOrderedRecords(Word r){
+		if(db!=null){
+			wordRecord records = db.getOrderedRecords(r.wordName, 5);
+			if(records == null){
+				description = db.errMsg;
+				toggle = true;
+			}
+			return records;
+		}
+		return null;
 	}
 	
 	void OnDestroy(){

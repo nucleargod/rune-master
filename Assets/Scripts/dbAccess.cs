@@ -84,7 +84,7 @@ public class dbAccess : MonoBehaviour {
 	
 	public int InsertIntoSingle(string tableName, string colName , string value ){ // single insert
 		string query;
-		query = "INSERT INTO " + tableName + "(" + colName + ") " + "VALUES (" + value + ")";
+		query = "INSERT INTO " + tableName + "(" + colName + ") " + "VALUES ('" + value + "')";
 		try
 		{
 			dbcmd = dbcon.CreateCommand(); // create empty command
@@ -105,11 +105,11 @@ public class dbAccess : MonoBehaviour {
 		for(int i=1; i< col.Length; i++){
 			query += ", " + col[i];
 		}
-		query += ") VALUES (" + values[0];
+		query += ") VALUES ('" + values[0];
 		for(int i=1; i< col.Length; i++){
-			query += ", " + values[i];
+			query += "', '" + values[i];
 		}
-		query += ")";
+		query += "')";
 		Debug.Log(query);
 		try
 		{
@@ -127,11 +127,11 @@ public class dbAccess : MonoBehaviour {
 	
 	public int InsertInto(string tableName , string[] values ){ // basic Insert with just values
 		string query;
-		query = "INSERT INTO " + tableName + " VALUES (" + values[0];
+		query = "INSERT INTO " + tableName + " VALUES ('" + values[0];
 		for(int i=1; i< values.Length; i++){
-			query += ", " + values[i];
+			query += "', '" + values[i];
 		}
-		query += ")";
+		query += "')";
 		try
 		{
 			dbcmd = dbcon.CreateCommand();
@@ -350,7 +350,7 @@ public class dbAccess : MonoBehaviour {
 		System.Collections.Generic.List<string> words = new System.Collections.Generic.List<string>();
 		
 		while(reader.Read()){
-			string w = reader.GetValue(1) as string;
+			string w = reader.GetValue(0) as string;
 			words.Add(w);
 		}
 		return words.ToArray();
@@ -360,6 +360,52 @@ public class dbAccess : MonoBehaviour {
 		if(r == null) return null;
 		
 		string query = "SELECT * FROM history WHERE word='" + r + "'";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		
+		wordRecord record = new wordRecord(r);
+		
+		while(reader.Read()){
+			float score = reader.GetFloat(1);
+			string time = reader.GetValue(2) as string;
+			record.addRecord(score,time);
+		}
+		return record;
+	}
+	
+	public string getTime(){
+		string query = "SELECT time('now', 'localtime');";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		
+		if(reader.Read()){
+			string time = reader.GetValue(0) as string;
+			return time;
+		}
+		return null;
+	}
+	
+	public wordRecord getOrderedRecords(string r, int limit){
+		if(r == null) return null;
+		
+		string query = "SELECT * FROM history WHERE word='" + r + "' ORDER BY time";
+		if(limit != 0) query += " LIMIT " + limit;
 		
 		try {
 			dbcmd = dbcon.CreateCommand();
