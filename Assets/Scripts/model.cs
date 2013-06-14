@@ -147,6 +147,19 @@ public class model : MonoBehaviour {
 		else return null;
 	}
 	
+	public wordRecord getWordRecords(string w){
+		if(db != null){
+			wordRecord wrecord = db.getWordRecords(w);
+			if(wrecord == null){
+				description = db.errMsg;
+				toggle = true;
+				return null;
+			}
+			return wrecord;
+		}
+		else return null;
+	}
+		
 	public bool isTerm(Word a, Word b){
 		if(db != null){
 			return db.isTerm(a, b);

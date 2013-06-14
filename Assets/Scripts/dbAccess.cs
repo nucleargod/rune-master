@@ -375,14 +375,14 @@ public class dbAccess : MonoBehaviour {
 		
 		while(reader.Read()){
 			float score = reader.GetFloat(1);
-			string time = reader.GetValue(2) as string;
+			string time = ((System.DateTime)reader.GetValue(2)).ToString("yyyy-MM-dd HH:mm:ss");
 			record.addRecord(score,time);
 		}
 		return record;
 	}
 	
 	public string getTime(){
-		string query = "SELECT time('now', 'localtime');";
+		string query = "SELECT datetime('now', 'localtime');";
 		
 		try {
 			dbcmd = dbcon.CreateCommand();
@@ -421,7 +421,7 @@ public class dbAccess : MonoBehaviour {
 		
 		while(reader.Read()){
 			float score = reader.GetFloat(1);
-			string time = reader.GetValue(2) as string;
+			string time = ((System.DateTime)reader.GetValue(2)).ToString("yyyy-MM-dd HH:mm:ss");
 			record.addRecord(score,time);
 		}
 		return record;

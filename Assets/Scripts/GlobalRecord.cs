@@ -50,4 +50,11 @@ public class GlobalRecord : MonoBehaviour {
 			_wordRecord = nRecords;
 		}
 	}
+	
+	public wordRecord getRecord(string w){
+		foreach(wordRecord i in _wordRecord){
+			if(w == i.word) return i;
+		}
+		return null;
+	}
 }
