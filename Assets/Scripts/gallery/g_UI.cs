@@ -7,12 +7,16 @@ public class g_UI : MonoBehaviour {
 	
 	
 	public Material unknow;
+	public GUITexture wordView;
+	public GUIText recordsView;
+	public GUIText avgView;
+	
 	private GameObject wordWall;
 	private int totalNum;
 	private int recordNum;
 	private int recordNow;
 	private System.Collections.Generic.List<string> wordList;
-	private wordRecord[] wordRecord;
+	private wordRecord[] wordRecords;
 	
 	// Use this for initialization
 	void Start () 
@@ -20,12 +24,11 @@ public class g_UI : MonoBehaviour {
 		wordWall = GameObject.Find("wordWall");
 		
 		rcd = GameObject.Find("GlobalRecord").GetComponent<GlobalRecord>();
-		rcd.wordRecord = rcd.database.getRecords();
-		wordRecord = rcd.wordRecord;
+		wordRecords = rcd.records;
 			
 		wordList  = rcd.database.getWords();
 		totalNum  = wordList.Count;
-		recordNum = rcd.wordRecord.Length;
+		recordNum = wordRecords.Length;
 		recordNow = 0;
 	}
 	
@@ -35,7 +38,12 @@ public class g_UI : MonoBehaviour {
 		if(isRecord() == true)
 		{
 			Word word = rcd.database.getWord(wordList[recordNow]);
+			wordView.texture = word.image;
+			//avgView = 
+			
+			
 			wordWall.renderer.material = word.mat;
+			
 		}
 		else
 		{
@@ -60,7 +68,7 @@ public class g_UI : MonoBehaviour {
 	{
 		for(int i = 0 ; i < recordNum ; i++)
 		{
-			if(wordRecord[i].word == wordList[recordNow])
+			if(wordRecords[i].word == wordList[recordNow])
 			{
 				return true;
 			}

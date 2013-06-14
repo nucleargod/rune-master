@@ -156,8 +156,10 @@ public class t_BattleSystem : MonoBehaviour {
 				bulletTime = 0.15f;
 				
 				// store record to database
+				ui.rcd.addRecord(firstWord.wordName, ui.error);
+				/*
 				bool isFind = false;
-				foreach(wordRecord word in ui.rcd.wordRecord)
+				foreach(wordRecord word in ui.rcd.records)
 				{
 					if(word.word == firstWord.wordName)
 					{
@@ -171,7 +173,7 @@ public class t_BattleSystem : MonoBehaviour {
 				{
 					ui.db.addRecord(new writeRecord(firstWord.wordName, ui.error, System.DateTime.Now.ToString()));
 					ui.rcd.wordRecord = ui.db.getRecords();
-				}
+				}//*/
 				
 				
 				/*if(ui.db.isTerm(firstWord, secondWord))
@@ -284,7 +286,7 @@ public class t_BattleSystem : MonoBehaviour {
 			    (firstWord.property == ui.earth && secondWord.property == ui.metal) ||
 			    (firstWord.property == ui.metal && secondWord.property == ui.water) )
 			{
-				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK / 2.0f;
+				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK * 0.5f;
 				
 				isRecover = true;
 			}
