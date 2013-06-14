@@ -7,6 +7,7 @@ public class g_UI : MonoBehaviour {
 	
 	
 	public Material unknow;
+	public Texture2D unknowT;
 	public GUITexture wordView;
 	public GUIText recordsView;
 	public GUIText avgView;
@@ -30,6 +31,14 @@ public class g_UI : MonoBehaviour {
 		totalNum  = wordList.Count;
 		recordNum = wordRecords.Length;
 		recordNow = 0;
+		
+		//init size
+		float w = Screen.width*3/5;
+		wordView.pixelInset = new Rect(-w*0.5f, w, -w*0.5f, w);
+		/*wordView.pixelInset.width = w;
+		wordView.pixelInset.x = -w*0.5f;
+		wordView.pixelInset.height = w;
+		wordView.pixelInset.y = -w*0.5f;//*/
 	}
 	
 	// Update is called once per frame
@@ -47,6 +56,7 @@ public class g_UI : MonoBehaviour {
 		}
 		else
 		{
+			wordView.texture = unknowT;
 			wordWall.renderer.material = unknow;
 		}
 	}

@@ -1,13 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tools\WordDisplay.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\gallery\g_UI.cs">
     <Files>
       <File FileName="Assets\Scripts\dbAccess.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\menu\m_UI.cs" Line="39" Column="26" />
-      <File FileName="Assets\Standard Assets\Image Effects (Pro Only)\GlowEffect.cs" Line="183" Column="2" />
-      <File FileName="Assets\Scripts\gallery\g_UI.cs" Line="71" Column="18" />
+      <File FileName="Assets\Standard Assets\Image Effects (Pro Only)\GlowEffect.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\gallery\g_UI.cs" Line="59" Column="30" />
       <File FileName="Assets\Scripts\GlobalRecord.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\theme\t_BattleSystem.cs" Line="176" Column="10" />
+      <File FileName="Assets\Scripts\theme\t_BattleSystem.cs" Line="1" Column="1" />
       <File FileName="Assets\Tools\WordDisplay.cs" Line="67" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
