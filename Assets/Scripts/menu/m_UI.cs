@@ -33,7 +33,7 @@ public class m_UI : MonoBehaviour {
 	{
 		if(glstate == "GlowDown")
 		{
-			gleffect.glowIntensity -= Time.deltaTime*0.5f;
+			gleffect.glowIntensity -= Time.deltaTime*1.2f;
 			if(gleffect.glowIntensity < 3.0f)
 			{
 				glstate = "GLowBlance";
@@ -42,8 +42,8 @@ public class m_UI : MonoBehaviour {
 		
 		if(glstate == "GlowUp")
 		{
-			gleffect.glowIntensity += Time.deltaTime*0.5f;
-			if(gleffect.glowIntensity > 5.6f)
+			gleffect.glowIntensity += Time.deltaTime*1.2f;
+			if(gleffect.glowIntensity > 5.0f)
 			{
 				glstate = "GlowDown";
 				
