@@ -167,16 +167,9 @@ public class model : MonoBehaviour {
 		return false;
 	}
 	
-	public string getTime(){
-		if(db!=null){
-			string time =  db.getTime();
-			if(time == null){
-				description = db.errMsg;
-				toggle = true;
-			}
-			return time;
-		}
-		return null;
+	public System.DateTime getTime(){
+		System.DateTime time = System.DateTime.Now;
+		return time;
 	}
 	
 	public wordRecord getOrderedRecords(Word r){

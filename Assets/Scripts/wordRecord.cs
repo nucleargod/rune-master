@@ -10,7 +10,7 @@ public class wordRecord {
 		records = new System.Collections.Generic.List<writeRecord>();
 	}
 	
-	public void addRecord(float score, string time){
+	public void addRecord(float score, System.DateTime time){
 		writeRecord s = new writeRecord(word,score,time);
 		records.Add(s);
 	}

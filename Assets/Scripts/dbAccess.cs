@@ -375,7 +375,7 @@ public class dbAccess : MonoBehaviour {
 		
 		while(reader.Read()){
 			float score = reader.GetFloat(1);
-			string time = ((System.DateTime)reader.GetValue(2)).ToString("yyyy-MM-dd HH:mm:ss");
+			System.DateTime time = (System.DateTime)reader.GetValue(2);
 			record.addRecord(score,time);
 		}
 		return record;
@@ -404,7 +404,7 @@ public class dbAccess : MonoBehaviour {
 	public wordRecord getOrderedRecords(string r, int limit){
 		if(r == null) return null;
 		
-		string query = "SELECT * FROM history WHERE word='" + r + "' ORDER BY time";
+		string query = "SELECT * FROM history WHERE word='" + r + "' ORDER BY time DESC";
 		if(limit != 0) query += " LIMIT " + limit;
 		
 		try {
@@ -421,7 +421,7 @@ public class dbAccess : MonoBehaviour {
 		
 		while(reader.Read()){
 			float score = reader.GetFloat(1);
-			string time = ((System.DateTime)reader.GetValue(2)).ToString("yyyy-MM-dd HH:mm:ss");
+			System.DateTime time = (System.DateTime)reader.GetValue(2);
 			record.addRecord(score,time);
 		}
 		return record;

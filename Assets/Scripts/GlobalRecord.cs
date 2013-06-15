@@ -24,24 +24,24 @@ public class GlobalRecord : MonoBehaviour {
 		Application.LoadLevel("menuScene");
 	}
 	
-	public void addRecord(string w, float score){
+	public void addRecord(string w, float error){
 		//database.addRecord(r);
 		
 		if(_wordRecord == null){
-			database.addRecord(new writeRecord(w,score,database.getTime()));
+			database.addRecord(new writeRecord(w,500 / (error+1.0f),database.getTime()));
 		}
 		else{
 			foreach(wordRecord word in _wordRecord)
 			{
 				if(word.word == w)
 				{
-					word.addRecord(score, database.getTime());
+					word.addRecord(500 / (error+1.0f), database.getTime());
 					print(word.records.Count);
 					return;
 				}
 			}
 			wordRecord wr = new wordRecord(w);
-			wr.addRecord(score, database.getTime());
+			wr.addRecord(500 / (error+1.0f), database.getTime());
 			database.addRecord(wr.records[0]);
 			
 			wordRecord[] nRecords = new wordRecord[_wordRecord.Length+1];

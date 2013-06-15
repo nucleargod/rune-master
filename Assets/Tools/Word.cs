@@ -82,9 +82,9 @@ public class Word {
 	
 	public static string Judge(float error)
 	{
-		if(error <=  5) return "S";
-		if(error <=  6) return "A";
-		if(error <= 15) return "B";
+		if(error <=  4) return "S";
+		if(error <=  9) return "A";
+		if(error <= 14) return "B";
 		if(error <= 20) return "C";
 		
 		return "Fail";
