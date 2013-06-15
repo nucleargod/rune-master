@@ -1,16 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\gallery\g_UI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\theme\t_Terms.cs">
     <Files>
-      <File FileName="Assets\Scripts\dbAccess.cs" Line="251" Column="19" />
-      <File FileName="Assets\Scripts\model.cs" Line="182" Column="28" />
-      <File FileName="Assets\Scripts\gallery\g_UI.cs" Line="104" Column="14" />
-      <File FileName="Assets\Scripts\GlobalRecord.cs" Line="7" Column="58" />
-      <File FileName="Assets\Scripts\theme\t_BattleSystem.cs" Line="1" Column="1" />
-      <File FileName="Assets\Tools\WordDisplay.cs" Line="59" Column="14" />
-      <File FileName="Assets\Scripts\redEffect.cs" Line="46" Column="3" />
-      <File FileName="Assets\Scripts\redEffectShaderRGB.shader" Line="9" Column="1" />
-      <File FileName="Assets\Tools\Word.cs" Line="28" Column="24" />
+      <File FileName="Assets\Scripts\theme\t_UI.cs" Line="59" Column="19" />
+      <File FileName="Assets\Scripts\theme\t_BattleSystem.cs" Line="79" Column="22" />
+      <File FileName="Assets\Scripts\GlobalRecord.cs" Line="39" Column="32" />
+      <File FileName="Assets\Scripts\theme\t_Bullet.cs" Line="48" Column="30" />
+      <File FileName="Assets\Scripts\theme\t_Blood.cs" Line="32" Column="28" />
+      <File FileName="Assets\Tools\Word.cs" Line="109" Column="3" />
+      <File FileName="Assets\Scripts\theme\t_Terms.cs" Line="48" Column="2" />
+      <File FileName="Assets\Scripts\theme\t_Card.cs" Line="45" Column="1" />
+      <File FileName="Assets\Scripts\dbAccess.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

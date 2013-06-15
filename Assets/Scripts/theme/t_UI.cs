@@ -137,7 +137,6 @@ public class t_UI : MonoBehaviour
 	{
 		rcd = GameObject.Find("GlobalRecord").GetComponent<GlobalRecord>();
 		
-		
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 		wordDisplay = canvas.frontDisplay;
 		backWordDisplay = canvas.backDisplay;

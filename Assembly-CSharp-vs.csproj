@@ -57,11 +57,12 @@
      <Compile Include="Assets\Scripts\menu\m_special.cs" />
      <Compile Include="Assets\Scripts\model.cs" />
      <Compile Include="Assets\Scripts\practice\UI.cs" />
-     <Compile Include="Assets\Scripts\redEffect.cs" />
      <Compile Include="Assets\Scripts\theme\t_ATK.cs" />
      <Compile Include="Assets\Scripts\theme\t_BattleSystem.cs" />
+     <Compile Include="Assets\Scripts\theme\t_Blood.cs" />
      <Compile Include="Assets\Scripts\theme\t_Bullet.cs" />
      <Compile Include="Assets\Scripts\theme\t_Card.cs" />
+     <Compile Include="Assets\Scripts\theme\t_Terms.cs" />
      <Compile Include="Assets\Scripts\theme\t_UI.cs" />
      <Compile Include="Assets\Scripts\wordRecord.cs" />
      <Compile Include="Assets\Scripts\writeRecord.cs" />
@@ -153,7 +154,6 @@
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\EdgeDetectNormals.shader" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\PrepareSunShaftsBlur.shader" />
      <None Include="Assets\Resources\WordsInfo\river.txt" />
-     <None Include="Assets\Scripts\redEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\Blend.shader" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\BlendModesOverlay.shader" />
      <None Include="Assets\Resources\WordsInfo\earth.txt" />

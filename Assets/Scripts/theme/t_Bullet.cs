@@ -8,7 +8,7 @@ public class t_Bullet : MonoBehaviour {
 	private float speed;
 	
 	public GameObject attackObj;
-	public GameObject explosion;
+	public GameObject Blood;
 	public GameObject ATK_Num;
 	public float ATK;
 	
@@ -65,7 +65,7 @@ public class t_Bullet : MonoBehaviour {
 					(ui.backWord.property == ui.earth && battle.enemy_property == ui.wood ) ||
 					(ui.backWord.property == ui.metal && battle.enemy_property == ui.fire ) )
 				{
-					atkRange *= 0.5f;
+					atkRange *= 0.67f;
 				}
 				
 				GameObject obj = (GameObject)Instantiate(ATK_Num);
@@ -82,7 +82,7 @@ public class t_Bullet : MonoBehaviour {
 				anim.clip = anim.GetClip("CameraShake");
 				anim.Play();
 				
-				//Instantiate(explosion);
+				Instantiate(Blood);
 				
 				float atkRange = ATK + Random.Range(-10.0f, 10.0f);
 				if(atkRange < 0.0f) atkRange = 0.0f;

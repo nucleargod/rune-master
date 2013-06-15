@@ -8,7 +8,9 @@ public class Word {
 	public string wordName;
 	public const int pointPerStroke = 100;
 	public Texture2D image;
+	public Texture2D image_t;
 	public Material mat;
+	public Material mat_t;
 	public string buso;
 	public string property;
 	public float ATK;
@@ -100,13 +102,22 @@ public class Word {
 		return d;
 	}
 	
-	public bool loadImage(string path){
-		image = (Texture2D)(Resources.Load(path));
-		if(image != null){
+	public bool loadImage(string path)
+	{
+		image   = (Texture2D)(Resources.Load(path));
+		image_t = (Texture2D)(Resources.Load(path + "_t"));
+		
+		if(image != null && image_t != null)
+		{
 			mat = new Material(Shader.Find("Diffuse"));
 			mat.SetTexture("_MainTex", image);
+			
+			mat_t = new Material(Shader.Find("Transparent/Diffuse"));
+			mat_t.SetTexture("_MainTex", image_t);
+			
 			return true;
 		}
-		else return false;
+		
+		return false;
 	}
 }

@@ -57,23 +57,30 @@ public class t_BattleSystem : MonoBehaviour {
 		//sparkle_monster = (GameObject)Instantiate(sparkle);
 		//sparkle_monster.transform.position = new Vector3(7.677217f, 76.90249f, 88.65485f);
 		
+		monsterAttackTime = 0.0f;
+		isTermAttack = false;
+		
 		remainWordIdx = new int[4];
 		bulletTime = 0.0f;
 		isFireBall = false;
 		isRecover = false;
 		
-		HP_player_max = 1000;
-		HP_enemy_max  = 100;
+		HP_player_max = 1500;
+		HP_enemy_max  = 1000;
 		HP_player_now = 0;
 		HP_enemy_now  = 0;
 		ATK_player = 100;
-		ATK_enemy  = 350;
+		ATK_enemy  = 140;
 	}
 	
+	public Object Terms;
 	private int lastCount;
+	private float monsterAttackTime;
+	private bool isTermAttack;
 	// Update is called once per frame
 	void Update ()
 	{
+		if(monsterAttackTime > 0.0f) monsterAttackTime -= Time.deltaTime;
 		if(bulletTime > 0.0f) bulletTime -= Time.deltaTime;
 		
 		//HP of enemy
@@ -81,13 +88,13 @@ public class t_BattleSystem : MonoBehaviour {
 		{
 			if(HP_enemy_now > HP_enemy)
 			{
-				HP_enemy_now -= Time.deltaTime*HP_enemy_max/2.0f;
+				HP_enemy_now -= Time.deltaTime*HP_enemy_max/3.0f;
 				GameObject snd = (GameObject)Instantiate(HP_Down);
 				Destroy(snd, 0.3f);
 			}
 			else
 			{
-				HP_enemy_now += Time.deltaTime*HP_enemy_max/2.0f;
+				HP_enemy_now += Time.deltaTime*HP_enemy_max/3.0f;
 				GameObject snd = (GameObject)Instantiate(HP_Up);
 				Destroy(snd, 0.3f);
 			}
@@ -100,11 +107,11 @@ public class t_BattleSystem : MonoBehaviour {
 		{
 			if(HP_player_now > HP_player)
 			{
-				HP_player_now -= Time.deltaTime*HP_player_max/2.0f;
+				HP_player_now -= Time.deltaTime*HP_player_max/3.0f;
 			}
 			else
 			{
-				HP_player_now += Time.deltaTime*HP_player_max/2.0f;
+				HP_player_now += Time.deltaTime*HP_player_max/3.0f;
 			}
 			
 			if(Mathf.Abs(HP_player_now - HP_player) < 5.0f)
@@ -201,6 +208,11 @@ public class t_BattleSystem : MonoBehaviour {
 				
 				if(bulletNum == 0)
 				{
+					if(ui.db.isTerm(firstWord, secondWord))
+					{
+						isTermAttack = true;
+					}
+					monsterAttackTime = 1.2f;
 					ui.isFight = true;
 					ui.ClearCanvas();
 					
@@ -220,33 +232,49 @@ public class t_BattleSystem : MonoBehaviour {
 					
 					if(isRecover)
 					{
-						HP_player += (int)(ui.backWord.ATK * 30.0f);
+						HP_player += (int)(ui.backWord.ATK);
 						if(HP_player > HP_player_max) HP_player = HP_player_max;
 						
 						isRecover = false;
-					}
-					
-					if(HP_enemy > 0)
-					{
-						GameObject bullet = (GameObject)Instantiate(Bullet, monster.transform.position - new Vector3(0, 0, 10), Quaternion.identity);
-						bullet.GetComponent<t_Bullet>().attackObj = GameObject.Find("Canvas");
-						bullet.GetComponent<t_Bullet>().ATK = ATK_enemy;
-						bullet.GetComponent<TrailRenderer>().time = 0.1f;
-						bullet.GetComponent<TrailRenderer>().startWidth = 3.0f;
-						bullet.GetComponent<TrailRenderer>().endWidth   = 3.0f;
 					}
 					
 				}
 			}
 		}
 		
+		if(HP_enemy > 0 && monsterAttackTime < 0.5f && monsterAttackTime != 0.0f)
+		{
+			if(ui.db.isTerm(firstWord, secondWord) && isTermAttack == true)
+			{
+				isTermAttack = false;
+				print("is Term!!");
+				Instantiate(Terms);
+			}
+		}
+		
+		if(HP_enemy > 0 && monsterAttackTime < 0.0f)
+		{
+			monsterAttackTime = 0.0f;
+			
+			GameObject bullet = (GameObject)Instantiate(Bullet, monster.transform.position - new Vector3(0, 0, 10), Quaternion.identity);
+			bullet.GetComponent<t_Bullet>().attackObj = GameObject.Find("Canvas");
+			bullet.GetComponent<t_Bullet>().ATK = ATK_enemy;
+			bullet.GetComponent<TrailRenderer>().time = 0.1f;
+			bullet.GetComponent<TrailRenderer>().startWidth = 3.0f;
+			bullet.GetComponent<TrailRenderer>().endWidth   = 3.0f;
+			//bullet.SetActive(false);
+			bullet.renderer.enabled = false;
+		}
+		
 		// Game over?
 		if(HP_enemy == 0 && bulletNum == 0)
 		{
+			monsterAttackTime = 0.0f;
 			monsterCreateTime = CreateTime;
 			monster.renderer.material = mat_black_monster;
 			HP_enemy = -1;
-			HP_enemy_max += 100;
+			HP_enemy_max += 200;
+			ATK_enemy += 10;
 			ui.levelNow += 1;
 			ui.Initial();
 		}
@@ -276,7 +304,7 @@ public class t_BattleSystem : MonoBehaviour {
 			
 			if(firstWord.property == secondWord.property)
 			{
-				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK * 2.0f;
+				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK * 1.5f;
 				isRecover = false;
 			}
 			else
@@ -286,7 +314,7 @@ public class t_BattleSystem : MonoBehaviour {
 			    (firstWord.property == ui.earth && secondWord.property == ui.metal) ||
 			    (firstWord.property == ui.metal && secondWord.property == ui.water) )
 			{
-				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK * 0.5f;
+				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK * 0.67f;
 				
 				isRecover = true;
 			}
@@ -295,7 +323,9 @@ public class t_BattleSystem : MonoBehaviour {
 				bullet.GetComponent<t_Bullet>().ATK = ui.backWord.ATK;
 				isRecover = false;
 			}
-				
+			
+			//when error raise, ATK down
+			bullet.GetComponent<t_Bullet>().ATK /= ui.error;
 			
 			/*if(HP_enemy <= 0)
 				HP_enemy = 0;
