@@ -211,8 +211,10 @@ public class t_BattleSystem : MonoBehaviour {
 					if(ui.db.isTerm(firstWord, secondWord))
 					{
 						isTermAttack = true;
+						monsterAttackTime = 2.8f;
 					}
-					monsterAttackTime = 1.2f;
+					else
+						monsterAttackTime = 1.6f;
 					ui.isFight = true;
 					ui.ClearCanvas();
 					
@@ -242,9 +244,9 @@ public class t_BattleSystem : MonoBehaviour {
 			}
 		}
 		
-		if(HP_enemy > 0 && monsterAttackTime < 0.5f && monsterAttackTime != 0.0f)
+		if(HP_enemy > 0 && monsterAttackTime < 2.2f && monsterAttackTime != 0.0f)
 		{
-			if(ui.db.isTerm(firstWord, secondWord) && isTermAttack == true)
+			if(ui.db.isTerm(firstWord, secondWord) && isTermAttack == true && Word.Judge(ui.showE) != "Fail")
 			{
 				isTermAttack = false;
 				print("is Term!!");
@@ -283,6 +285,8 @@ public class t_BattleSystem : MonoBehaviour {
 		{
 			// game over
 			ui.isGameOver = true;
+			AudioSource music = GameObject.Find("Global").GetComponent<AudioSource>();
+			music.Stop();
 		}
 	}
 	

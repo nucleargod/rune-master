@@ -25,7 +25,6 @@ public class t_UI : MonoBehaviour
 	private BlurEffect blur;
 	public int isSelectWord;
 	public bool isFight;
-	public string mode;
 	public GameObject mainWord;
 	
 	//public Material []wordMat;
@@ -156,6 +155,8 @@ public class t_UI : MonoBehaviour
 		blur   = GameObject.Find("Camera").GetComponent<BlurEffect>();
 		blur.enabled = false;
 		
+		isDead = false;
+		
 		// initial
 		Initial();
 		
@@ -181,23 +182,6 @@ public class t_UI : MonoBehaviour
 		{
 			isFight = false;
 		}
-		if(mode == "Attack mode")
-		{/*
-			if(GUI.Button(new Rect(tmp.x, tmp.y, W, W), (Texture)img2D[chooseWords[i]]))
-			{
-				backWord = word;
-				//backWordDisplay.SetTarget(backWord);
-				
-				isSelectWord++;
-				
-				isFight = false;
-				selectWordIdx = i;
-			}*/
-		}
-		else
-		{
-			// attack player
-		}
 	}
 	
 	public void ClearCanvas()
@@ -209,6 +193,8 @@ public class t_UI : MonoBehaviour
 	
 	
 	public Texture2D winTexture;
+	public Object showDead;
+	bool isDead;
 	
 	void OnGUI ()
 	{
@@ -217,15 +203,27 @@ public class t_UI : MonoBehaviour
 		
 		if(isGameOver == true)
 		{
-			blur.enabled = true;
+			//blur.enabled = true;
 			
 			if(battle.HP_player > 0)
 			{
+				blur.enabled = true;
+				
 				GUI.DrawTexture(new Rect(0, ScreenH/2.0f-ScreenW/winTexture.width*winTexture.height/2.0f, ScreenW, 
 										 ScreenW/winTexture.width*winTexture.height), winTexture);
 			}
 			else
 			{
+				if(isDead == false)
+				{
+					isDead = true;
+					Instantiate(showDead);
+				}
+			}
+			
+			if(GUI.Button(new Rect(ScreenW/4.0f, ScreenH/10.0f*7.0f, ScreenW/2.0f, ScreenH/10.0f), "Return Menu"))
+			{
+				Application.LoadLevel("menuScene");
 			}
 			
 			return;
@@ -236,33 +234,6 @@ public class t_UI : MonoBehaviour
 		
 		barHP.DrawBarViewer(new Vector3(Screen.width/2.0f, Screen.height/3.0f*1.815f, 0.0f)
 							, battle.HP_player_now, battle.HP_player_max);
-		
-		/*if(isGameOver)
-		{
-			if(battle.HP_player_now == 0 && !Fail)
-			{
-				Fail = Instantiate(snd_Fail);
-			}
-			else
-			{
-				int eHP2 = (int)battle.HP_enemy_now;
-				if(eHP2 < 0) eHP2 = 0;
-				
-				if(eHP2 == 0 && !pass)
-				{
-					pass = Instantiate(snd_Pass);
-				}
-			}
-			
-			if(GUI.Button(new Rect(Screen.width/4.0f, Screen.height/4.0f, Screen.width/2.0f, Screen.height/4.0f), "Munu"))
-				Application.LoadLevel("menuScene");
-			
-			if(GUI.Button(new Rect(Screen.width/4.0f, Screen.height/2.0f, Screen.width/2.0f, Screen.height/4.0f), "Retry"))
-				Application.LoadLevel("battleScene");
-			
-			return;
-		}*/
-		
 		
 		ShowError();
 	}
@@ -303,6 +274,5 @@ public class t_UI : MonoBehaviour
 		battle.sparkle_monster = (GameObject)Instantiate(battle.sparkle);
 		isSelectWord = 0;
 		isFight = true;
-		mode = "Attack mode";
 	}
 }

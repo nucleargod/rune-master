@@ -10,7 +10,7 @@ public class t_Terms : MonoBehaviour {
 	private t_BattleSystem battle;
 	private GameObject monster;
 	private GameObject camera;
-	private float speed;
+	//rivate float speed;
 	
 	// Use this for initialization
 	void Start () 
@@ -22,18 +22,18 @@ public class t_Terms : MonoBehaviour {
 		firstWord.renderer.material  = battle.firstWord.mat_t;
 		secondWord.renderer.material = battle.secondWord.mat_t;
 		
-		gameObject.transform.position = camera.transform.position;
-		speed = 450.0f;
+		//gameObject.transform.position = camera.transform.position;
+		//speed = 450.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		Vector3 direction = monster.transform.position - gameObject.transform.position;
-		direction = Vector3.Normalize(direction);
-		gameObject.transform.position += direction * speed * Time.deltaTime;
+		//Vector3 direction = monster.transform.position - gameObject.transform.position;
+		//direction = Vector3.Normalize(direction);
+		//gameObject.transform.position += direction * speed * Time.deltaTime;
 		
-		if(Vector3.Distance(monster.transform.position, gameObject.transform.position) < 3.0f)
+		if(Vector3.Distance(monster.transform.position, gameObject.transform.position) < 8.0f)
 		{
 			GameObject obj = (GameObject)Instantiate(ATK_Num);
 			int tatk = ((int)battle.firstWord.ATK + (int)battle.secondWord.ATK)*2;
