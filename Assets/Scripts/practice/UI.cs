@@ -7,13 +7,13 @@ public class UI : MonoBehaviour {
 	public Canvas canvas;
 	public Word frontWord;
 	public Word backWord;
+	public Word wordPlayer;
 	public WordDisplay wordDisplay;
 	public WordDisplay backWordDisplay;
 	public Word[] wordList;
 	public float error;
 	public float showE;
 	
-	//private Texture2D []img2D;
 	public int chooseWords;
 	public int length;
 	
@@ -23,7 +23,9 @@ public class UI : MonoBehaviour {
 	private model db;
 	private GlobalRecord rcd;
 	
-	private bool toggleBackDisplay;
+	public GameObject emitter;
+	private int backDisplayPos;	//-1:stop, 0:start, >0:frame
+	private float playedTimer;
 	private bool toggleWaterMark;
 	
 	public Material defaultMat;
@@ -45,11 +47,16 @@ public class UI : MonoBehaviour {
 		frontWord = canvas.word;
 		wordDisplay.SetTarget(frontWord);
 		
+		wordPlayer = new Word();
+		backWordDisplay.SetTarget(wordPlayer);
+		backDisplayPos = -1;
+		
 		//prepare shader
-		blenderMat = new Material(blender);
+		/*blenderMat = new Material(blender);
 		blenderMat.mainTexture = defaultMat.mainTexture;
 		blenderMat.SetTexture("_ColorBuffer", backWord.image_t);
 		blenderMat.SetPass(1);//*/
+		//canvasRenderer.material = blenderMat;
 		//canvasRenderer.materials[1] = backWord.mat_t;
 	}
 	
@@ -61,6 +68,7 @@ public class UI : MonoBehaviour {
 		backWordDisplay = canvas.backDisplay;
 		showE = 0.0f;
 		showError = true;
+		playedTimer = 0.0f;
 		
 		// get global record and database
 		GameObject o = GameObject.Find("GlobalRecord");
@@ -100,6 +108,39 @@ public class UI : MonoBehaviour {
 			
 			ClearCanvas();
 		}
+		
+		if(playedTimer > 0.0f){
+			//print("暫停：" + playedTimer);
+			playedTimer -= Time.deltaTime;
+			if(playedTimer <= 0.0f){
+				playedTimer = 0.0f;
+				wordPlayer = new Word();
+				backWordDisplay.SetTarget(wordPlayer);
+				backDisplayPos = -1;
+			}
+		}
+		else if(backDisplayPos >= 0){
+			int strokId = backDisplayPos / Word.pointPerStroke;
+			int pointId = backDisplayPos % Word.pointPerStroke;
+			//print("示範：" + strokId + "," + pointId);
+			if(strokId != backWord.finishIndex){
+				//示範書寫
+				if(pointId == 0){wordPlayer.BeginWriting();}
+				Vector3 p = (Vector3)((Stroke)backWord.strokeList[strokId]).pointList[pointId];
+				emitter.transform.localPosition = p * canvas.canvasSize;
+				emitter.particleSystem.Emit(1);
+				wordPlayer.Writing( p );
+				backDisplayPos++;
+				if(pointId + 1 == Word.pointPerStroke){
+					wordPlayer.EndWriting();
+					//print("endWriting");
+				}
+			}
+			else{
+				emitter.transform.position = Vector3.zero;
+				playedTimer = 5.0f;
+			}
+		}
 	}
 	
 	void OnGUI()
@@ -122,13 +163,9 @@ public class UI : MonoBehaviour {
 			ClearCanvas();
 			changeWord();
 		}
-		toggleBackDisplay = GUI.Toggle(new Rect(0, Screen.height - W, W, W2), toggleBackDisplay, "開啟提示");
-		if(!toggleBackDisplay && backWordDisplay.hasTarget()){
-			backWordDisplay.SetTarget(null);
-		}
-		else if(toggleBackDisplay && !backWordDisplay.hasTarget()){
-			print("setTarget");
-			backWordDisplay.SetTarget(backWord);
+		
+		if(GUI.Button(new Rect(0, Screen.height - W, W, W2), "提示")){
+			backDisplayPos = 0;
 		}
 	}
 	
@@ -153,10 +190,7 @@ public class UI : MonoBehaviour {
 	private void changeWord(){
 		chooseWords = Random.Range(0, wordList.Length);
 		backWord = wordList[chooseWords];
-		backWordDisplay.SetTarget(null);
-		//canvasRenderer.materials[1] = backWord.mat_t;
-		//canvasRenderer.Render(1);
-		blenderMat.SetTexture("_ColorBuffer", backWord.image_t);
+		//blenderMat.SetTexture("_ColorBuffer", backWord.image_t);
 	}
 	/*
 	public int[] shuffle()
