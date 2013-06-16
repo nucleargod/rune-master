@@ -9,20 +9,28 @@ public class UI : MonoBehaviour {
 	public Word backWord;
 	public WordDisplay wordDisplay;
 	public WordDisplay backWordDisplay;
-	public ArrayList wordList = new ArrayList();
+	public Word[] wordList;
 	public float error;
 	public float showE;
 	private float a;
 	
-	private Texture2D []img2D;
+	//private Texture2D []img2D;
 	public int chooseWords;
 	public int length;
 	
 	public Object sound_O;
 	public Object sound_X;
 	
+	private model db;
+	private GlobalRecord rcd;
+	
 	void LoadWords()
 	{
+		wordList = new Word[rcd.wordList.Count];
+		for(int i=0; i<rcd.wordList.Count; i++){
+			wordList[i] = db.getWord(rcd.wordList[i]);
+		}
+		/*
 		Object []wordsInfo = Resources.LoadAll("WordsInfo");
 		length = wordsInfo.Length;
 		string []filename = new string[length];
@@ -66,13 +74,15 @@ public class UI : MonoBehaviour {
 		
 		for(int i = 0 ; i < textures.Length ; i++)
 			img2D[i] = (Texture2D)textures[i];
+		//*/
 		
+		//int []shuffleNum = new int[length];
+		//shuffleNum = shuffle();
 		
-		int []shuffleNum = new int[length];
-		shuffleNum = shuffle();
-		chooseWords = shuffleNum[0];
-		Word word = (Word)wordList[chooseWords];
-		backWord = word;
+		//Random gen = new Random();
+		chooseWords = Random.Range(0,rcd.wordList.Count);
+		//Word word = wordList[chooseWords];
+		backWord = wordList[chooseWords];
 		
 		canvas.word = new Word();
 		frontWord = canvas.word;
@@ -83,10 +93,16 @@ public class UI : MonoBehaviour {
 	void Start () 
 	{
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-		wordDisplay = GameObject.Find("Displayer").GetComponent<WordDisplay>();
-		backWordDisplay = GameObject.Find("BackDisplayer").GetComponent<WordDisplay>();
+		wordDisplay = canvas.frontDisplay;
+		backWordDisplay = canvas.backDisplay;
 		showE = 0.0f;
 		showError = true;
+		
+		// get global record and database
+		GameObject o = GameObject.Find("GlobalRecord");
+		rcd = o.GetComponent<GlobalRecord>();
+		o = GameObject.Find("database");
+		db = o.GetComponent<model>();
 			
 		// load words
 		LoadWords();
@@ -107,11 +123,11 @@ public class UI : MonoBehaviour {
 		
 		if(frontWord.finishIndex >= backWord.finishIndex)
 		{
-			int []shuffleNum = new int[length];
-			shuffleNum = shuffle();
-			chooseWords = shuffleNum[0];
-			Word word = (Word)wordList[chooseWords];
-			backWord = word;
+			//int []shuffleNum = new int[length];
+			//shuffleNum = shuffle();
+			chooseWords = Random.Range(0, wordList.Length);
+			//Word word = wordList[chooseWords];
+			backWord = wordList[chooseWords];
 			showE = error;
 			if(Word.Judge(showE) != "Fail")
 			{
@@ -144,7 +160,7 @@ public class UI : MonoBehaviour {
 		
 		ShowError();
 		
-		GUI.Button(new Rect(0, 0, W, W), (Texture)img2D[chooseWords]);
+		GUI.Button(new Rect(0, 0, W, W), wordList[chooseWords].image);
 	}
 	
 	private bool showError;
@@ -164,7 +180,7 @@ public class UI : MonoBehaviour {
 		frontWord = canvas.word;
 		wordDisplay.SetTarget(frontWord);
 	}
-	
+	/*
 	public int[] shuffle()
 	{
 		int []nums = new int[length];
@@ -181,5 +197,5 @@ public class UI : MonoBehaviour {
 		}
 		
 		return nums;
-	}
+	}//*/
 }
