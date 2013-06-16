@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.IO;
 
@@ -12,7 +12,6 @@ public class UI : MonoBehaviour {
 	public Word[] wordList;
 	public float error;
 	public float showE;
-	private float a;
 	
 	//private Texture2D []img2D;
 	public int chooseWords;
@@ -24,69 +23,34 @@ public class UI : MonoBehaviour {
 	private model db;
 	private GlobalRecord rcd;
 	
+	private bool toggleBackDisplay;
+	private bool toggleWaterMark;
+	
+	public Material defaultMat;
+	public Shader blender;
+	public MeshRenderer canvasRenderer;
+	private Material blenderMat;
+	
 	void LoadWords()
 	{
 		wordList = new Word[rcd.wordList.Count];
 		for(int i=0; i<rcd.wordList.Count; i++){
 			wordList[i] = db.getWord(rcd.wordList[i]);
 		}
-		/*
-		Object []wordsInfo = Resources.LoadAll("WordsInfo");
-		length = wordsInfo.Length;
-		string []filename = new string[length];
-		for(int i = 0 ; i < length ; i++)
-			filename[i] = wordsInfo[i].name;
 		
-		for(int n = 0 ; n < filename.Length ; n++)
-		{
-			StringReader sr = new StringReader(((TextAsset)wordsInfo[n]).text);
-			
-			Word rWord = new Word();
-			rWord.wordName = filename[n];
-			
-			int strokeNum = int.Parse(sr.ReadLine());
-			rWord.finishIndex = strokeNum;
-			
-			int count = 0;
-			Stroke s = new Stroke();
-			while(count < strokeNum)
-			{
-				string line = sr.ReadLine();
-				if(line == "Stroke End")
-				{
-					count++;
-					rWord.strokeList.Add(s);
-					s = new Stroke();
-					continue;
-				}
-				
-				string []split = line.Split(new char[]{' '});
-				Vector3 p = new Vector3(float.Parse(split[0]), float.Parse(split[1]), float.Parse(split[2]));
-				s.pointList.Add(p);
-			}
-			
-			wordList.Add(rWord);
-			sr.Close();
-		}
-		
-		Object[]textures = Resources.LoadAll("Words");
-		img2D = new Texture2D[textures.Length];
-		
-		for(int i = 0 ; i < textures.Length ; i++)
-			img2D[i] = (Texture2D)textures[i];
-		//*/
-		
-		//int []shuffleNum = new int[length];
-		//shuffleNum = shuffle();
-		
-		//Random gen = new Random();
 		chooseWords = Random.Range(0,rcd.wordList.Count);
-		//Word word = wordList[chooseWords];
 		backWord = wordList[chooseWords];
 		
 		canvas.word = new Word();
 		frontWord = canvas.word;
 		wordDisplay.SetTarget(frontWord);
+		
+		//prepare shader
+		blenderMat = new Material(blender);
+		blenderMat.mainTexture = defaultMat.mainTexture;
+		blenderMat.SetTexture("_ColorBuffer", backWord.image_t);
+		blenderMat.SetPass(1);//*/
+		//canvasRenderer.materials[1] = backWord.mat_t;
 	}
 	
 	// Use this for initialization
@@ -113,21 +77,15 @@ public class UI : MonoBehaviour {
 	{
 		if(frontWord != null && backWord != null)
 		{
-			error = frontWord.GetError(backWord);
-		}
-		else
-		{
-			//showError = false;
-			error = a;
+			if((Input.multiTouchEnabled && Input.touchCount == 0) || 
+				Input.GetMouseButtonUp(0)) {
+				error = frontWord.GetError(backWord);
+			}
 		}
 		
 		if(frontWord.finishIndex >= backWord.finishIndex)
 		{
-			//int []shuffleNum = new int[length];
-			//shuffleNum = shuffle();
-			chooseWords = Random.Range(0, wordList.Length);
-			//Word word = wordList[chooseWords];
-			backWord = wordList[chooseWords];
+			changeWord();
 			showE = error;
 			if(Word.Judge(showE) != "Fail")
 			{
@@ -160,7 +118,18 @@ public class UI : MonoBehaviour {
 		
 		ShowError();
 		
-		GUI.Button(new Rect(0, 0, W, W), wordList[chooseWords].image);
+		if(GUI.Button(new Rect(0, 0, W, W), wordList[chooseWords].image, new GUIStyle())){
+			ClearCanvas();
+			changeWord();
+		}
+		toggleBackDisplay = GUI.Toggle(new Rect(0, Screen.height - W, W, W2), toggleBackDisplay, "開啟提示");
+		if(!toggleBackDisplay && backWordDisplay.hasTarget()){
+			backWordDisplay.SetTarget(null);
+		}
+		else if(toggleBackDisplay && !backWordDisplay.hasTarget()){
+			print("setTarget");
+			backWordDisplay.SetTarget(backWord);
+		}
 	}
 	
 	private bool showError;
@@ -179,6 +148,15 @@ public class UI : MonoBehaviour {
 		canvas.word = new Word();
 		frontWord = canvas.word;
 		wordDisplay.SetTarget(frontWord);
+	}
+	
+	private void changeWord(){
+		chooseWords = Random.Range(0, wordList.Length);
+		backWord = wordList[chooseWords];
+		backWordDisplay.SetTarget(null);
+		//canvasRenderer.materials[1] = backWord.mat_t;
+		//canvasRenderer.Render(1);
+		blenderMat.SetTexture("_ColorBuffer", backWord.image_t);
 	}
 	/*
 	public int[] shuffle()

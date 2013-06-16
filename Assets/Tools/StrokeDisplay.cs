@@ -19,7 +19,7 @@ public class StrokeDisplay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(targetStroke == null) return;
+		if(targetStroke == null || DPLSize == 0) return;
 		
 		
 		if(animation != DisplayAnimation.Default)
@@ -124,11 +124,13 @@ public class StrokeDisplay : MonoBehaviour {
 	{
 		if(pointList.Count == 0)
 		{
+			DPLSize = 0;
 			DrawPointList = null;
 			return;
 		}
 		if(pointList.Count == 1)
 		{
+			DPLSize = 1;
 			DrawPointList = new Vector3[1];
 			DrawPointList[0] = (Vector3)pointList[0];
 			return;
@@ -162,6 +164,7 @@ public class StrokeDisplay : MonoBehaviour {
 			}
 			
 			DrawPointList[i] = Vector3.Lerp(prePos, curPos, (curLength-tmpLength)/(curLength-preLength));
+			//DrawPointList[i].y += 0.01f;
 			DrawPointList[i] = transform.localToWorldMatrix.MultiplyPoint(DrawPointList[i]*canvasSize);
 		}
 	}

@@ -28,7 +28,7 @@ public class WordDisplay : MonoBehaviour {
 	public StrokeDisplay[] strokeDisplayList;
 	public GameObject effect;
 
-	private Word targetWord;
+	private Word targetWord = null;
 	
 	private int curSize = 0;
 	private int maxSize = 100;
@@ -86,4 +86,6 @@ public class WordDisplay : MonoBehaviour {
 			}
 		}
 	}
+	
+	public bool hasTarget(){ return targetWord != null;}
 }

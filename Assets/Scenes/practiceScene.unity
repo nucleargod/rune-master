@@ -199,7 +199,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 663613128}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -50}
+  m_LocalPosition: {x: 0, y: 100, z: -50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -375,7 +375,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1094098964}
   m_LocalRotation: {x: -3.09086232e-08, y: .707106829, z: -.707106829, w: -3.09086232e-08}
-  m_LocalPosition: {x: 7.14419502e-06, y: 1.041019e-05, z: 90.0821228}
+  m_LocalPosition: {x: 0, y: 100, z: 90}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -417,7 +417,7 @@ MonoBehaviour:
   m_Name: 
   color: {r: 0, g: 0, b: 0, a: 0}
   strokeDisplayList: []
-  effect: {fileID: 100000, guid: 21ef917bd76179949b105ccf6724d435, type: 2}
+  effect: {fileID: 100000, guid: 90602e567d17b9a4ca389d9f6b16c1ca, type: 2}
 --- !u!1 &2135365202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1588,3 +1588,6 @@ MonoBehaviour:
   length: 0
   sound_O: {fileID: 100000, guid: af0ef5951a1754242922c7811704916a, type: 2}
   sound_X: {fileID: 100000, guid: 15f967046ac71c146be47a345740c6c4, type: 2}
+  defaultMat: {fileID: 2100000, guid: 81aa7d0c07b1f2d46a0549e192f289ba, type: 2}
+  blender: {fileID: 4800000, guid: 53b3960ee3d3d4a5caa8d5473d120187, type: 3}
+  canvasRenderer: {fileID: 1094098965}
