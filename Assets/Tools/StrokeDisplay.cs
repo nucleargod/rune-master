@@ -142,6 +142,13 @@ public class StrokeDisplay : MonoBehaviour {
 			totalLength += Vector3.Distance((Vector3)pointList[i], (Vector3)pointList[i+1]);
 		}
 		DPLSize = (int)(totalLength/stepLength);
+		if(DPLSize <= 1){
+			DPLSize = 2;
+			DrawPointList = new Vector3[2];
+			DrawPointList[0] = (Vector3)pointList[0];
+			DrawPointList[1] = (Vector3)pointList[pointList.Count-1];
+			return;
+		}
 		DrawPointList = new Vector3[DPLSize];
 		Vector3 curPos = (Vector3)pointList[0];
 		Vector3 prePos = (Vector3)pointList[0];
