@@ -37,6 +37,8 @@ public class UI : MonoBehaviour {
 	public GUIStyle sbreturn;
 	public GUIStyle sbteach;
 	public GUIStyle sbscore;
+	public Texture2D promptT;
+	public Texture2D unpromptT;
 	
 	void LoadWords()
 	{
@@ -57,12 +59,12 @@ public class UI : MonoBehaviour {
 		backDisplayPos = -1;
 		
 		//prepare shader
-		/*blenderMat = new Material(blender);
-		blenderMat.mainTexture = defaultMat.mainTexture;
-		blenderMat.SetTexture("_ColorBuffer", backWord.image_t);
-		blenderMat.SetPass(1);//*/
-		//canvasRenderer.material = blenderMat;
-		//canvasRenderer.materials[1] = backWord.mat_t;
+		/*Material[] tmp = canvasRenderer.materials;
+		//Material tmpM = new Material(Shader.Find("Tranparent/Diffuse"));
+		//tmpM.color = new Color(0,0,0,
+		tmp.SetValue(backWord.mat_t,1);
+		tmp[1].SetColor("_Color", new Color(0,0,0,0.5f));
+		canvasRenderer.materials = tmp;//*/
 	}
 	
 	// Use this for initialization
@@ -74,6 +76,7 @@ public class UI : MonoBehaviour {
 		showE = 0.0f;
 		showError = true;
 		playedTimer = 0.0f;
+		toggleWaterMark = false;
 		
 		// get global record and database
 		GameObject o = GameObject.Find("GlobalRecord");
@@ -164,13 +167,28 @@ public class UI : MonoBehaviour {
 		
 		ShowError();
 		
-		if(GUI.Button(new Rect(0, 0, W, W), wordList[chooseWords].image, new GUIStyle())){
+		if(GUI.Button(new Rect(0, 0, W, W), wordList[chooseWords].image, GUIStyle.none)){
 			ClearCanvas();
 			changeWord();
 		}
 		
 		if(GUI.Button(new Rect(0, Screen.height - W, W, W2), "", sbteach)){
 			backDisplayPos = 0;
+		}
+		
+		Texture2D pt = promptT;
+		if(toggleWaterMark) pt = unpromptT;
+		if(GUI.Button(new Rect(0, Screen.height - W2, W, W2), pt, GUIStyle.none)){
+			if(toggleWaterMark){
+				toggleWaterMark = false;
+				Material[] tmp = canvasRenderer.materials;
+				tmp.SetValue(defaultMat, 1);
+				canvasRenderer.materials = tmp;
+			}
+			else{
+				toggleWaterMark = true;
+				changeWaterMark(backWord.image_t);
+			}
 		}
 	}
 	
@@ -194,7 +212,19 @@ public class UI : MonoBehaviour {
 	private void changeWord(){
 		chooseWords = Random.Range(0, wordList.Length);
 		backWord = wordList[chooseWords];
+		if(toggleWaterMark){
+			changeWaterMark(backWord.image_t);
+		}
 		//blenderMat.SetTexture("_ColorBuffer", backWord.image_t);
+	}
+	
+	private void changeWaterMark(Texture2D tex){
+		Material[] tmp = canvasRenderer.materials;
+		Material t = new Material(Shader.Find("Transparent/Diffuse"));
+		t.mainTexture = tex;
+		t.color = new Color(0,0,0,0.2f);
+		tmp.SetValue(t,1);
+		canvasRenderer.materials = tmp;
 	}
 	/*
 	public int[] shuffle()
