@@ -28,7 +28,7 @@ public class GlobalRecord : MonoBehaviour {
 		//database.addRecord(r);
 		
 		if(_wordRecord == null){
-			database.addRecord(new writeRecord(w,500 / (error+1.0f),database.getTime()));
+			database.addRecord(new writeRecord(w, Word.getScore(error), database.getTime()));
 		}
 		else{
 			foreach(wordRecord word in _wordRecord)

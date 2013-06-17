@@ -207,10 +207,14 @@ public class t_UI : MonoBehaviour
 			
 			if(battle.HP_player > 0)
 			{
-				blur.enabled = true;
-				
-				GUI.DrawTexture(new Rect(0, ScreenH/2.0f-ScreenW/winTexture.width*winTexture.height/2.0f, ScreenW, 
-										 ScreenW/winTexture.width*winTexture.height), winTexture);
+				if(!isDead){
+					isDead = true;
+					GameObject o = Instantiate(showDead) as GameObject;
+					t_showDead sd = o.GetComponent<t_showDead>();
+					sd.setTexture(winTexture);
+				}
+				//GUI.DrawTexture(new Rect(0, ScreenH/2.0f-ScreenW/winTexture.width*winTexture.height/2.0f, ScreenW, 
+				//						 ScreenW/winTexture.width*winTexture.height), winTexture);
 			}
 			else
 			{

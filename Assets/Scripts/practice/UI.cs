@@ -33,6 +33,11 @@ public class UI : MonoBehaviour {
 	public MeshRenderer canvasRenderer;
 	private Material blenderMat;
 	
+	public GUIStyle sbclear;
+	public GUIStyle sbreturn;
+	public GUIStyle sbteach;
+	public GUIStyle sbscore;
+	
 	void LoadWords()
 	{
 		wordList = new Word[rcd.wordList.Count];
@@ -148,11 +153,11 @@ public class UI : MonoBehaviour {
 		float W  = Screen.width/720.0f*200.0f;
 		float W2 = Screen.width/720.0f*100.0f;
 		
-		if(GUI.Button( new Rect(Screen.width-W, 0, W, W2), "Clear Canvas"))
+		if(GUI.Button( new Rect(Screen.width-W, 0, W, W2), "", sbclear))
 		{
 			ClearCanvas();
 		}		
-		if(GUI.Button( new Rect(Screen.width-W, W2, W, W2), "Menu"))
+		if(GUI.Button( new Rect(Screen.width-W, W2, W, W2), "", sbreturn))
 		{
 			Application.LoadLevel("menuScene");
 		}
@@ -164,7 +169,7 @@ public class UI : MonoBehaviour {
 			changeWord();
 		}
 		
-		if(GUI.Button(new Rect(0, Screen.height - W, W, W2), "提示")){
+		if(GUI.Button(new Rect(0, Screen.height - W, W, W2), "", sbteach)){
 			backDisplayPos = 0;
 		}
 	}
@@ -174,10 +179,9 @@ public class UI : MonoBehaviour {
 	{
 		if(!showError) return;
 		
-		GUI.Box(new Rect(Screen.width * 0.8f , 
-						 Screen.height* 0.9f , 
-						 Screen.width / 5.0f , 
-						 Screen.height/10.0f), "Error " + showE.ToString("0.000") + "\nRank: " + Word.Judge(showE));
+		GUI.Box(new Rect(Screen.width*0.7f, Screen.height*0.9f, Screen.width*0.3f, Screen.height*0.1f), 
+						"score " + Word.getScore(showE).ToString("0.000") + "\nRank: " + Word.Judge(showE), 
+						sbscore);
 	}
 	
 	public void ClearCanvas()

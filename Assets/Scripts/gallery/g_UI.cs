@@ -33,6 +33,8 @@ public class g_UI : MonoBehaviour {
 	private bool istouch;
 	private Vector3 frontPos;
 	
+	public GUITexture LRarrowT;
+	
 	// Use this for initialization
 	void Start () 
 	{
@@ -60,6 +62,9 @@ public class g_UI : MonoBehaviour {
 		wordView.pixelInset = new Rect(-w*0.5f, -w*0.5f, w, w);
 		//print("w=" + Screen.width);
 		wordViewNW = new Vector2(w/Screen.width, w/Screen.height);
+		
+		w = Screen.width/3f;
+		LRarrowT.pixelInset = new Rect(-w*0.5f, -w*0.25f, w, w*0.5f);
 	}
 	
 	// Update is called once per frame
@@ -230,10 +235,11 @@ public class g_UI : MonoBehaviour {
 	
 	private void shiftUp(){
 		isdown = false;
-		Application.LoadLevel("menuScene");
+		
 	}
 	
 	private void shiftDown(){
 		isdown = false;
+		Application.LoadLevel("menuScene");
 	}
 }
