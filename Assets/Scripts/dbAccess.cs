@@ -13,6 +13,8 @@ public class dbAccess : MonoBehaviour {
 	private IDataReader reader;
 	private StringBuilder builder;
 	
+	public const int dbVersion = 1;
+	
 	public string errMsg;
 
 	// Use this for initialization
@@ -25,6 +27,7 @@ public class dbAccess : MonoBehaviour {
 		Debug.Log("Call to OpenDB:" + p);
 		// check if file exists in Application.persistentDataPath
 		string filepath = Application.persistentDataPath + "/" + p;
+		
 		if(!File.Exists(filepath))
 		{
 			Debug.LogWarning("File \"" + filepath + "\" does not exist. Attempting to create from \"" +
@@ -42,13 +45,54 @@ public class dbAccess : MonoBehaviour {
 		Debug.Log("Stablishing connection to: " + connection);
 		dbcon = new SqliteConnection(connection);
 		dbcon.Open();
+		
+		bool dbavalible = true;
+		
+		try{
+			BasicQuery("SELECT ver FROM version");
+			if(reader.Read()){
+				print("read");
+				if(reader.GetInt32(0) != dbVersion){
+					dbavalible = false;
+				}
+			}
+			else dbavalible = false;
+		}
+		catch(Exception e){
+			print(e);
+			dbavalible = false;
+		}
+		
+		if(!dbavalible){
+			Debug.LogWarning("File \"" + filepath + "\" does not avaliable. Attempting to recreate from \"" +
+			                 Application.dataPath + "!/assets/" + p);
+			CloseDB();
+			// if it doesn't ->
+			// open StreamingAssets directory and load the db -> 
+			WWW loadDB = new WWW("jar:file://" + Application.dataPath + "!/assets/" + p);
+			while(!loadDB.isDone) {}
+			// then save to Application.persistentDataPath
+			File.Delete(filepath);
+			File.WriteAllBytes(filepath, loadDB.bytes);
+			
+			//open db connection
+			connection = "URI=file:" + filepath;
+			Debug.Log("Stablishing connection to: " + connection);
+			dbcon = new SqliteConnection(connection);
+			dbcon.Open();
+		}
 	}
 	
 	public void CloseDB(){
-		reader.Close(); // clean everything up
-  	 	reader = null;
-   		dbcmd.Dispose();
-   		dbcmd = null;
+		// clean everything up
+		if(reader != null){
+			reader.Close(); 
+  	 		reader = null;
+		}
+		if(dbcmd != null){
+   			dbcmd.Dispose();
+   			dbcmd = null;
+		}
    		dbcon.Close();
    		dbcon = null;
 	}
