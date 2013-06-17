@@ -45,6 +45,8 @@ public class t_UI : MonoBehaviour
 	public string earth = "\u571F";
 	public string wood = "\u6728";
 	
+	public GUIStyle sbreturn;
+	
 	void LoadWords(model db)
 	{
 		// Words txt
@@ -225,7 +227,9 @@ public class t_UI : MonoBehaviour
 				}
 			}
 			
-			if(GUI.Button(new Rect(ScreenW/4.0f, ScreenH/10.0f*7.0f, ScreenW/2.0f, ScreenH/10.0f), "Return Menu"))
+			float w = 0.4f;
+			if(GUI.Button(new Rect(ScreenW*(1.0f-w)*0.5f, ScreenH*0.7f, ScreenW*w, ScreenW*w*0.5f), 
+							"", sbreturn))
 			{
 				Application.LoadLevel("menuScene");
 			}
