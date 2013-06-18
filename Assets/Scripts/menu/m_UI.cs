@@ -21,7 +21,6 @@ public class m_UI : MonoBehaviour {
 		// GlowDown
 		// GlowBlance
 		
-		
 		button1 = GameObject.Find("BUTTON_practice"); button1.SetActive(false);
 		button2 = GameObject.Find("BUTTON_battle");   button2.SetActive(false);
 		button3 = GameObject.Find("BUTTON_special");  button3.SetActive(false);
@@ -33,7 +32,7 @@ public class m_UI : MonoBehaviour {
 	{
 		if(glstate == "GlowDown")
 		{
-			gleffect.glowIntensity -= Time.deltaTime*1.2f;
+			gleffect.glowIntensity -= Time.deltaTime*0.6f;
 			if(gleffect.glowIntensity < 3.0f)
 			{
 				glstate = "GLowBlance";
@@ -42,7 +41,7 @@ public class m_UI : MonoBehaviour {
 		
 		if(glstate == "GlowUp")
 		{
-			gleffect.glowIntensity += Time.deltaTime*1.2f;
+			gleffect.glowIntensity += Time.deltaTime*0.6f;
 			if(gleffect.glowIntensity > 5.0f)
 			{
 				glstate = "GlowDown";

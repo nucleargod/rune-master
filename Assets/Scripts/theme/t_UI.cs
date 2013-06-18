@@ -162,7 +162,7 @@ public class t_UI : MonoBehaviour
 		// initial
 		Initial();
 		
-		levelNum = 5;
+		levelNum = 3;
 		levelNow = 1;
 	}
 	
@@ -243,7 +243,7 @@ public class t_UI : MonoBehaviour
 		barHP.DrawBarViewer(new Vector3(Screen.width/2.0f, Screen.height/3.0f*1.815f, 0.0f)
 							, battle.HP_player_now, battle.HP_player_max);
 		
-		ShowError();
+		//ShowError();
 	}
 	
 	private bool showError;

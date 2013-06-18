@@ -779,7 +779,7 @@ MonoBehaviour:
   m_Name: 
   glowIntensity: 3
   blurIterations: 3
-  blurSpread: .699999988
+  blurSpread: 1
   glowTint: {r: 1, g: 1, b: 1, a: 0}
   compositeShader: {fileID: 4800000, guid: 96ca71e39c7b6fb4f9bec2c5bf331349, type: 3}
   blurShader: {fileID: 4800000, guid: fb52973118cf00648825ced2fcca240c, type: 3}
