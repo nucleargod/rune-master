@@ -46,6 +46,9 @@ public class t_BattleSystem : MonoBehaviour {
 	public Material mat_wood_monster;
 	public Material mat_black_monster;
 	
+	public GUITexture circle;
+	//public Texture2D circleT;
+	private float cTimer;
 	
 	// Use this for initialization
 	void Start ()
@@ -71,6 +74,9 @@ public class t_BattleSystem : MonoBehaviour {
 		HP_enemy_now  = 0;
 		ATK_player = 100;
 		ATK_enemy  = 140;
+		
+		circle.pixelInset = new Rect(0,0,Screen.width, Screen.width);
+		cTimer = 0.0f;
 	}
 	
 	public Object Terms;
@@ -82,6 +88,13 @@ public class t_BattleSystem : MonoBehaviour {
 	{
 		if(monsterAttackTime > 0.0f) monsterAttackTime -= Time.deltaTime;
 		if(bulletTime > 0.0f) bulletTime -= Time.deltaTime;
+		if(cTimer > 0.0f){
+			cTimer -= Time.deltaTime;
+			if(cTimer <= 0.0f){
+				circle.gameObject.SetActive(false);
+				cTimer = 0.0f;
+			}
+		}
 		
 		//HP of enemy
 		if(Mathf.Abs(HP_enemy_now - HP_enemy) >= 5.0f)
@@ -330,6 +343,13 @@ public class t_BattleSystem : MonoBehaviour {
 			
 			//when error raise, ATK down
 			bullet.GetComponent<t_Bullet>().ATK /= ui.error;
+			
+			//if get s
+			print("error:" + ui.showE);
+			if(Word.Judge(ui.showE) == "S"){
+				circle.gameObject.SetActive(true);
+				cTimer = 1.5f;
+			}
 			
 			/*if(HP_enemy <= 0)
 				HP_enemy = 0;
