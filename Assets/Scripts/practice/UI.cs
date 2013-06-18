@@ -171,7 +171,7 @@ public class UI : MonoBehaviour {
 			Application.LoadLevel("menuScene");
 		}
 		
-		ShowError();
+		ShowError(W);
 		
 		if(GUI.Button(new Rect(0, 0, W, W), wordList[chooseWords].image, GUIStyle.none)){
 			ClearCanvas();
@@ -200,11 +200,11 @@ public class UI : MonoBehaviour {
 	}
 	
 	private bool showError;
-	void ShowError() 
+	void ShowError(float W) 
 	{
 		if(!showError) return;
 		
-		GUI.Box(new Rect(Screen.width*0.7f, Screen.height*0.9f, Screen.width*0.3f, Screen.height*0.1f), 
+		GUI.Box(new Rect(Screen.width-W, Screen.height-W, W, W), 
 						"score " + Word.getScore(showE).ToString("0.000") + "\nRank: " + Word.Judge(showE), 
 						sbscore);
 	}

@@ -33,7 +33,9 @@ public class g_UI : MonoBehaviour {
 	private bool istouch;
 	private Vector3 frontPos;
 	
-	public GUITexture LRarrowT;
+	public GUITexture LarrowT;
+	public GUITexture RarrowT;
+	public GUITexture DarrowT;
 	
 	// Use this for initialization
 	void Start () 
@@ -63,8 +65,11 @@ public class g_UI : MonoBehaviour {
 		//print("w=" + Screen.width);
 		wordViewNW = new Vector2(w/Screen.width, w/Screen.height);
 		
-		w = Screen.width/3f;
-		LRarrowT.pixelInset = new Rect(-w*0.5f, -w*0.25f, w, w*0.5f);
+		w = Screen.width/5f;
+		
+		LarrowT.pixelInset = new Rect(-w*0.5f, -w*0.5f, w, w);
+		RarrowT.pixelInset = new Rect(-w*0.5f, -w*0.5f, w, w);
+		DarrowT.pixelInset = new Rect(-w*0.5f, -w*0.5f, w, w);
 	}
 	
 	// Update is called once per frame
