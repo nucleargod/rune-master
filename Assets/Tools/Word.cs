@@ -90,10 +90,6 @@ public class Word {
 		return "Fail";
 	}
 	
-	public static float getScore(Word w){
-		return 500 / (w.GetError(w)+1.0f);
-	}
-	
 	public static float getScore(float error){
 		return 500 / (error+1.0f);
 	}

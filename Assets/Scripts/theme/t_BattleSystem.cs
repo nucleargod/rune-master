@@ -176,7 +176,7 @@ public class t_BattleSystem : MonoBehaviour {
 				bulletTime = 0.15f;
 				
 				// store record to database
-				ui.rcd.addRecord(firstWord.wordName, ui.error);
+				ui.saveScore();
 				/*
 				bool isFind = false;
 				foreach(wordRecord word in ui.rcd.records)

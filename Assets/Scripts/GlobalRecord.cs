@@ -25,24 +25,21 @@ public class GlobalRecord : MonoBehaviour {
 	}
 	
 	public void addRecord(string w, float error){
-		//database.addRecord(r);
+		print("save score:" + Word.getScore(error));
+		database.addRecord(new writeRecord(w, Word.getScore(error), database.getTime()));
 		
-		if(_wordRecord == null){
-			database.addRecord(new writeRecord(w, Word.getScore(error), database.getTime()));
-		}
-		else{
+		if(_wordRecord != null){
 			foreach(wordRecord word in _wordRecord)
 			{
 				if(word.word == w)
 				{
-					word.addRecord(500 / (error+1.0f), database.getTime());
+					word.addRecord(Word.getScore(error), database.getTime());
 					print(word.records.Count);
 					return;
 				}
 			}
 			wordRecord wr = new wordRecord(w);
-			wr.addRecord(500 / (error+1.0f), database.getTime());
-			database.addRecord(wr.records[0]);
+			wr.addRecord(Word.getScore(error), database.getTime());
 			
 			wordRecord[] nRecords = new wordRecord[_wordRecord.Length+1];
 			_wordRecord.CopyTo(nRecords, 0);

@@ -283,4 +283,8 @@ public class t_UI : MonoBehaviour
 		isSelectWord = 0;
 		isFight = true;
 	}
+	
+	public void saveScore(){
+		rcd.addRecord(backWord.wordName, frontWord.GetError(backWord));
+	}
 }
