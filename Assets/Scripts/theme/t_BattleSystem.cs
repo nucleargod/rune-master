@@ -66,7 +66,7 @@ public class t_BattleSystem : MonoBehaviour {
 		isRecover = false;
 		
 		HP_player_max = 1500;
-		HP_enemy_max  = 1000;
+		HP_enemy_max  = 500;
 		HP_player_now = 0;
 		HP_enemy_now  = 0;
 		ATK_player = 100;

@@ -47,7 +47,8 @@ public class UI : MonoBehaviour {
 			wordList[i] = db.getWord(rcd.wordList[i]);
 		}
 		
-		chooseWords = Random.Range(0,rcd.wordList.Count);
+		//chooseWords = Random.Range(0,rcd.wordList.Count);
+		chooseWords = 0;
 		backWord = wordList[chooseWords];
 		
 		canvas.word = new Word();
@@ -86,8 +87,11 @@ public class UI : MonoBehaviour {
 			
 		// load words
 		LoadWords();
+		
+		check = false;
 	}
 	
+	bool check;
 	// Update is called once per frame
 	void Update () 
 	{
@@ -99,11 +103,11 @@ public class UI : MonoBehaviour {
 			}
 		}
 		
-		if(frontWord.finishIndex >= backWord.finishIndex)
+		if(check == false && frontWord.finishIndex >= backWord.finishIndex)
 		{
-			changeWord();
+			//changeWord();
 			showE = error;
-			if(Word.Judge(showE) != "Fail")
+			/*if(Word.Judge(showE) != "Fail")
 			{
 				Object snd = Instantiate(sound_O);
 				Destroy(snd, 1);
@@ -112,9 +116,10 @@ public class UI : MonoBehaviour {
 			{
 				Object snd = Instantiate(sound_X);
 				Destroy(snd, 1);
-			}
+			}*/
 			
-			ClearCanvas();
+			check = true;
+			//ClearCanvas();
 		}
 		
 		if(playedTimer > 0.0f){
@@ -158,6 +163,7 @@ public class UI : MonoBehaviour {
 		
 		if(GUI.Button( new Rect(Screen.width-W, 0, W, W2), "", sbclear))
 		{
+			check = false;
 			ClearCanvas();
 		}		
 		if(GUI.Button( new Rect(Screen.width-W, W2, W, W2), "", sbreturn))
@@ -210,7 +216,8 @@ public class UI : MonoBehaviour {
 	}
 	
 	private void changeWord(){
-		chooseWords = Random.Range(0, wordList.Length);
+		chooseWords++;
+		if(chooseWords >= wordList.Length) chooseWords = 0;
 		backWord = wordList[chooseWords];
 		if(toggleWaterMark){
 			changeWaterMark(backWord.image_t);
