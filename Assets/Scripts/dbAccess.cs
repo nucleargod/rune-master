@@ -72,7 +72,6 @@ public class dbAccess : MonoBehaviour {
 			WWW loadDB = new WWW("jar:file://" + Application.dataPath + "!/assets/" + p);
 			while(!loadDB.isDone) {}
 			// then save to Application.persistentDataPath
-			File.Delete(filepath);
 			File.WriteAllBytes(filepath, loadDB.bytes);
 			
 			//open db connection

@@ -176,6 +176,7 @@ public class UI : MonoBehaviour {
 			backDisplayPos = 0;
 		}
 		
+		//浮水印
 		Texture2D pt = promptT;
 		if(toggleWaterMark) pt = unpromptT;
 		if(GUI.Button(new Rect(0, Screen.height - W2, W, W2), pt, GUIStyle.none)){
