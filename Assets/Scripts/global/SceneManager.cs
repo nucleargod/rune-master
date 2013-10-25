@@ -16,6 +16,13 @@ public class SceneManager : MonoBehaviour {
 	public int seletedChapter;
 	public SceneList currentScene;
 	
+	// change this for your scenes
+	public string titleSceneName = "title";
+	public string themeMenuSceneName = "themeMenu";
+	public string chapterMenuSceneName = "chapterMenu";
+	public string gameSceneName = "game";
+	
+	
 	// Use this for initialization
 	void Start () {
 		if (Instants == null)
@@ -40,22 +47,27 @@ public class SceneManager : MonoBehaviour {
 	}
 	
 	// call this function for switch scenes
-	public static void GoTo(SceneList sl) {
+	// if no select, used last one
+	public static void GoTo(SceneList sl, int selected = -1) {
 		switch(sl) {
 		case SceneList.title:
-			Application.LoadLevel("title");
+			Application.LoadLevel(Instants.titleSceneName);
 			break;
 			
 		case SceneList.themeMenu:
-			Application.LoadLevel("themeMenu");
+			Application.LoadLevel(Instants.themeMenuSceneName);
 			break;
 			
 		case SceneList.chapterMenu:
-			Application.LoadLevel("chapterMenu");
+			if (selected!=-1)
+				Instants.seletedTheme = selected;
+			Application.LoadLevel(Instants.chapterMenuSceneName);
 			break;
 			
 		case SceneList.game:
-			Application.LoadLevel("game");
+			if (selected!=-1)
+				Instants.seletedChapter = selected;
+			Application.LoadLevel(Instants.gameSceneName);
 			break;
 			
 		case SceneList.exit:

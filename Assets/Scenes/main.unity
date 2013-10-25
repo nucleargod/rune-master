@@ -248,3 +248,7 @@ MonoBehaviour:
   seletedTheme: 0
   seletedChapter: 0
   currentScene: 0
+  titleSceneName: title
+  themeMenuSceneName: themeMenu
+  chapterMenuSceneName: chapterMenu
+  gameSceneName: game
