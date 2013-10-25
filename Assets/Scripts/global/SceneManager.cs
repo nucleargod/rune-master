@@ -33,6 +33,7 @@ public class SceneManager : MonoBehaviour {
 			seletedChapter = 0;
 			currentScene = SceneList.title;
 			GoTo(SceneList.title);
+			this.enabled = false;
 		}
 		else
 		{
