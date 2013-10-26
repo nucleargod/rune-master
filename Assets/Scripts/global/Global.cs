@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// 你覺得其他的Scene可能會使用的變數都可以寫在這裡
 // enum
 public enum SceneList
 {
@@ -20,10 +21,10 @@ public enum ChapterStatus{
 }
 
 public class Global : MonoBehaviour {
-	public static Global Instants = null;
-	public int seletedTheme;
-	public int seletedChapter;
-	public SceneList currentScene;
+	public static Global Instants = null;	// Global.Instants
+	public int seletedTheme;	// Global.Instants.seletedTheme
+	public int seletedChapter;	// Global.Instants.seletedChapter
+	public SceneList currentScene;	// Global.Instants.currentScene
 	
 	// Use this for initialization
 	void Start () {

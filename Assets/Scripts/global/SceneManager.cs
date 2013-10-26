@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// 如何轉場
+// 應該跳去哪個場景
+
 public class SceneManager : MonoBehaviour {
-	public static SceneManager Instants = null; // SceneManager.Instants
+	public static SceneManager Instants = null;	// SceneManager.Instants
 	
 	// change this for your scenes
 	public string titleSceneName = "title";
@@ -31,8 +34,9 @@ public class SceneManager : MonoBehaviour {
 	
 	}
 	
+	// SceneManager.GoTo(SceneList, int)
 	// call this function for switch scenes
-	// if no select, used last one
+	// 當轉換至選單場景時需要selected變數，若不填寫則使用最近一次的資料
 	public static void GoTo(SceneList sl, int selected = -1) {
 		switch(sl) {
 		case SceneList.title:

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// 負責提供所有場景所需要的資料
+// 所有需要資料庫配合的資料結構都在此定義
+
 // data struct
 public struct ChapterSet {
 	public int id;
