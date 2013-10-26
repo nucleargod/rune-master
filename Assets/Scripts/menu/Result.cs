@@ -10,6 +10,7 @@ public class Result : MonoBehaviour {
 	private ChapterSet currentChapter;
 	private ChapterSet nextChapter;
 	private string rank = "F";
+	private float scoreIncrease;
 	// Use this for initialization
 	void Start () {
 		currentTheme = DataManager.GetTheme(Global.Instants.seletedTheme);
@@ -17,26 +18,33 @@ public class Result : MonoBehaviour {
 		currentChapter = DataManager.GetChapter(Global.Instants.seletedChapter);
 		nextChapter = DataManager.GetChapter(Global.Instants.seletedChapter+1);
 		
-		// 更新此次遊戲結果
+		// 計算此次遊戲結果
 		if(Global.Instants.battleResult > (float)Rank.A)
 			rank = "A";
 		else if(Global.Instants.battleResult > (float)Rank.B)
 			rank = "B";
 		else if(Global.Instants.battleResult > (float)Rank.C)
 			rank = "C";
-		currentChapter.score = Global.Instants.battleResult;
-		DataManager.UpdateChapter(currentChapter);
-		DataManager.UpdateTheme(currentTheme);
+		scoreIncrease = Global.Instants.battleResult-currentChapter.score;
 		
-		// 若有下一關且分數大於門檻值則更新相關資料
-		if(nextChapter != null && currentChapter.score >= chapterThreshold) {
+		// 若分數沒有增加則不更新結果
+		if(scoreIncrease<0.0f)
+			return;
+		
+		// 更新結果
+		currentChapter.score = Global.Instants.battleResult;
+		currentTheme.score += scoreIncrease;
+		
+		// 若有下一關且分數大於門檻值則解鎖下一關
+		if(nextChapter != null && currentChapter.score >= chapterThreshold) 
 			nextChapter.status = ChapterStatus.unlocked;
-			DataManager.UpdateChapter(nextChapter);
-		}
-		if(nextTheme != null && currentTheme.score >= themeThreshold) {
+		
+		if(nextTheme != null && currentTheme.score >= themeThreshold)
 			nextTheme.status = ThemeStatus.unlocked;
-			DataManager.UpdateTheme(nextTheme);
-		}	
+		
+		// 將結果寫入資料庫
+		DataManager.UpdateChapter(nextChapter);
+		DataManager.UpdateTheme(nextTheme);
 	}
 	
 	// Update is called once per frame
