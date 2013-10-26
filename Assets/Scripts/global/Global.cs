@@ -22,11 +22,18 @@ public enum ThemeStatus{
 	unlocked,
 }
 
+public enum Rank{
+	A=85,
+	B=60,
+	C=0
+}
+
 public class Global : MonoBehaviour {
 	public static Global Instants = null;	// Global.Instants
 	public int seletedTheme;	// Global.Instants.seletedTheme
 	public int seletedChapter;	// Global.Instants.seletedChapter
 	public SceneList currentScene;	// Global.Instants.currentScene
+	public float battleResult;	// Global.Instants.battleResult
 	
 	// Use this for initialization
 	void Start () {

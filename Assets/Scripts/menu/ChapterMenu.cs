@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class ChapterMenu : MonoBehaviour {
-	public ChapterSet[] chapterSets;
+	public ChapterSet[] chapters;
 	public Texture lockedImg;
 	public float ratio = 0.2f;
 	
@@ -17,12 +17,12 @@ public class ChapterMenu : MonoBehaviour {
 		groupArea.width = Screen.width;
 		
 		// chapterSets = DataManager.GetChapterList();
-		chapterSets = new ChapterSet[30];
-		for(int i = 0; i < chapterSets.Length; i++)
+		chapters = new ChapterSet[30];
+		for(int i = 0; i < chapters.Length; i++)
 		{
-			chapterSets[i].id = i;
-			chapterSets[i].name = "CP "+i.ToString();
-			chapterSets[i].status = ChapterStatus.locked;
+			chapters[i].id = i;
+			chapters[i].name = "CP "+i.ToString();
+			chapters[i].status = ChapterStatus.locked;
 		}
 	}
 	
@@ -34,14 +34,14 @@ public class ChapterMenu : MonoBehaviour {
 	// 必須再OnGUI呼叫，當狀態非locked而且被點選時會回傳True
 	bool MakeChapter (int i) {
 		bool isClick;
-		if (chapterSets[i].status == ChapterStatus.locked)
+		if (chapters[i].status == ChapterStatus.locked)
 		{
 			GUILayout.Button(lockedImg,
 			GUILayout.Width(itemRect.width), 
 			GUILayout.Height(itemRect.height));
 			return false;
 		}
-		isClick = GUILayout.Button(chapterSets[i].name,
+		isClick = GUILayout.Button(chapters[i].name,
 			GUILayout.Width(itemRect.width), 
 			GUILayout.Height(itemRect.height));
 		return isClick;
@@ -56,7 +56,7 @@ public class ChapterMenu : MonoBehaviour {
 		
 		GUILayout.FlexibleSpace();
 		GUILayout.BeginHorizontal();
-		for(int i = 0; i < chapterSets.Length; i++)
+		for(int i = 0; i < chapters.Length; i++)
 		{
 			if(tmpWidth+itemRect.width > (float)Screen.width*0.95f)
 			{
@@ -71,7 +71,7 @@ public class ChapterMenu : MonoBehaviour {
 			GUILayout.FlexibleSpace();
 			if(MakeChapter(i))
 			{
-				SceneManager.GoTo(SceneList.game, chapterSets[i].id);
+				SceneManager.GoTo(SceneList.game, chapters[i].id);
 			}
 			tmpWidth = tmpWidth+itemRect.width;
 		}

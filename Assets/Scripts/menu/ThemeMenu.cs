@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class ThemeMenu : MonoBehaviour {
-	public ThemeSet[] themeSets;
+	public ThemeSet[] themes;
 	public Texture lockedImg;
 	public float aspect = 3.0f;
 	
@@ -15,11 +15,12 @@ public class ThemeMenu : MonoBehaviour {
 		groupArea.height = Screen.height;
 		groupArea.width = Screen.width;
 		//groupArea.center = new Vector2(Screen.width*0.5f, Screen.height*0.5f);
-		themeSets = new ThemeSet[10];
-		for (int i = 0; i < themeSets.Length; i++)
+		themes = new ThemeSet[10];
+		for (int i = 0; i < themes.Length; i++)
 		{
-			themeSets[i].id = i;
-			themeSets[i].name = "Theme "+i.ToString();
+			themes[i].id = i;
+			themes[i].name = "Theme "+i.ToString();
+			themes[i].status = ThemeStatus.unlocked;
 		}
 		// themeSets = DataManager.GetThemeList();
 	}
@@ -36,15 +37,15 @@ public class ThemeMenu : MonoBehaviour {
 		GUILayout.BeginArea(groupArea);
 		scrollViewVector = GUILayout.BeginScrollView(scrollViewVector, true, false);
 		GUILayout.BeginVertical();
-		for(int i = 0; i < themeSets.Length; i++)
+		for(int i = 0; i < themes.Length; i++)
 		{
-			if(themeSets[i].status == ThemeStatus.locked)
+			if(themes[i].status == ThemeStatus.locked)
 			{
 				GUILayout.Button(lockedImg, GUILayout.Width(itemRect.width), GUILayout.Height(itemRect.height));
 			}
-			else if(GUILayout.Button(themeSets[i].name, GUILayout.Width(itemRect.width), GUILayout.Height(itemRect.height)))
+			else if(GUILayout.Button(themes[i].name, GUILayout.Width(itemRect.width), GUILayout.Height(itemRect.height)))
 			{
-				SceneManager.GoTo(SceneList.chapterMenu, themeSets[i].id);
+				SceneManager.GoTo(SceneList.chapterMenu, themes[i].id);
 			}
 		}
 		

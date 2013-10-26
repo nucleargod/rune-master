@@ -40,6 +40,14 @@ public class DataManager : MonoBehaviour {
 		}
 	}
 	
+	public static ThemeSet GetTheme (int selected) {
+		return null;
+	}
+	
+	public static ChapterSet GetChapter (int selected) {
+		return null;
+	}
+	
 	public static ThemeSet[] GetThemeList () {
 		return null;
 	}
@@ -48,10 +56,10 @@ public class DataManager : MonoBehaviour {
 		return null;
 	}
 	
-	public static void UpdateTheme (ThemeSet themeSet) {
+	public static void UpdateTheme (ThemeSet theme) {
 	}
 	
-	public static void UpdateChapter (ChapterSet chapterSet) {
+	public static void UpdateChapter (ChapterSet chapter) {
 	}
 	
 	// Update is called once per frame
