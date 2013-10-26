@@ -1,20 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum SceneList
-{
-	title,
-	themeMenu,
-	chapterMenu,
-	game,
-	exit
-}
-
 public class SceneManager : MonoBehaviour {
 	public static SceneManager Instants = null; // SceneManager.Instants
-	public int seletedTheme;
-	public int seletedChapter;
-	public SceneList currentScene;
 	
 	// change this for your scenes
 	public string titleSceneName = "title";
@@ -27,13 +15,9 @@ public class SceneManager : MonoBehaviour {
 	void Start () {
 		if (Instants == null)
 		{
-			DontDestroyOnLoad(this.gameObject);
 			Instants = this;
-			seletedTheme = 0;
-			seletedChapter = 0;
-			currentScene = SceneList.title;
-			GoTo(SceneList.title);
 			this.enabled = false;
+			DontDestroyOnLoad(this.gameObject);
 		}
 		else
 		{
@@ -61,13 +45,13 @@ public class SceneManager : MonoBehaviour {
 			
 		case SceneList.chapterMenu:
 			if (selected!=-1)
-				Instants.seletedTheme = selected;
+				Global.Instants.seletedTheme = selected;
 			Application.LoadLevel(Instants.chapterMenuSceneName);
 			break;
 			
 		case SceneList.game:
 			if (selected!=-1)
-				Instants.seletedChapter = selected;
+				Global.Instants.seletedChapter = selected;
 			Application.LoadLevel(Instants.gameSceneName);
 			break;
 			
@@ -80,6 +64,6 @@ public class SceneManager : MonoBehaviour {
 			return;
 			break;
 		}
-		Instants.currentScene = sl;
+		Global.Instants.currentScene = sl;
 	}
 }

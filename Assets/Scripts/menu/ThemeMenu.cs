@@ -1,15 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public struct ThemeSet {
-	public int id;
-	public string name;
-	public Texture texture;
-}
-
 public class ThemeMenu : MonoBehaviour {
 	public string title;
-	//public string[] items;
 	public ThemeSet[] themeSets;
 	
 	private Rect titleRect; // auto X and Y

@@ -1,20 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum ChapterStatus{
-	locked,
-	unlocked,
-	aClass,
-	bClass,
-	cClass
-}
-
-public struct ChapterSet {
-	public int id;
-	public string name;
-	public ChapterStatus status;
-}
-
 public class ChapterMenu : MonoBehaviour {
 	public string title;
 	public ChapterSet[] chapterSets;
@@ -96,7 +82,6 @@ public class ChapterMenu : MonoBehaviour {
 		
 		if(GUI.Button(new Rect(Screen.width*0.7f, Screen.height*0.9f, Screen.width*0.3f, Screen.height*0.1f),"Back"))
 		{
-			Debug.Log("Click");
 			SceneManager.GoTo(SceneList.themeMenu);
 		}
 	}
