@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class TitleMenu : MonoBehaviour {
-	
 	private Rect buttonArea;
 	// Use this for initialization
 	void Start () {

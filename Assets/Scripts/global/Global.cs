@@ -15,9 +15,11 @@ public enum SceneList
 public enum ChapterStatus{
 	locked,
 	unlocked,
-	aClass,
-	bClass,
-	cClass
+}
+
+public enum ThemeStatus{
+	locked,
+	unlocked,
 }
 
 public class Global : MonoBehaviour {

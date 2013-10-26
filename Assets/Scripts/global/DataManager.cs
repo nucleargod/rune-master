@@ -5,16 +5,23 @@ using System.Collections;
 // 所有需要資料庫配合的資料結構都在此定義
 
 // data struct
-public struct ChapterSet {
-	public int id;
-	public string name;
-	public ChapterStatus status;
+[System.Serializable]
+public class ThemeSet {
+	public int			id;
+	public string		name;
+	public Texture		img;
+	public float		score;
+	public ThemeStatus	status;
 }
 
-public struct ThemeSet {
-	public int id;
-	public string name;
-	public Texture texture;
+[System.Serializable]
+public class ChapterSet {
+	public int				id;
+	public int				themeId;
+	public string			name;
+	public Texture			img;
+	public float			score;
+	public ChapterStatus	status;
 }
 
 public class DataManager : MonoBehaviour {
@@ -31,6 +38,20 @@ public class DataManager : MonoBehaviour {
 			Debug.Log("DataManager is already exists");
 			Destroy(this.gameObject);
 		}
+	}
+	
+	public static ThemeSet[] GetThemeList () {
+		return null;
+	}
+	
+	public static ChapterSet[] GetChapterList () {
+		return null;
+	}
+	
+	public static void UpdateTheme (ThemeSet themeSet) {
+	}
+	
+	public static void UpdateChapter (ChapterSet chapterSet) {
 	}
 	
 	// Update is called once per frame
