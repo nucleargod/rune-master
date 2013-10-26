@@ -12,7 +12,7 @@ public class SceneManager : MonoBehaviour {
 	public string themeMenuSceneName = "themeMenu";
 	public string chapterMenuSceneName = "chapterMenu";
 	public string gameSceneName = "game";
-	
+	public string resultSceneName = "result";
 	
 	// Use this for initialization
 	void Start () {
@@ -57,6 +57,10 @@ public class SceneManager : MonoBehaviour {
 			if (selected!=-1)
 				Global.Instants.seletedChapter = selected;
 			Application.LoadLevel(Instants.gameSceneName);
+			break;
+			
+		case SceneList.result:
+			Application.LoadLevel(Instants.resultSceneName);
 			break;
 			
 		case SceneList.exit:

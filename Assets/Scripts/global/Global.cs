@@ -9,6 +9,7 @@ public enum SceneList
 	themeMenu,
 	chapterMenu,
 	game,
+	result,
 	exit
 }
 

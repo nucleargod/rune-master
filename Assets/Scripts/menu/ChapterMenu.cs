@@ -20,6 +20,7 @@ public class ChapterMenu : MonoBehaviour {
 		chapters = new ChapterSet[30];
 		for(int i = 0; i < chapters.Length; i++)
 		{
+			chapters[i] = new ChapterSet();
 			chapters[i].id = i;
 			chapters[i].name = "CP "+i.ToString();
 			chapters[i].status = ChapterStatus.locked;

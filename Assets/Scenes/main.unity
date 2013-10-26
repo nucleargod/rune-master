@@ -168,6 +168,7 @@ MonoBehaviour:
   themeMenuSceneName: themeMenu
   chapterMenuSceneName: chapterMenu
   gameSceneName: game
+  resultSceneName: result
 --- !u!1 &1088471708
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,6 +239,7 @@ MonoBehaviour:
   seletedTheme: 0
   seletedChapter: 0
   currentScene: 0
+  battleResult: 0
 --- !u!4 &1654679214
 Transform:
   m_ObjectHideFlags: 0
