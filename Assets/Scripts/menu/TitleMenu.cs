@@ -16,9 +16,6 @@ public class TitleMenu : MonoBehaviour {
 	}
 	
 	void OnGUI () {
-		buttonArea.width = Screen.width*0.5f;
-		buttonArea.height = Screen.width*0.5f;
-		buttonArea.center.Set(Screen.width*0.5f, Screen.height*0.5f);
 		if(GUI.Button(buttonArea, "Tap to Start"))
 		{
 			SceneManager.GoTo(SceneList.themeMenu);
