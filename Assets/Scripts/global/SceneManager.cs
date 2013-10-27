@@ -11,7 +11,7 @@ public class SceneManager : MonoBehaviour {
 	public string titleSceneName = "menuScene";
 	public string themeMenuSceneName = "themeMenu";
 	public string chapterMenuSceneName = "chapterMenu";
-	public string gameSceneName = "practiceScene";
+	public string gameSceneName = "game";
 	public string resultSceneName = "result";
 	
 	// Use this for initialization

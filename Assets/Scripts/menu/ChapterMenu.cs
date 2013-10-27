@@ -17,13 +17,17 @@ public class ChapterMenu : MonoBehaviour {
 		groupArea.width = Screen.width;
 		
 		// chapterSets = DataManager.GetChapterList();
-		chapters = new ChapterSet[30];
+		chapters = new ChapterSet[5];
 		for(int i = 0; i < chapters.Length; i++)
 		{
 			chapters[i] = new ChapterSet();
 			chapters[i].id = i;
 			chapters[i].name = "CP "+i.ToString();
-			chapters[i].status = ChapterStatus.unlocked;
+			if (i < chapters.Length-Global.Instants.seletedTheme)
+				chapters[i].status = ChapterStatus.unlocked;
+			else
+				chapters[i].status = ChapterStatus.locked;
+			
 		}
 	}
 	

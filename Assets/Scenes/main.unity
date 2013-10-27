@@ -167,7 +167,7 @@ MonoBehaviour:
   titleSceneName: menuScene
   themeMenuSceneName: themeMenu
   chapterMenuSceneName: chapterMenu
-  gameSceneName: practiceScene
+  gameSceneName: game
   resultSceneName: result
 --- !u!1 &1088471708
 GameObject:

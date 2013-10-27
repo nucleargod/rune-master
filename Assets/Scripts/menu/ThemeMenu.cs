@@ -21,7 +21,10 @@ public class ThemeMenu : MonoBehaviour {
 			themes[i] = new ThemeSet();
 			themes[i].id = i;
 			themes[i].name = "Theme "+i.ToString();
-			themes[i].status = ThemeStatus.unlocked;
+			if(i < 5)
+				themes[i].status = ThemeStatus.unlocked;
+			else
+				themes[i].status = ThemeStatus.locked;
 		}
 		// themeSets = DataManager.GetThemeList();
 	}
