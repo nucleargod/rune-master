@@ -23,7 +23,7 @@ public class ChapterMenu : MonoBehaviour {
 			chapters[i] = new ChapterSet();
 			chapters[i].id = i;
 			chapters[i].name = "CP "+i.ToString();
-			chapters[i].status = ChapterStatus.locked;
+			chapters[i].status = ChapterStatus.unlocked;
 		}
 	}
 	

@@ -17,11 +17,17 @@ public class GlobalRecord : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		database = GameObject.Find("database").GetComponent<model>();
+		
+	}
+	
+	void Update() {
+		//database = GameObject.Find("database").GetComponent<model>();
+		database = DataManager.Instants.modelComponent;
 		wordList = database.getWords();
 		
 		DontDestroyOnLoad(gameObject);
-		Application.LoadLevel("menuScene");
+		//Application.LoadLevel("menuScene");
+		this.enabled = false;
 	}
 	
 	public void addRecord(string w, float error){

@@ -164,10 +164,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f4873d01ce24e4ebaa6eb01fecdae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleSceneName: title
+  titleSceneName: menuScene
   themeMenuSceneName: themeMenu
   chapterMenuSceneName: chapterMenu
-  gameSceneName: game
+  gameSceneName: practiceScene
   resultSceneName: result
 --- !u!1 &1088471708
 GameObject:
@@ -293,3 +293,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1599b41f3f9699d4a9388da7534e6585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  modelComponent: {fileID: 0}
+  recordComponent: {fileID: 0}

@@ -80,10 +80,12 @@ public class UI : MonoBehaviour {
 		toggleWaterMark = false;
 		
 		// get global record and database
-		GameObject o = GameObject.Find("GlobalRecord");
-		rcd = o.GetComponent<GlobalRecord>();
-		o = GameObject.Find("database");
-		db = o.GetComponent<model>();
+		//GameObject o = GameObject.Find("GlobalRecord");
+		//rcd = o.GetComponent<GlobalRecord>();
+		rcd = DataManager.Instants.recordComponent;
+		//o = GameObject.Find("database");
+		//db = o.GetComponent<model>();
+		db = DataManager.Instants.modelComponent;
 			
 		// load words
 		LoadWords();
@@ -168,7 +170,8 @@ public class UI : MonoBehaviour {
 		}		
 		if(GUI.Button( new Rect(Screen.width-W, W2, W, W2), "", sbreturn))
 		{
-			Application.LoadLevel("menuScene");
+			SceneManager.GoTo(SceneList.title);
+			//Application.LoadLevel("menuScene");
 		}
 		
 		ShowError(W);
