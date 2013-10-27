@@ -230,7 +230,7 @@ public class model : MonoBehaviour {
 	}
 	
 	public bool updateTheme(themeRecord theme){
-		updateTheme(theme.id, theme.score);
+		return updateTheme(theme.id, theme.score);
 	}
 	
 	public chapterRecord[] getCapters(int themeId){
@@ -284,7 +284,7 @@ public class model : MonoBehaviour {
 	}
 	
 	public bool updateCapter(chapterRecord chapter){
-		updateCapter(chapter.id, chapter.themeId, chapter.score);
+		return updateCapter(chapter.id, chapter.themeId, chapter.score);
 	}
 	
 	void OnDestroy(){
