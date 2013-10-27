@@ -469,6 +469,33 @@ public class dbAccess : MonoBehaviour {
 		}
 		return record;
 	}
+	
+	public themeRecord[] getThemes(int limit = 0){
+		string query = "SELECT * FROM themes ORDER BY id";
+		if(limit != 0) query += " LIMIT " + limit;
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		
+		System.Collections.Generic.List<themeRecord> themes = new System.Collections.Generic.List<themeRecord>();
+		while(reader.Read()){
+			int    id      = reader.GetInt32(0);
+			string name    = reader.GetString(1);
+			string imgPath = reader.GetString(2);
+			float  score   = reader.GetFloat(3);
+			themeRecord _theme = new themeRecord(id, name, score, imgPath); 
+			themes.Add(_theme);
+		}
+		
+		return themes.ToArray();
+	}
 
 	// Update is called once per frame
 	void Update () {

@@ -5,8 +5,8 @@ public class Result : MonoBehaviour {
 	public float chapterThreshold = 100.0f; // 解鎖新章節的門檻值
 	public float themeThreshold = 500.0f; // 解鎖新主題的門檻值
 	
-	private ThemeSet currentTheme;
-	private ThemeSet nextTheme;
+	private themeRecord currentTheme;
+	private themeRecord nextTheme;
 	private ChapterSet currentChapter;
 	private ChapterSet nextChapter;
 	private string rank = "F";
@@ -40,7 +40,7 @@ public class Result : MonoBehaviour {
 			nextChapter.status = ChapterStatus.unlocked;
 		
 		if(nextTheme != null && currentTheme.score >= themeThreshold)
-			nextTheme.status = ThemeStatus.unlocked;
+			nextTheme.status = themeRecord.ThemeStatus.unlocked;
 		
 		// 將結果寫入資料庫
 		DataManager.UpdateChapter(nextChapter);

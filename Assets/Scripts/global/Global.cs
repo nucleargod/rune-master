@@ -18,11 +18,6 @@ public enum ChapterStatus{
 	unlocked,
 }
 
-public enum ThemeStatus{
-	locked,
-	unlocked,
-}
-
 public enum Rank{
 	A=85,
 	B=60,

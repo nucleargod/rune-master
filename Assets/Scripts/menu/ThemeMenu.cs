@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class ThemeMenu : MonoBehaviour {
-	public ThemeSet[] themes;
+	public themeRecord[] themes;
 	public Texture lockedImg;
 	public float aspect = 3.0f;
 	
@@ -15,16 +15,16 @@ public class ThemeMenu : MonoBehaviour {
 		groupArea.height = Screen.height;
 		groupArea.width = Screen.width;
 		//groupArea.center = new Vector2(Screen.width*0.5f, Screen.height*0.5f);
-		themes = new ThemeSet[10];
+		themes = new themeRecord[10];
 		for (int i = 0; i < themes.Length; i++)
 		{
-			themes[i] = new ThemeSet();
+			themes[i] = new themeRecord();
 			themes[i].id = i;
-			themes[i].name = "Theme "+i.ToString();
+			//themes[i].name = "Theme "+i.ToString();
 			if(i < 5)
-				themes[i].status = ThemeStatus.unlocked;
+				themes[i].status = themeRecord.ThemeStatus.unlocked;
 			else
-				themes[i].status = ThemeStatus.locked;
+				themes[i].status = themeRecord.ThemeStatus.locked;
 		}
 		// themeSets = DataManager.GetThemeList();
 	}
@@ -43,7 +43,7 @@ public class ThemeMenu : MonoBehaviour {
 		GUILayout.BeginVertical();
 		for(int i = 0; i < themes.Length; i++)
 		{
-			if(themes[i].status == ThemeStatus.locked)
+			if(themes[i].status == themeRecord.ThemeStatus.locked)
 			{
 				GUILayout.Button(lockedImg, GUILayout.Width(itemRect.width), GUILayout.Height(itemRect.height));
 			}

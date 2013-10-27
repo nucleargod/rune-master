@@ -5,6 +5,7 @@ using System.Collections;
 // 所有需要資料庫配合的資料結構都在此定義
 
 // data struct
+/*
 [System.Serializable]
 public class ThemeSet {
 	public int			id;
@@ -12,7 +13,7 @@ public class ThemeSet {
 	public Texture		img;
 	public float		score;
 	public ThemeStatus	status;
-}
+}//*/
 
 [System.Serializable]
 public class ChapterSet {
@@ -42,25 +43,25 @@ public class DataManager : MonoBehaviour {
 			Destroy(this.gameObject);
 		}
 	}
-	
-	public static ThemeSet GetTheme (int selected) {
+	//*
+	public static themeRecord GetTheme (int selected) {
 		return null;
-	}
+	}//*/
 	
 	public static ChapterSet GetChapter (int selected) {
 		return null;
 	}
-	
+	/*
 	public static ThemeSet[] GetThemeList () {
 		return null;
-	}
+	}//*/
 	
 	public static ChapterSet[] GetChapterList () {
 		return null;
 	}
-	
-	public static void UpdateTheme (ThemeSet theme) {
-	}
+	//*
+	public static void UpdateTheme (themeRecord theme) {
+	}//*/
 	
 	public static void UpdateChapter (ChapterSet chapter) {
 	}
