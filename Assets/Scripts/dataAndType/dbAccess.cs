@@ -505,7 +505,7 @@ public class dbAccess {
 	}
 	
 	public chapterRecord[] getChapters(int themeId){
-		string query = "SELECT * FROM enemies WHERE themeId = '" + themeId + "' ORDER BY id";
+		string query = "SELECT * FROM enemies WHERE themeId = '" + themeId + "' ORDER BY number";
 		
 		try {
 			dbcmd = dbcon.CreateCommand();
