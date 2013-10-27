@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using Mono.Data.SqliteClient;
 
-public class dbAccess : MonoBehaviour {
+public class dbAccess {
 	private string connection;
 	private IDbConnection dbcon;
 	private IDbCommand dbcmd;
@@ -15,12 +15,7 @@ public class dbAccess : MonoBehaviour {
 	
 	public const int dbVersion = 1;
 	
-	public string errMsg;
-
-	// Use this for initialization
-	void Start () {
-		errMsg = "";
-	}
+	public string errMsg = "";
 	
 	public void OpenDB(string p)
 	{
@@ -51,7 +46,7 @@ public class dbAccess : MonoBehaviour {
 		try{
 			BasicQuery("SELECT ver FROM version");
 			if(reader.Read()){
-				print("read");
+				Debug.Log("read");
 				if(reader.GetInt32(0) != dbVersion){
 					dbavalible = false;
 				}
@@ -59,7 +54,7 @@ public class dbAccess : MonoBehaviour {
 			else dbavalible = false;
 		}
 		catch(Exception e){
-			print(e);
+			Debug.Log(e);
 			dbavalible = false;
 		}
 		
@@ -213,13 +208,9 @@ public class dbAccess : MonoBehaviour {
 	
 	public string Dquery(string query){ // An evil back door
 		try{
-			print("try Dquery");
 			dbcmd = dbcon.CreateCommand(); // create empty command
-			print("CreateCommand");
 			dbcmd.CommandText = query; // fill the command
-			print("fill the command");
 			reader = dbcmd.ExecuteReader(); // execute command which returns a reader
-			print("execute command");
 		}
 		catch(Exception e){
 			errMsg = e.ToString();
@@ -470,9 +461,9 @@ public class dbAccess : MonoBehaviour {
 		return record;
 	}
 	
-	public themeRecord[] getThemes(int limit = 0){
+	public themeRecord[] getThemes(int limit){
 		string query = "SELECT * FROM themes ORDER BY id";
-		if(limit != 0) query += " LIMIT " + limit;
+		if(limit > 0) query += " LIMIT " + limit;
 		
 		try {
 			dbcmd = dbcon.CreateCommand();
@@ -496,9 +487,30 @@ public class dbAccess : MonoBehaviour {
 		
 		return themes.ToArray();
 	}
-
-	// Update is called once per frame
-	void Update () {
 	
+	public chapterRecord[] getChapters(int themeId){
+		string query = "SELECT * FROM enemies WHERE themeId = " + themeId + " ORDER BY id";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		
+		System.Collections.Generic.List<chapterRecord> chapters = new System.Collections.Generic.List<chapterRecord>();
+		while(reader.Read()){
+			int    id      = reader.GetInt32(0);
+			string name    = reader.GetString(2);
+			string imgPath = reader.GetString(3);
+			float  score   = reader.GetFloat(4);
+			chapterRecord _chapter = new chapterRecord(id, themeId, name, score, imgPath); 
+			chapters.Add(_chapter);
+		}
+		
+		return chapters.ToArray();
 	}
 }

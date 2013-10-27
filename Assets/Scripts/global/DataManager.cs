@@ -4,27 +4,6 @@ using System.Collections;
 // 負責提供所有場景所需要的資料
 // 所有需要資料庫配合的資料結構都在此定義
 
-// data struct
-/*
-[System.Serializable]
-public class ThemeSet {
-	public int			id;
-	public string		name;
-	public Texture		img;
-	public float		score;
-	public ThemeStatus	status;
-}//*/
-
-[System.Serializable]
-public class ChapterSet {
-	public int				id;
-	public int				themeId;
-	public string			name;
-	public Texture			img;
-	public float			score;
-	public ChapterStatus	status;
-}
-
 public class DataManager : MonoBehaviour {
 	public static DataManager Instants = null;
 	public model modelComponent;
@@ -48,7 +27,7 @@ public class DataManager : MonoBehaviour {
 		return null;
 	}//*/
 	
-	public static ChapterSet GetChapter (int selected) {
+	public static chapterRecord GetChapter (int selected) {
 		return null;
 	}
 	/*
@@ -56,14 +35,14 @@ public class DataManager : MonoBehaviour {
 		return null;
 	}//*/
 	
-	public static ChapterSet[] GetChapterList () {
+	public static chapterRecord[] GetChapterList () {
 		return null;
 	}
 	//*
 	public static void UpdateTheme (themeRecord theme) {
 	}//*/
 	
-	public static void UpdateChapter (ChapterSet chapter) {
+	public static void UpdateChapter (chapterRecord chapter) {
 	}
 	
 	// Update is called once per frame

@@ -5,6 +5,9 @@ public class model : MonoBehaviour {
 	private string description;
 	public bool toggle;
 	private dbAccess db;
+	
+	//cache
+	private themeRecord[] c_themes = null;
 
 	// Use this for initialization
 	void Start () {
@@ -12,7 +15,7 @@ public class model : MonoBehaviour {
 		
 		// Retrieve next word from database
 		description = "something went wrong with the database";
-		db = GetComponent<dbAccess>();
+		db = new dbAccess();
 		
 		if(db != null){
 			db.OpenDB("word.db");
@@ -182,6 +185,48 @@ public class model : MonoBehaviour {
 			return records;
 		}
 		return null;
+	}
+	
+	public themeRecord[] getThemes(){
+		if(c_themes != null) return c_themes;
+		else if(db!=null){
+			c_themes = db.getThemes(0);
+			if(c_themes == null){
+				description = db.errMsg;
+				toggle = true;
+			}
+			return c_themes;
+		}
+		return null;
+	}
+	
+	public themeRecord getTheme(int id){
+		if(c_themes == null) getThemes();
+		
+		if(c_themes != null && c_themes.Length > id) return c_themes[id];
+		else return null;
+	}
+	
+	public chapterRecord[] getCapters(int themeId){
+		if(c_themes == null) getThemes();
+		
+		if(c_themes != null && c_themes.Length > themeId){
+			if(c_themes[themeId].chapters == null){
+				if(db!=null){
+					c_themes[themeId].chapters = db.getChapters(themeId);
+					if(c_themes[themeId].chapters == null){
+						description = db.errMsg;
+						toggle = true;
+					}
+				}
+				else {
+					description = "null db";
+					toggle = true;
+				}
+			}
+			return c_themes[themeId].chapters;
+		}
+		else return null;
 	}
 	
 	void OnDestroy(){

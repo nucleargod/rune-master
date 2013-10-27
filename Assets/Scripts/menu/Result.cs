@@ -7,8 +7,8 @@ public class Result : MonoBehaviour {
 	
 	private themeRecord currentTheme;
 	private themeRecord nextTheme;
-	private ChapterSet currentChapter;
-	private ChapterSet nextChapter;
+	private chapterRecord currentChapter;
+	private chapterRecord nextChapter;
 	private string rank = "F";
 	private float scoreIncrease;
 	// Use this for initialization

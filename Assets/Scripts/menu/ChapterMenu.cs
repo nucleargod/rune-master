@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class ChapterMenu : MonoBehaviour {
-	public ChapterSet[] chapters;
+	public chapterRecord[] chapters;
 	public Texture lockedImg;
 	public float ratio = 0.2f;
 	
@@ -17,16 +17,16 @@ public class ChapterMenu : MonoBehaviour {
 		groupArea.width = Screen.width;
 		
 		// chapterSets = DataManager.GetChapterList();
-		chapters = new ChapterSet[5];
+		chapters = new chapterRecord[5];
 		for(int i = 0; i < chapters.Length; i++)
 		{
-			chapters[i] = new ChapterSet();
+			chapters[i] = new chapterRecord();
 			chapters[i].id = i;
 			chapters[i].name = "CP "+i.ToString();
 			if (i < chapters.Length-Global.Instants.seletedTheme)
-				chapters[i].status = ChapterStatus.unlocked;
+				chapters[i].status = chapterRecord.ChapterStatus.unlocked;
 			else
-				chapters[i].status = ChapterStatus.locked;
+				chapters[i].status = chapterRecord.ChapterStatus.locked;
 			
 		}
 	}
@@ -39,7 +39,7 @@ public class ChapterMenu : MonoBehaviour {
 	// 必須再OnGUI呼叫，當狀態非locked而且被點選時會回傳True
 	bool MakeChapter (int i) {
 		bool isClick;
-		if (chapters[i].status == ChapterStatus.locked)
+		if (chapters[i].status == chapterRecord.ChapterStatus.locked)
 		{
 			GUILayout.Button(lockedImg,
 			GUILayout.Width(itemRect.width), 
