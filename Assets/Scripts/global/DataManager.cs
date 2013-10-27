@@ -26,11 +26,14 @@ public class ChapterSet {
 
 public class DataManager : MonoBehaviour {
 	public static DataManager Instants = null;
-	
+	public model modelComponent;
+	public GlobalRecord recordComponent;
 	// Use this for initialization
 	void Start () {
 		if(Instants == null) {
 			Instants = this;
+			modelComponent = this.GetComponentInChildren<model>();
+			recordComponent = this.GetComponentInChildren<GlobalRecord>();
 			this.enabled = false;
 			DontDestroyOnLoad(this.gameObject);
 		}

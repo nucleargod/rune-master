@@ -29,7 +29,8 @@ public class m_battle : MonoBehaviour {
 			if(loadTime < 0.0f)
 			{
 				loadTime = 0.0f;
-				Application.LoadLevel("themeScene");
+				SceneManager.GoTo(SceneList.themeMenu);
+				//Application.LoadLevel("themeScene");
 			}
 		}
 	}

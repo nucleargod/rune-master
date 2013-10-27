@@ -8,10 +8,10 @@ public class SceneManager : MonoBehaviour {
 	public static SceneManager Instants = null;	// SceneManager.Instants
 	
 	// change this for your scenes
-	public string titleSceneName = "title";
+	public string titleSceneName = "menuScene";
 	public string themeMenuSceneName = "themeMenu";
 	public string chapterMenuSceneName = "chapterMenu";
-	public string gameSceneName = "game";
+	public string gameSceneName = "practiceScene";
 	public string resultSceneName = "result";
 	
 	// Use this for initialization
