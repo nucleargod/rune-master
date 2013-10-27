@@ -488,8 +488,24 @@ public class dbAccess {
 		return themes.ToArray();
 	}
 	
+	public bool updateTheme(themeRecord theme){
+		string query = "UPDATE themes SET score ='" + theme.score + "' WHERE id = '" + theme.id + "'";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public chapterRecord[] getChapters(int themeId){
-		string query = "SELECT * FROM enemies WHERE themeId = " + themeId + " ORDER BY id";
+		string query = "SELECT * FROM enemies WHERE themeId = '" + themeId + "' ORDER BY id";
 		
 		try {
 			dbcmd = dbcon.CreateCommand();
@@ -512,5 +528,22 @@ public class dbAccess {
 		}
 		
 		return chapters.ToArray();
+	}
+	
+	public bool updateChapter(chapterRecord chapter){
+		string query = "UPDATE enemies SET score ='" + chapter.score + "' ";
+		query += "WHERE number = '" + chapter.id + "' AND themeId = '" + chapter.themeId + "'";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return false;
+		}
+		
+		return true;
 	}
 }

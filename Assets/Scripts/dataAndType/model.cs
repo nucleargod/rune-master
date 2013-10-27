@@ -207,6 +207,32 @@ public class model : MonoBehaviour {
 		else return null;
 	}
 	
+	public bool updateTheme(int themeId, float score){
+		if(c_themes == null) getThemes();
+		
+		if(c_themes != null && c_themes.Length > themeId) 
+			c_themes[themeId].score = score;
+		else return false;
+		
+		if(db != null){
+			bool d=db.updateTheme(c_themes[themeId]);
+			if(!d){
+				description = db.errMsg;
+				toggle = true;
+			}
+			return d;
+		}
+		else{
+			description = "null db";
+			toggle = true;
+			return false;
+		}
+	}
+	
+	public bool updateTheme(themeRecord theme){
+		updateTheme(theme.id, theme.score);
+	}
+	
 	public chapterRecord[] getCapters(int themeId){
 		if(c_themes == null) getThemes();
 		
@@ -227,6 +253,38 @@ public class model : MonoBehaviour {
 			return c_themes[themeId].chapters;
 		}
 		else return null;
+	}
+	
+	public bool updateCapter(int number, int themeId, float score){
+		if(c_themes == null) getThemes();
+		
+		chapterRecord[] chapters;
+		if(c_themes != null && c_themes.Length > themeId){
+			chapters = c_themes[themeId].chapters;
+			if(chapters == null) chapters = getCapters(themeId);
+			
+			if(chapters != null && chapters.Length > number) 
+				chapters[number].score = score;
+		}
+		else return false;
+		
+		if(db != null){
+			bool d=db.updateChapter(chapters[number]);
+			if(!d){
+				description = db.errMsg;
+				toggle = true;
+			}
+			return d;
+		}
+		else{
+			description = "null db";
+			toggle = true;
+			return false;
+		}
+	}
+	
+	public bool updateCapter(chapterRecord chapter){
+		updateCapter(chapter.id, chapter.themeId, chapter.score);
 	}
 	
 	void OnDestroy(){
