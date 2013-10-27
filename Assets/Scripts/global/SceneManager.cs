@@ -1,38 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum SceneList
-{
-	title,
-	themeMenu,
-	chapterMenu,
-	game,
-	exit
-}
+// 如何轉場
+// 應該跳去哪個場景
 
 public class SceneManager : MonoBehaviour {
-	public static SceneManager Instants = null; // SceneManager.Instants
-	public int seletedTheme;
-	public int seletedChapter;
-	public SceneList currentScene;
+	public static SceneManager Instants = null;	// SceneManager.Instants
 	
 	// change this for your scenes
 	public string titleSceneName = "title";
 	public string themeMenuSceneName = "themeMenu";
 	public string chapterMenuSceneName = "chapterMenu";
 	public string gameSceneName = "game";
-	
+	public string resultSceneName = "result";
 	
 	// Use this for initialization
 	void Start () {
 		if (Instants == null)
 		{
-			DontDestroyOnLoad(this.gameObject);
 			Instants = this;
-			seletedTheme = 0;
-			seletedChapter = 0;
-			currentScene = SceneList.title;
-			GoTo(SceneList.title);
+			this.enabled = false;
+			DontDestroyOnLoad(this.gameObject);
 		}
 		else
 		{
@@ -46,8 +34,9 @@ public class SceneManager : MonoBehaviour {
 	
 	}
 	
+	// SceneManager.GoTo(SceneList, int)
 	// call this function for switch scenes
-	// if no select, used last one
+	// 當轉換至選單場景時需要selected變數，若不填寫則使用最近一次的資料
 	public static void GoTo(SceneList sl, int selected = -1) {
 		switch(sl) {
 		case SceneList.title:
@@ -60,14 +49,18 @@ public class SceneManager : MonoBehaviour {
 			
 		case SceneList.chapterMenu:
 			if (selected!=-1)
-				Instants.seletedTheme = selected;
+				Global.Instants.seletedTheme = selected;
 			Application.LoadLevel(Instants.chapterMenuSceneName);
 			break;
 			
 		case SceneList.game:
 			if (selected!=-1)
-				Instants.seletedChapter = selected;
+				Global.Instants.seletedChapter = selected;
 			Application.LoadLevel(Instants.gameSceneName);
+			break;
+			
+		case SceneList.result:
+			Application.LoadLevel(Instants.resultSceneName);
 			break;
 			
 		case SceneList.exit:
@@ -79,6 +72,6 @@ public class SceneManager : MonoBehaviour {
 			return;
 			break;
 		}
-		Instants.currentScene = sl;
+		Global.Instants.currentScene = sl;
 	}
 }

@@ -2,25 +2,28 @@
 using System.Collections;
 
 public class ThemeMenu : MonoBehaviour {
-	public string title;
-	public string[] items;
+	public ThemeSet[] themes;
+	public Texture lockedImg;
+	public float aspect = 3.0f;
 	
-	private Rect titleRect; // auto X and Y
-	private Rect itemRect; // auto X and Y
-	
-	private Rect groupArea; // auto size
-	private Rect tmpRect; // for loop
-	
+	private Rect itemRect;
+	private Rect groupArea;
 	// Use this for initialization
 	void Start () {
-		titleRect.x = 0;
-		titleRect.y = 0;
-		itemRect = new Rect(0.0f, 0.0f, Screen.width*0.9f, Screen.height*0.2f);
+		itemRect = new Rect(0.0f, 0.0f, Screen.width*0.9f, Screen.width*0.9f/aspect);
 		itemRect.center = new Vector2(Screen.width*0.5f, 0);
 		groupArea.height = Screen.height;
 		groupArea.width = Screen.width;
 		//groupArea.center = new Vector2(Screen.width*0.5f, Screen.height*0.5f);
-		tmpRect = itemRect;
+		themes = new ThemeSet[10];
+		for (int i = 0; i < themes.Length; i++)
+		{
+			themes[i] = new ThemeSet();
+			themes[i].id = i;
+			themes[i].name = "Theme "+i.ToString();
+			themes[i].status = ThemeStatus.unlocked;
+		}
+		// themeSets = DataManager.GetThemeList();
 	}
 	
 	// Update is called once per frame
@@ -30,28 +33,27 @@ public class ThemeMenu : MonoBehaviour {
 	
 	private Vector2 scrollViewVector = Vector2.zero;
 	void OnGUI () {
-		//GUI.Button( titleRect, title);
-		itemRect = new Rect(0.0f, 0.0f, Screen.width*0.9f, Screen.height*0.2f);
-		itemRect.center = new Vector2(Screen.width*0.5f, 0);
-		groupArea.height = Screen.height;
-		groupArea.width = Screen.width;
+		//GUI.Button( titleRect, title)
 		
 		GUILayout.BeginArea(groupArea);
 		scrollViewVector = GUILayout.BeginScrollView(scrollViewVector, true, false);
-		
 		GUILayout.BeginVertical();
-		for(int i = 0; i < items.Length; i++)
+		for(int i = 0; i < themes.Length; i++)
 		{
-			if(GUILayout.Button(items[i], GUILayout.Width(itemRect.width), GUILayout.Height(itemRect.height)))
+			if(themes[i].status == ThemeStatus.locked)
 			{
-				SceneManager.Instants.seletedTheme = i;
-				SceneManager.GoTo(SceneList.chapterMenu);
+				GUILayout.Button(lockedImg, GUILayout.Width(itemRect.width), GUILayout.Height(itemRect.height));
+			}
+			else if(GUILayout.Button(themes[i].name, GUILayout.Width(itemRect.width), GUILayout.Height(itemRect.height)))
+			{
+				SceneManager.GoTo(SceneList.chapterMenu, themes[i].id);
 			}
 		}
 		
 		GUILayout.EndScrollView();
 		GUILayout.EndArea();
 		
+		// go back button
 		if(GUI.Button(new Rect(Screen.width*0.7f, Screen.height*0.9f, Screen.width*0.3f, Screen.height*0.1f),"Back"))
 		{
 			SceneManager.GoTo(SceneList.title);

@@ -2,25 +2,29 @@
 using System.Collections;
 
 public class ChapterMenu : MonoBehaviour {
-	public string title;
-	public string[] items;
+	public ChapterSet[] chapters;
+	public Texture lockedImg;
+	public float ratio = 0.2f;
 	
-	private Rect titleRect; // auto X and Y
 	private Rect itemRect; // auto X and Y
-	
 	private Rect groupArea; // auto size
-	private Rect tmpRect; // for loop
 	
 	// Use this for initialization
 	void Start () {
-		titleRect.x = 0;
-		titleRect.y = 0;
-		itemRect = new Rect(0.0f, 0.0f, Screen.width*0.9f, Screen.height*0.2f);
+		itemRect = new Rect(0.0f, 0.0f, Screen.width*ratio, Screen.width*ratio);
 		itemRect.center = new Vector2(Screen.width*0.5f, 0);
 		groupArea.height = Screen.height;
 		groupArea.width = Screen.width;
-		//groupArea.center = new Vector2(Screen.width*0.5f, Screen.height*0.5f);
-		tmpRect = itemRect;
+		
+		// chapterSets = DataManager.GetChapterList();
+		chapters = new ChapterSet[30];
+		for(int i = 0; i < chapters.Length; i++)
+		{
+			chapters[i] = new ChapterSet();
+			chapters[i].id = i;
+			chapters[i].name = "CP "+i.ToString();
+			chapters[i].status = ChapterStatus.locked;
+		}
 	}
 	
 	// Update is called once per frame
@@ -28,33 +32,59 @@ public class ChapterMenu : MonoBehaviour {
 	
 	}
 	
+	// 必須再OnGUI呼叫，當狀態非locked而且被點選時會回傳True
+	bool MakeChapter (int i) {
+		bool isClick;
+		if (chapters[i].status == ChapterStatus.locked)
+		{
+			GUILayout.Button(lockedImg,
+			GUILayout.Width(itemRect.width), 
+			GUILayout.Height(itemRect.height));
+			return false;
+		}
+		isClick = GUILayout.Button(chapters[i].name,
+			GUILayout.Width(itemRect.width), 
+			GUILayout.Height(itemRect.height));
+		return isClick;
+	}
+	
 	private Vector2 scrollViewVector = Vector2.zero;
 	void OnGUI () {
-		//GUI.Button( titleRect, title);
-		itemRect = new Rect(0.0f, 0.0f, Screen.width*0.9f, Screen.height*0.2f);
-		itemRect.center = new Vector2(Screen.width*0.5f, 0);
-		groupArea.height = Screen.height;
-		groupArea.width = Screen.width;
-		
+		// 只是一些GUI的排版
+		float tmpWidth = 0.0f;
 		GUILayout.BeginArea(groupArea);
 		scrollViewVector = GUILayout.BeginScrollView(scrollViewVector, true, false);
 		
-		GUILayout.BeginVertical();
-		for(int i = 0; i < items.Length; i++)
+		GUILayout.FlexibleSpace();
+		GUILayout.BeginHorizontal();
+		for(int i = 0; i < chapters.Length; i++)
 		{
-			if(GUILayout.Button(items[i], GUILayout.Width(itemRect.width), GUILayout.Height(itemRect.height)))
+			if(tmpWidth+itemRect.width > (float)Screen.width*0.95f)
 			{
-				SceneManager.Instants.seletedChapter = i;
-				SceneManager.GoTo(SceneList.game);
+				GUILayout.FlexibleSpace();
+				GUILayout.EndHorizontal();
+				GUILayout.BeginVertical();
+				GUILayout.FlexibleSpace();
+				GUILayout.EndVertical();
+				GUILayout.BeginHorizontal();
+				tmpWidth = 0.0f;
 			}
+			GUILayout.FlexibleSpace();
+			if(MakeChapter(i))
+			{
+				SceneManager.GoTo(SceneList.game, chapters[i].id);
+			}
+			tmpWidth = tmpWidth+itemRect.width;
 		}
-		
+		GUILayout.FlexibleSpace();
+		GUILayout.EndHorizontal();
+		GUILayout.FlexibleSpace();
 		GUILayout.EndScrollView();
 		GUILayout.EndArea();
 		
+		// go back button
 		if(GUI.Button(new Rect(Screen.width*0.7f, Screen.height*0.9f, Screen.width*0.3f, Screen.height*0.1f),"Back"))
 		{
-			Debug.Log("Click");
 			SceneManager.GoTo(SceneList.themeMenu);
 		}
 	}
