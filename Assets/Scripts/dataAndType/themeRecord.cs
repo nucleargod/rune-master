@@ -10,7 +10,7 @@ public class themeRecord {
 	public Texture 			img{ get { return image;}}
 	public float			score = 0.0f;
 	public ThemeStatus		status = ThemeStatus.locked;
-	public chapterRecord[]	chapters;
+	public chapterRecord[]	chapters = null;
 	
 	public enum ThemeStatus{
 		locked,
@@ -26,6 +26,7 @@ public class themeRecord {
 		name  = _name;
 		score = _score;
 		if(_imgPath != null) loadImage(_imgPath);
+		chapters = null;
 	}
 	
 	public void unlock(){

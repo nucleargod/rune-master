@@ -16,19 +16,20 @@ public class ChapterMenu : MonoBehaviour {
 		groupArea.height = Screen.height;
 		groupArea.width = Screen.width;
 		
-		// chapterSets = DataManager.GetChapterList();
-		chapters = new chapterRecord[5];
-		for(int i = 0; i < chapters.Length; i++)
-		{
-			chapters[i] = new chapterRecord();
-			chapters[i].id = i;
-			chapters[i].name = "CP "+i.ToString();
-			if (i < chapters.Length-Global.Instants.seletedTheme)
-				chapters[i].status = chapterRecord.ChapterStatus.unlocked;
-			else
-				chapters[i].status = chapterRecord.ChapterStatus.locked;
-			
-		}
+		print("theme: " + Global.Instants.seletedTheme);
+		chapters = DataManager.Instants.modelComponent.getCapters(Global.Instants.seletedTheme);
+		//chapters = new chapterRecord[5];
+		//for(int i = 0; i < chapters.Length; i++)
+		//{
+		//	chapters[i] = new chapterRecord();
+		//	chapters[i].id = i;
+		//	chapters[i].name = "CP "+i.ToString();
+		//	if (i < chapters.Length-Global.Instants.seletedTheme)
+		//		chapters[i].status = chapterRecord.ChapterStatus.unlocked;
+		//	else
+		//		chapters[i].status = chapterRecord.ChapterStatus.locked;
+		//	
+		//}
 	}
 	
 	// Update is called once per frame

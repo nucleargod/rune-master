@@ -7,6 +7,7 @@ public class model : MonoBehaviour {
 	private dbAccess db;
 	
 	//cache
+	//[SerializeField]
 	private themeRecord[] c_themes = null;
 
 	// Use this for initialization
@@ -237,8 +238,11 @@ public class model : MonoBehaviour {
 		if(c_themes == null) getThemes();
 		
 		if(c_themes != null && c_themes.Length > themeId){
-			if(c_themes[themeId].chapters == null){
+			print("c_themes.Length > themeId");
+			if(c_themes[themeId].chapters == null || c_themes[themeId].chapters.Length < 1){
+				print("c_themes[themeId].chapters.Length < 1");
 				if(db!=null){
+					print("query");
 					c_themes[themeId].chapters = db.getChapters(themeId);
 					if(c_themes[themeId].chapters == null){
 						description = db.errMsg;

@@ -13,10 +13,10 @@ public class Result : MonoBehaviour {
 	private float scoreIncrease;
 	// Use this for initialization
 	void Start () {
-		currentTheme = DataManager.GetTheme(Global.Instants.seletedTheme);
-		nextTheme = DataManager.GetTheme(Global.Instants.seletedTheme+1);
-		currentChapter = DataManager.GetChapter(Global.Instants.seletedChapter);
-		nextChapter = DataManager.GetChapter(Global.Instants.seletedChapter+1);
+		currentTheme = DataManager.Instants.modelComponent.getTheme(Global.Instants.seletedTheme);
+		nextTheme = DataManager.Instants.modelComponent.getTheme(Global.Instants.seletedTheme+1);
+		currentChapter = currentTheme.chapters[Global.Instants.seletedChapter];
+		nextChapter = nextTheme.chapters[Global.Instants.seletedChapter+1];
 		
 		// 計算此次遊戲結果
 		if(Global.Instants.battleResult > (float)Rank.A)
@@ -37,7 +37,7 @@ public class Result : MonoBehaviour {
 		
 		// 若有下一關且分數大於門檻值則解鎖下一關
 		if(nextChapter != null && currentChapter.score >= chapterThreshold) 
-			nextChapter.status = ChapterStatus.unlocked;
+			nextChapter.status = chapterRecord.ChapterStatus.unlocked;
 		
 		if(nextTheme != null && currentTheme.score >= themeThreshold)
 			nextTheme.status = themeRecord.ThemeStatus.unlocked;
@@ -56,7 +56,7 @@ public class Result : MonoBehaviour {
 		GUILayout.Button("Rank: "+rank);
 		if(GUILayout.Button("Try Again"))
 			SceneManager.GoTo(SceneList.game);
-		if(GUILayout.Button("Next Chapter") && nextChapter != null && nextChapter.status == ChapterStatus.unlocked)
+		if(GUILayout.Button("Next Chapter") && nextChapter != null && nextChapter.status == chapterRecord.ChapterStatus.unlocked)
 			SceneManager.GoTo(SceneList.game, Global.Instants.seletedChapter+1);
 		if(GUILayout.Button("Go Back To Title Menu"))
 			SceneManager.GoTo(SceneList.title);

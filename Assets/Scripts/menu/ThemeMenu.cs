@@ -15,18 +15,18 @@ public class ThemeMenu : MonoBehaviour {
 		groupArea.height = Screen.height;
 		groupArea.width = Screen.width;
 		//groupArea.center = new Vector2(Screen.width*0.5f, Screen.height*0.5f);
-		themes = new themeRecord[10];
-		for (int i = 0; i < themes.Length; i++)
-		{
-			themes[i] = new themeRecord();
-			themes[i].id = i;
-			//themes[i].name = "Theme "+i.ToString();
-			if(i < 5)
-				themes[i].status = themeRecord.ThemeStatus.unlocked;
-			else
-				themes[i].status = themeRecord.ThemeStatus.locked;
-		}
-		// themeSets = DataManager.GetThemeList();
+		//themes = new themeRecord[10];
+		//for (int i = 0; i < themes.Length; i++)
+		//{
+		//	themes[i] = new themeRecord();
+		//	themes[i].id = i;
+		//	//themes[i].name = "Theme "+i.ToString();
+		//	if(i < 5)
+		//		themes[i].status = themeRecord.ThemeStatus.unlocked;
+		//	else
+		//		themes[i].status = themeRecord.ThemeStatus.locked;
+		//}
+		themes = DataManager.Instants.modelComponent.getThemes();
 	}
 	
 	// Update is called once per frame
