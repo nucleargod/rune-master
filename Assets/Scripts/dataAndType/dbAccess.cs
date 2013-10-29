@@ -256,6 +256,49 @@ public class dbAccess {
 		return d;
 	}
 	
+	public Word[] getWords(char[] r){
+		if(r.Length < 1) return null;
+		string query = "SELECT * FROM words WHERE";// word = '" + r + "'";
+		query += " word = '" + r[0].ToString() + "'";
+		for(int i=1; i<r.Length; i++){
+			query += " OR word = '" + r[i].ToString() + "'";
+		}
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		Word[] d = new Word[r.Length];
+		int top=0;
+		while(reader.Read()){
+			if(reader.FieldCount != 9){
+				errMsg = "FieldCount error!";
+				Debug.Log("FieldCount error!");
+			}
+			else{
+				d[top] = null;
+				string name = reader.GetString(0);
+				int stroke_count = (int)reader.GetValue(2);
+				string imgPath = (string)reader.GetValue(5);
+				string strokes = (string)reader.GetValue(6);
+				string buso    = (string)reader.GetValue(8);
+				try{
+					d[top] = new Word(name, strokes, stroke_count, buso);
+				}catch (Exception e){
+					Debug.Log(e);
+					errMsg = e.ToString();
+				}
+				if(d[top] != null && imgPath != null) d[top].loadImage(imgPath);
+				top++;
+			}
+		}
+		return d;
+	}
+	
 	public Word getWord(string r){
 		string query = "SELECT * FROM words WHERE word = '" + r + "'";
 		try {
