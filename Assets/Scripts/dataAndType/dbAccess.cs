@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using Mono.Data.SqliteClient;
 
-public class dbAccess : MonoBehaviour {
+public class dbAccess {
 	private string connection;
 	private IDbConnection dbcon;
 	private IDbCommand dbcmd;
@@ -15,12 +15,7 @@ public class dbAccess : MonoBehaviour {
 	
 	public const int dbVersion = 1;
 	
-	public string errMsg;
-
-	// Use this for initialization
-	void Start () {
-		errMsg = "";
-	}
+	public string errMsg = "";
 	
 	public void OpenDB(string p)
 	{
@@ -51,7 +46,7 @@ public class dbAccess : MonoBehaviour {
 		try{
 			BasicQuery("SELECT ver FROM version");
 			if(reader.Read()){
-				print("read");
+				Debug.Log("read");
 				if(reader.GetInt32(0) != dbVersion){
 					dbavalible = false;
 				}
@@ -59,7 +54,7 @@ public class dbAccess : MonoBehaviour {
 			else dbavalible = false;
 		}
 		catch(Exception e){
-			print(e);
+			Debug.Log(e);
 			dbavalible = false;
 		}
 		
@@ -213,13 +208,9 @@ public class dbAccess : MonoBehaviour {
 	
 	public string Dquery(string query){ // An evil back door
 		try{
-			print("try Dquery");
 			dbcmd = dbcon.CreateCommand(); // create empty command
-			print("CreateCommand");
 			dbcmd.CommandText = query; // fill the command
-			print("fill the command");
 			reader = dbcmd.ExecuteReader(); // execute command which returns a reader
-			print("execute command");
 		}
 		catch(Exception e){
 			errMsg = e.ToString();
@@ -260,6 +251,49 @@ public class dbAccess : MonoBehaviour {
 			}
 			else{
 				d.Add(reader.GetString(0));
+			}
+		}
+		return d;
+	}
+	
+	public Word[] getWords(char[] r){
+		if(r.Length < 1) return null;
+		string query = "SELECT * FROM words WHERE";// word = '" + r + "'";
+		query += " word = '" + r[0].ToString() + "'";
+		for(int i=1; i<r.Length; i++){
+			query += " OR word = '" + r[i].ToString() + "'";
+		}
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		Word[] d = new Word[r.Length];
+		int top=0;
+		while(reader.Read()){
+			if(reader.FieldCount != 9){
+				errMsg = "FieldCount error!";
+				Debug.Log("FieldCount error!");
+			}
+			else{
+				d[top] = null;
+				string name = reader.GetString(0);
+				int stroke_count = (int)reader.GetValue(2);
+				string imgPath = (string)reader.GetValue(5);
+				string strokes = (string)reader.GetValue(6);
+				string buso    = (string)reader.GetValue(8);
+				try{
+					d[top] = new Word(name, strokes, stroke_count, buso);
+				}catch (Exception e){
+					Debug.Log(e);
+					errMsg = e.ToString();
+				}
+				if(d[top] != null && imgPath != null) d[top].loadImage(imgPath);
+				top++;
 			}
 		}
 		return d;
@@ -469,9 +503,90 @@ public class dbAccess : MonoBehaviour {
 		}
 		return record;
 	}
-
-	// Update is called once per frame
-	void Update () {
 	
+	public themeRecord[] getThemes(int limit){
+		string query = "SELECT * FROM themes ORDER BY id";
+		if(limit > 0) query += " LIMIT " + limit;
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		
+		System.Collections.Generic.List<themeRecord> themes = new System.Collections.Generic.List<themeRecord>();
+		while(reader.Read()){
+			int    id      = reader.GetInt32(0);
+			string name    = reader.GetString(1);
+			string imgPath = reader.GetString(2);
+			float  score   = reader.GetFloat(3);
+			themeRecord _theme = new themeRecord(id, name, score, imgPath); 
+			themes.Add(_theme);
+		}
+		
+		return themes.ToArray();
+	}
+	
+	public bool updateTheme(themeRecord theme){
+		string query = "UPDATE themes SET score ='" + theme.score + "' WHERE id = '" + theme.id + "'";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public chapterRecord[] getChapters(int themeId){
+		string query = "SELECT * FROM enemies WHERE themeId = '" + themeId + "' ORDER BY number";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		
+		System.Collections.Generic.List<chapterRecord> chapters = new System.Collections.Generic.List<chapterRecord>();
+		while(reader.Read()){
+			int    id      = reader.GetInt32(0);
+			string name    = reader.GetString(2);
+			string imgPath = reader.GetString(3);
+			float  score   = reader.GetFloat(4);
+			chapterRecord _chapter = new chapterRecord(id, themeId, name, score, imgPath); 
+			chapters.Add(_chapter);
+		}
+		
+		return chapters.ToArray();
+	}
+	
+	public bool updateChapter(chapterRecord chapter){
+		string query = "UPDATE enemies SET score ='" + chapter.score + "' ";
+		query += "WHERE number = '" + chapter.id + "' AND themeId = '" + chapter.themeId + "'";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return false;
+		}
+		
+		return true;
 	}
 }

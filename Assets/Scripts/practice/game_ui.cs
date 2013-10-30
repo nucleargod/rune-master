@@ -2,7 +2,7 @@
 using System.Collections;
 using System.IO;
 
-public class UI : MonoBehaviour {
+public class game_ui : MonoBehaviour {
 	
 	public Canvas canvas;
 	public Word frontWord;
@@ -10,11 +10,11 @@ public class UI : MonoBehaviour {
 	public Word wordPlayer;
 	public WordDisplay wordDisplay;
 	public WordDisplay backWordDisplay;
-	public Word[] wordList;
+	public Word[] wordList = null;
 	public float error;
 	public float showE;
 	
-	public int chooseWords;
+	public int chooseWords = 0;
 	public int length;
 	
 	public Object sound_O;
@@ -42,13 +42,24 @@ public class UI : MonoBehaviour {
 	
 	void LoadWords()
 	{
+		/*
 		wordList = new Word[rcd.wordList.Count];
 		for(int i=0; i<rcd.wordList.Count; i++){
 			wordList[i] = db.getWord(rcd.wordList[i]);
 		}
+		//*/
+		
+		/*
+		wordList = DataManager.Instants.modelComponent.getWords("金汁");
+		//*/
+		
+		wordList = DataManager.Instants.modelComponent.getWords(
+			DataManager.Instants.modelComponent.getCapters(
+				Global.Instants.seletedTheme
+			)[Global.Instants.seletedChapter].name
+		);
 		
 		//chooseWords = Random.Range(0,rcd.wordList.Count);
-		chooseWords = 0;
 		backWord = wordList[chooseWords];
 		
 		canvas.word = new Word();
@@ -170,7 +181,7 @@ public class UI : MonoBehaviour {
 		}		
 		if(GUI.Button( new Rect(Screen.width-W, W2, W, W2), "", sbreturn))
 		{
-			SceneManager.GoTo(SceneList.title);
+			SceneManager.GoTo(SceneList.chapterMenu);
 			//Application.LoadLevel("menuScene");
 		}
 		
@@ -178,7 +189,7 @@ public class UI : MonoBehaviour {
 		
 		if(GUI.Button(new Rect(0, 0, W, W), wordList[chooseWords].image, GUIStyle.none)){
 			ClearCanvas();
-			changeWord();
+			// changeWord();
 		}
 		
 		if(GUI.Button(new Rect(0, Screen.height - W, W, W2), "", sbteach)){
@@ -206,6 +217,22 @@ public class UI : MonoBehaviour {
 	void ShowError(float W) 
 	{
 		if(!showError) return;
+		
+		
+		if(showE != 0.0f)
+		{
+			if(chooseWords==wordList.Length-1) {
+				Global.Instants.battleResult = Word.getScore(showE);
+				SceneManager.GoTo(SceneList.result);
+			}
+			else {
+				ClearCanvas();
+				changeWord();
+				showE = 0.0f;
+				check = false;
+			}
+		}
+		
 		
 		GUI.Box(new Rect(Screen.width-W, Screen.height-W, W, W), 
 						"score " + Word.getScore(showE).ToString("0.000") + "\nRank: " + Word.Judge(showE), 

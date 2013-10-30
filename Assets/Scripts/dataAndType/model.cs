@@ -5,6 +5,10 @@ public class model : MonoBehaviour {
 	private string description;
 	public bool toggle;
 	private dbAccess db;
+	
+	//cache
+	//[SerializeField]
+	private themeRecord[] c_themes = null;
 
 	// Use this for initialization
 	void Start () {
@@ -12,7 +16,7 @@ public class model : MonoBehaviour {
 		
 		// Retrieve next word from database
 		description = "something went wrong with the database";
-		db = GetComponent<dbAccess>();
+		db = new dbAccess();
 		
 		if(db != null){
 			db.OpenDB("word.db");
@@ -106,10 +110,28 @@ public class model : MonoBehaviour {
 		else return null;
 	}
 	
+	/*get word data of word w from database*/
+	public Word getWord(char w){
+		return getWord(w.ToString());
+	}
+	
 	/*get all words from database*/
 	public System.Collections.Generic.List<string> getWords(){
 		if(db != null){
 			System.Collections.Generic.List<string> d = db.getWords();
+			if(d == null){
+				description = db.errMsg;
+				toggle = true;
+			}
+			return d;
+		}
+		else return null;
+	}
+	
+	/*get all string words from database*/
+	public Word[] getWords(string r){
+		if(db != null){
+			Word[] d = db.getWords(r.ToCharArray());
 			if(d == null){
 				description = db.errMsg;
 				toggle = true;
@@ -147,6 +169,7 @@ public class model : MonoBehaviour {
 		else return null;
 	}
 	
+	//get all write records of input word
 	public wordRecord getWordRecords(string w){
 		if(db != null){
 			wordRecord wrecord = db.getWordRecords(w);
@@ -159,7 +182,7 @@ public class model : MonoBehaviour {
 		}
 		else return null;
 	}
-		
+	
 	public bool isTerm(Word a, Word b){
 		if(db != null){
 			return db.isTerm(a, b);
@@ -172,6 +195,7 @@ public class model : MonoBehaviour {
 		return time;
 	}
 	
+	//get 5 latest write records of input word order by time
 	public wordRecord getOrderedRecords(Word r){
 		if(db!=null){
 			wordRecord records = db.getOrderedRecords(r.wordName, 5);
@@ -182,6 +206,116 @@ public class model : MonoBehaviour {
 			return records;
 		}
 		return null;
+	}
+	
+	//get all themes
+	public themeRecord[] getThemes(){
+		if(c_themes != null) return c_themes;
+		else if(db!=null){
+			c_themes = db.getThemes(0);
+			if(c_themes == null){
+				description = db.errMsg;
+				toggle = true;
+			}
+			return c_themes;
+		}
+		return null;
+	}
+	
+	//get the theme of given id
+	public themeRecord getTheme(int id){
+		if(c_themes == null) getThemes();
+		
+		if(c_themes != null && c_themes.Length > id) return c_themes[id];
+		else return null;
+	}
+	
+	//update given theme's score
+	public bool updateTheme(int themeId, float score){
+		if(c_themes == null) getThemes();
+		
+		if(c_themes != null && c_themes.Length > themeId) 
+			c_themes[themeId].score = score;
+		else return false;
+		
+		if(db != null){
+			bool d=db.updateTheme(c_themes[themeId]);
+			if(!d){
+				description = db.errMsg;
+				toggle = true;
+			}
+			return d;
+		}
+		else{
+			description = "null db";
+			toggle = true;
+			return false;
+		}
+	}
+	
+	//update given theme's score
+	public bool updateTheme(themeRecord theme){
+		return updateTheme(theme.id, theme.score);
+	}
+	
+	//get all Chapters of given theme
+	public chapterRecord[] getCapters(int themeId){
+		if(c_themes == null) getThemes();
+		
+		if(c_themes != null && c_themes.Length > themeId){
+			print("c_themes.Length > themeId");
+			if(c_themes[themeId].chapters == null || c_themes[themeId].chapters.Length < 1){
+				print("c_themes[themeId].chapters.Length < 1");
+				if(db!=null){
+					print("query");
+					c_themes[themeId].chapters = db.getChapters(themeId);
+					if(c_themes[themeId].chapters == null){
+						description = db.errMsg;
+						toggle = true;
+					}
+				}
+				else {
+					description = "null db";
+					toggle = true;
+				}
+			}
+			return c_themes[themeId].chapters;
+		}
+		else return null;
+	}
+	
+	//update given chapter's score
+	public bool updateCapter(int number, int themeId, float score){
+		if(c_themes == null) getThemes();
+		
+		chapterRecord[] chapters;
+		if(c_themes != null && c_themes.Length > themeId){
+			chapters = c_themes[themeId].chapters;
+			if(chapters == null) chapters = getCapters(themeId);
+			
+			if(chapters != null && chapters.Length > number) 
+				chapters[number].score = score;
+		}
+		else return false;
+		
+		if(db != null){
+			bool d=db.updateChapter(chapters[number]);
+			if(!d){
+				description = db.errMsg;
+				toggle = true;
+			}
+			return d;
+		}
+		else{
+			description = "null db";
+			toggle = true;
+			return false;
+		}
+	}
+	
+	//update given chapter's score
+	public bool updateCapter(chapterRecord chapter){
+		return updateCapter(chapter.id, chapter.themeId, chapter.score);
 	}
 	
 	void OnDestroy(){
