@@ -38,7 +38,6 @@ public class Global : MonoBehaviour {
 			Instants = this;
 			seletedChapter = 0;
 			seletedTheme = 0;
-			currentScene = SceneList.title;
 			DontDestroyOnLoad(this.gameObject);
 		}
 		else

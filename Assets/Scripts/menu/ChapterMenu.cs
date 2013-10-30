@@ -47,7 +47,7 @@ public class ChapterMenu : MonoBehaviour {
 			GUILayout.Height(itemRect.height));
 			return false;
 		}
-		isClick = GUILayout.Button(chapters[i].name,
+		isClick = GUILayout.Button(chapters[i].img,
 			GUILayout.Width(itemRect.width), 
 			GUILayout.Height(itemRect.height));
 		return isClick;
