@@ -10,11 +10,11 @@ public class game_ui : MonoBehaviour {
 	public Word wordPlayer;
 	public WordDisplay wordDisplay;
 	public WordDisplay backWordDisplay;
-	public Word[] wordList;
+	public Word[] wordList = null;
 	public float error;
 	public float showE;
 	
-	public int chooseWords;
+	public int chooseWords = 0;
 	public int length;
 	
 	public Object sound_O;
@@ -42,13 +42,24 @@ public class game_ui : MonoBehaviour {
 	
 	void LoadWords()
 	{
+		/*
 		wordList = new Word[rcd.wordList.Count];
 		for(int i=0; i<rcd.wordList.Count; i++){
 			wordList[i] = db.getWord(rcd.wordList[i]);
 		}
+		//*/
+		
+		/*
+		wordList = DataManager.Instants.modelComponent.getWords("金汁");
+		//*/
+		
+		wordList = DataManager.Instants.modelComponent.getWords(
+			DataManager.Instants.modelComponent.getCapters(
+				Global.Instants.seletedTheme
+			)[Global.Instants.seletedChapter].name
+		);
 		
 		//chooseWords = Random.Range(0,rcd.wordList.Count);
-		chooseWords = Global.Instants.seletedTheme*5+Global.Instants.seletedChapter;
 		backWord = wordList[chooseWords];
 		
 		canvas.word = new Word();
@@ -207,11 +218,21 @@ public class game_ui : MonoBehaviour {
 	{
 		if(!showError) return;
 		
-		if(Word.getScore(showE) != 500.0f)
+		
+		if(showE != 0.0f)
 		{
-			Global.Instants.battleResult = Word.getScore(showE);
-			SceneManager.GoTo(SceneList.result);
+			if(chooseWords==wordList.Length-1) {
+				Global.Instants.battleResult = Word.getScore(showE);
+				SceneManager.GoTo(SceneList.result);
+			}
+			else {
+				ClearCanvas();
+				changeWord();
+				showE = 0.0f;
+				check = false;
+			}
 		}
+		
 		
 		GUI.Box(new Rect(Screen.width-W, Screen.height-W, W, W), 
 						"score " + Word.getScore(showE).ToString("0.000") + "\nRank: " + Word.Judge(showE), 

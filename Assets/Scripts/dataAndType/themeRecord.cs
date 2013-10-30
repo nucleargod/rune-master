@@ -9,7 +9,7 @@ public class themeRecord {
 	private Texture			image;
 	public Texture 			img{ get { return image;}}
 	public float			score = 0.0f;
-	public ThemeStatus		status = ThemeStatus.locked;
+	public ThemeStatus		status = ThemeStatus.unlocked;
 	public chapterRecord[]	chapters = null;
 	
 	public enum ThemeStatus{

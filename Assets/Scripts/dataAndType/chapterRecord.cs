@@ -11,7 +11,7 @@ public class chapterRecord {
 	private Texture			image;
 	public Texture 			img{ get { return image;}}
 	public float			score;
-	public ChapterStatus	status;
+	public ChapterStatus	status = ChapterStatus.unlocked;
 	
 	public enum ChapterStatus{
 		locked,

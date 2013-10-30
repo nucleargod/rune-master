@@ -47,7 +47,7 @@ public class ThemeMenu : MonoBehaviour {
 			{
 				GUILayout.Button(lockedImg, GUILayout.Width(itemRect.width), GUILayout.Height(itemRect.height));
 			}
-			else if(GUILayout.Button(themes[i].name, GUILayout.Width(itemRect.width), GUILayout.Height(itemRect.height)))
+			else if(GUILayout.Button(themes[i].img, GUILayout.Width(itemRect.width), GUILayout.Height(itemRect.height)))
 			{
 				SceneManager.GoTo(SceneList.chapterMenu, themes[i].id);
 			}
