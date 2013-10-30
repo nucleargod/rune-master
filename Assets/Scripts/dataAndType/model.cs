@@ -131,10 +131,22 @@ public class model : MonoBehaviour {
 	/*get all string words from database*/
 	public Word[] getWords(string r){
 		if(db != null){
-			Word[] d = db.getWords(r.ToCharArray());
+			char[] str = r.ToCharArray();
+			Word[] d = db.getWords(str);
 			if(d == null){
 				description = db.errMsg;
 				toggle = true;
+			}
+			else{
+				for(int i=0; i<str.Length; i++){
+					for(int j=i+1; j<str.Length; j++){
+						if(str[i].ToString() == d[j].wordName){
+							Word w = d[i];
+							d[i] = d[j];
+							d[j] = w;
+						}
+					}
+				}
 			}
 			return d;
 		}
