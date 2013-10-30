@@ -346,7 +346,7 @@ public class t_BattleSystem : MonoBehaviour {
 			
 			//if get s
 			print("error:" + ui.showE);
-			if(Word.Judge(ui.showE) == "S"){
+			if(Word.Judge(ui.showE) == "A" || Word.Judge(ui.showE) == "S"){
 				circle.gameObject.SetActive(true);
 				cTimer = 1.5f;
 			}
