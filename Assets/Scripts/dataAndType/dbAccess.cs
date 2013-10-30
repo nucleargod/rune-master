@@ -13,7 +13,7 @@ public class dbAccess {
 	private IDataReader reader;
 	private StringBuilder builder;
 	
-	public const int dbVersion = 1;
+	public const int dbVersion = 2;
 	
 	public string errMsg = "";
 	

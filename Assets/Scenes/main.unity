@@ -112,6 +112,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9c6c80ffee6e024387635e4bcfd38d2, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   toggle: 0
 --- !u!1 &206200332
 GameObject:
@@ -151,6 +152,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47f4873d01ce24e4ebaa6eb01fecdae1, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   titleSceneName: menuScene
   themeMenuSceneName: themeMenu
   chapterMenuSceneName: chapterMenu
@@ -194,6 +196,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3674a6e70049da4f932c5bffeaa7600, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   database: {fileID: 0}
   wordList: []
 --- !u!1001 &1460238264
@@ -263,6 +266,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73305f1182a279b4aad6440ae5ec281c, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   seletedTheme: 0
   seletedChapter: 0
   currentScene: 0
@@ -320,5 +324,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1599b41f3f9699d4a9388da7534e6585, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   modelComponent: {fileID: 0}
   recordComponent: {fileID: 0}
