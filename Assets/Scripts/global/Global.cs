@@ -25,7 +25,9 @@ public enum Rank{
 }
 
 public class Global : MonoBehaviour {
-	public static Global Instance = null;	// Global.
+	public static Global Instance = null;	// Global.Instance
+	
+	public SceneList firstScene;
 	public int seletedTheme;	// Global.Instance.seletedTheme
 	public int seletedChapter;	// Global.Instance.seletedChapter
 	public SceneList currentScene;	// Global.Instance.currentScene
@@ -49,7 +51,7 @@ public class Global : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		SceneManager.GoTo(SceneList.title); // 避免未完全的初始化
+		SceneManager.GoTo(firstScene); // 避免未完全的初始化
 		this.enabled = false;
 	}
 }

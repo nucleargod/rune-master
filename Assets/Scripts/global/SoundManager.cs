@@ -8,7 +8,17 @@ public class SoundManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-	
+		if (Instance == null)
+		{
+			Instance = this;
+			this.enabled = false;
+			DontDestroyOnLoad(this.gameObject);
+		}
+		else
+		{
+			Debug.Log("SoundManager is already exists");
+			Destroy(this.gameObject);
+		}
 	}
 	
 	// Update is called once per frame
