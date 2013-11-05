@@ -5,13 +5,13 @@ using System.Collections;
 // 所有需要資料庫配合的資料結構都在此定義
 
 public class DataManager : MonoBehaviour {
-	public static DataManager Instants = null;
+	public static DataManager Instance = null;
 	public model modelComponent;
 	public GlobalRecord recordComponent;
 	// Use this for initialization
 	void Start () {
-		if(Instants == null) {
-			Instants = this;
+		if(Instance == null) {
+			Instance = this;
 			modelComponent = this.GetComponentInChildren<model>();
 			recordComponent = this.GetComponentInChildren<GlobalRecord>();
 			this.enabled = false;

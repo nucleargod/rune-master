@@ -13,26 +13,26 @@ public class Result : MonoBehaviour {
 	private float scoreIncrease;
 	// Use this for initialization
 	void Start () {
-		currentTheme = DataManager.Instants.modelComponent.getTheme(Global.Instants.seletedTheme);
-		nextTheme = DataManager.Instants.modelComponent.getTheme(Global.Instants.seletedTheme+1);
-		currentChapter = currentTheme.chapters[Global.Instants.seletedChapter];
-		nextChapter = nextTheme.chapters[Global.Instants.seletedChapter+1];
+		currentTheme = DataManager.Instance.modelComponent.getTheme(Global.Instance.seletedTheme);
+		nextTheme = DataManager.Instance.modelComponent.getTheme(Global.Instance.seletedTheme+1);
+		currentChapter = currentTheme.chapters[Global.Instance.seletedChapter];
+		nextChapter = nextTheme.chapters[Global.Instance.seletedChapter+1];
 		
 		// 計算此次遊戲結果
-		if(Global.Instants.battleResult > (float)Rank.A)
+		if(Global.Instance.battleResult > (float)Rank.A)
 			rank = "A";
-		else if(Global.Instants.battleResult > (float)Rank.B)
+		else if(Global.Instance.battleResult > (float)Rank.B)
 			rank = "B";
-		else if(Global.Instants.battleResult > (float)Rank.C)
+		else if(Global.Instance.battleResult > (float)Rank.C)
 			rank = "C";
-		scoreIncrease = Global.Instants.battleResult-currentChapter.score;
+		scoreIncrease = Global.Instance.battleResult-currentChapter.score;
 		
 		// 若分數沒有增加則不更新結果
 		if(scoreIncrease<0.0f)
 			return;
 		
 		// 更新結果
-		currentChapter.score = Global.Instants.battleResult;
+		currentChapter.score = Global.Instance.battleResult;
 		currentTheme.score += scoreIncrease;
 		
 		// 若有下一關且分數大於門檻值則解鎖下一關
@@ -57,7 +57,7 @@ public class Result : MonoBehaviour {
 		if(GUILayout.Button("Try Again"))
 			SceneManager.GoTo(SceneList.game);
 		if(GUILayout.Button("Next Chapter") && nextChapter != null && nextChapter.status == chapterRecord.ChapterStatus.unlocked)
-			SceneManager.GoTo(SceneList.game, Global.Instants.seletedChapter+1);
+			SceneManager.GoTo(SceneList.game, Global.Instance.seletedChapter+1);
 		if(GUILayout.Button("Go Back To Title Menu"))
 			SceneManager.GoTo(SceneList.title);
 		if(GUILayout.Button("Go Back To Theme Menu"))

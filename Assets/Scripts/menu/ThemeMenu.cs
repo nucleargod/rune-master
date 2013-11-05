@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ThemeMenu : MonoBehaviour {
@@ -26,7 +26,7 @@ public class ThemeMenu : MonoBehaviour {
 		//	else
 		//		themes[i].status = themeRecord.ThemeStatus.locked;
 		//}
-		themes = DataManager.Instants.modelComponent.getThemes();
+		themes = DataManager.Instance.modelComponent.getThemes();
 	}
 	
 	// Update is called once per frame

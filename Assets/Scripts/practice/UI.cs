@@ -82,10 +82,10 @@ public class UI : MonoBehaviour {
 		// get global record and database
 		//GameObject o = GameObject.Find("GlobalRecord");
 		//rcd = o.GetComponent<GlobalRecord>();
-		rcd = DataManager.Instants.recordComponent;
+		rcd = DataManager.Instance.recordComponent;
 		//o = GameObject.Find("database");
 		//db = o.GetComponent<model>();
-		db = DataManager.Instants.modelComponent;
+		db = DataManager.Instance.modelComponent;
 			
 		// load words
 		LoadWords();

@@ -25,17 +25,17 @@ public enum Rank{
 }
 
 public class Global : MonoBehaviour {
-	public static Global Instants = null;	// Global.Instants
-	public int seletedTheme;	// Global.Instants.seletedTheme
-	public int seletedChapter;	// Global.Instants.seletedChapter
-	public SceneList currentScene;	// Global.Instants.currentScene
-	public float battleResult;	// Global.Instants.battleResult
+	public static Global Instance = null;	// Global.
+	public int seletedTheme;	// Global.Instance.seletedTheme
+	public int seletedChapter;	// Global.Instance.seletedChapter
+	public SceneList currentScene;	// Global.Instance.currentScene
+	public float battleResult;	// Global.Instance.battleResult
 	
 	// Use this for initialization
 	void Start () {
-		if (Instants == null)
+		if (Instance == null)
 		{
-			Instants = this;
+			Instance = this;
 			seletedChapter = 0;
 			seletedTheme = 0;
 			DontDestroyOnLoad(this.gameObject);

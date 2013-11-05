@@ -50,13 +50,13 @@ public class game_ui : MonoBehaviour {
 		//*/
 		
 		/*
-		wordList = DataManager.Instants.modelComponent.getWords("金汁");
+		wordList = DataManager.Instance.modelComponent.getWords("金汁");
 		//*/
 		
-		wordList = DataManager.Instants.modelComponent.getWords(
-			DataManager.Instants.modelComponent.getCapters(
-				Global.Instants.seletedTheme
-			)[Global.Instants.seletedChapter].name
+		wordList = DataManager.Instance.modelComponent.getWords(
+			DataManager.Instance.modelComponent.getCapters(
+				Global.Instance.seletedTheme
+			)[Global.Instance.seletedChapter].name
 		);
 		
 		//chooseWords = Random.Range(0,rcd.wordList.Count);
@@ -93,10 +93,10 @@ public class game_ui : MonoBehaviour {
 		// get global record and database
 		//GameObject o = GameObject.Find("GlobalRecord");
 		//rcd = o.GetComponent<GlobalRecord>();
-		rcd = DataManager.Instants.recordComponent;
+		rcd = DataManager.Instance.recordComponent;
 		//o = GameObject.Find("database");
 		//db = o.GetComponent<model>();
-		db = DataManager.Instants.modelComponent;
+		db = DataManager.Instance.modelComponent;
 			
 		// load words
 		LoadWords();
@@ -222,7 +222,7 @@ public class game_ui : MonoBehaviour {
 		if(showE != 0.0f)
 		{
 			if(chooseWords==wordList.Length-1) {
-				Global.Instants.battleResult = Word.getScore(showE);
+				Global.Instance.battleResult = Word.getScore(showE);
 				SceneManager.GoTo(SceneList.result);
 			}
 			else {

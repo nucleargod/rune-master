@@ -16,15 +16,15 @@ public class ChapterMenu : MonoBehaviour {
 		groupArea.height = Screen.height;
 		groupArea.width = Screen.width;
 		
-		print("theme: " + Global.Instants.seletedTheme);
-		chapters = DataManager.Instants.modelComponent.getCapters(Global.Instants.seletedTheme);
+		print("theme: " + Global.Instance.seletedTheme);
+		chapters = DataManager.Instance.modelComponent.getCapters(Global.Instance.seletedTheme);
 		//chapters = new chapterRecord[5];
 		//for(int i = 0; i < chapters.Length; i++)
 		//{
 		//	chapters[i] = new chapterRecord();
 		//	chapters[i].id = i;
 		//	chapters[i].name = "CP "+i.ToString();
-		//	if (i < chapters.Length-Global.Instants.seletedTheme)
+		//	if (i < chapters.Length-Global.Instance.seletedTheme)
 		//		chapters[i].status = chapterRecord.ChapterStatus.unlocked;
 		//	else
 		//		chapters[i].status = chapterRecord.ChapterStatus.locked;

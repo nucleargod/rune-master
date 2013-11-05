@@ -5,7 +5,7 @@ using System.Collections;
 // 應該跳去哪個場景
 
 public class SceneManager : MonoBehaviour {
-	public static SceneManager Instants = null;	// SceneManager.Instants
+	public static SceneManager Instance = null;	// SceneManager.Instance
 	
 	// change this for your scenes
 	public string titleSceneName = "menuScene";
@@ -16,9 +16,9 @@ public class SceneManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		if (Instants == null)
+		if (Instance == null)
 		{
-			Instants = this;
+			Instance = this;
 			this.enabled = false;
 			DontDestroyOnLoad(this.gameObject);
 		}
@@ -40,27 +40,27 @@ public class SceneManager : MonoBehaviour {
 	public static void GoTo(SceneList sl, int selected = -1) {
 		switch(sl) {
 		case SceneList.title:
-			Application.LoadLevel(Instants.titleSceneName);
+			Application.LoadLevel(Instance.titleSceneName);
 			break;
 			
 		case SceneList.themeMenu:
-			Application.LoadLevel(Instants.themeMenuSceneName);
+			Application.LoadLevel(Instance.themeMenuSceneName);
 			break;
 			
 		case SceneList.chapterMenu:
 			if (selected!=-1)
-				Global.Instants.seletedTheme = selected;
-			Application.LoadLevel(Instants.chapterMenuSceneName);
+				Global.Instance.seletedTheme = selected;
+			Application.LoadLevel(Instance.chapterMenuSceneName);
 			break;
 			
 		case SceneList.game:
 			if (selected!=-1)
-				Global.Instants.seletedChapter = selected;
-			Application.LoadLevel(Instants.gameSceneName);
+				Global.Instance.seletedChapter = selected;
+			Application.LoadLevel(Instance.gameSceneName);
 			break;
 			
 		case SceneList.result:
-			Application.LoadLevel(Instants.resultSceneName);
+			Application.LoadLevel(Instance.resultSceneName);
 			break;
 			
 		case SceneList.exit:
@@ -72,6 +72,6 @@ public class SceneManager : MonoBehaviour {
 			return;
 			break;
 		}
-		Global.Instants.currentScene = sl;
+		Global.Instance.currentScene = sl;
 	}
 }
