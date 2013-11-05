@@ -193,6 +193,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 61fe6f5dbcc4c6b469b581d273ec7caf, type: 2}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 61fe6f5dbcc4c6b469b581d273ec7caf, type: 2}
   m_RootGameObject: {fileID: 1654679212}
@@ -337,9 +341,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1909122004}
-  - 114: {fileID: 1909122005}
+  - 114: {fileID: 1909122006}
   m_Layer: 0
-  m_Name: SoundManager
+  m_Name: AudioManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -356,7 +360,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1654679214}
---- !u!114 &1909122005
+--- !u!114 &1909122006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -364,6 +368,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1909122003}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bf145556aff58a4e8dbfded2742eba3, type: 3}
+  m_Script: {fileID: 11500000, guid: ce00069526ac1464f9d0ca4cfb2092f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainVolume: 1
+  musicVolume: 1
+  soundVolume: 1
