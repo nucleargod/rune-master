@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿// #define _TEST_AUDIOMANAGER_
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -19,13 +20,22 @@ public class AudioManager : MonoBehaviour {
 		public AudioSource audioSource;
 		public float originVolume;
 		
-		public AudioUnit (AudioSource _audioSource, float _volume = 1.0f) {
-			this.audioSource = _audioSource;
+		public AudioUnit (AudioClip _audioClip, float _volume = 1.0f) {
+			GameObject go = new GameObject();
+			go.name = _audioClip.name;
+			go.transform.parent = Instance.transform;
+			audioSource = go.AddComponent<AudioSource>();
+			audioSource.clip = _audioClip;
 			originVolume = _volume;
 		}
+		
+		public void Play(bool _loop = false){audioSource.loop = _loop; audioSource.Play();}
+		public void Pause(){audioSource.Pause();}
+		public void Stop(){audioSource.Stop();}
 	}
 	//-------------------------------------------------------------------------------
-	public Dictionary<string, AudioUnit> audioList = new Dictionary<string, AudioUnit>(); // 所有音樂資料
+	public Dictionary<string, AudioUnit> audioList = new Dictionary<string, AudioUnit>(); // 所有讀入記憶體的音樂資料
+	
 	// Use this for initialization
 	void Start () {
 		if (Instance == null)
@@ -33,7 +43,6 @@ public class AudioManager : MonoBehaviour {
 			Instance = this;
 			this.enabled = false;
 			DontDestroyOnLoad(this.gameObject);
-			AudioManager.LoadAllAudio();
 			this.enabled = true;
 		}
 		else
@@ -48,7 +57,8 @@ public class AudioManager : MonoBehaviour {
 	void Update () {
 	
 	}
-	
+#if _TEST_AUDIOMANAGER_
+	bool ox = true;
 	void OnGUI () {
 		foreach(KeyValuePair<string, AudioUnit> kvp in audioList) {
 			AudioUnit audioUnit = kvp.Value;
@@ -56,28 +66,71 @@ public class AudioManager : MonoBehaviour {
 				audioUnit.audioSource.Play();
 			}
 		}
-		
+		if ( ox && GUILayout.Button("LoadAllAudio")) {
+			AudioManager.LoadAllAudio();
+			ox = !ox;
+		}
+		if (!ox && GUILayout.Button("UnloadAllAudio")) {
+			AudioManager.UnloadAllAudio();
+			ox = !ox;
+		}
+	}
+#endif // _TEST_AUDIOMANAGER_
+	// 尚未讀取才會去讀取
+	// 建議在初始化場景時就先讀取
+	// 並留下AudioUnit
+	public static void LoadSound(string _name, out AudioUnit _audioUnit) {
+		// 檢查是否已經讀取
+		if (Instance.audioList.ContainsKey(_name)) {
+			// 已經存在則直接回傳
+			_audioUnit = Instance.audioList[_name];
+		}
+		else {
+			// 不存在則試著產生
+			AudioClip audioClip = (AudioClip)Resources.Load("Sounds/"+_name);
+			if (audioClip != null) {
+				// 有該資源則產生
+				_audioUnit = new AudioUnit(audioClip);
+				Instance.audioList.Add(_name, _audioUnit);
+			}
+			else {
+				// 沒有該資源則return null
+				_audioUnit = null;
+			}
+		}
 	}
 	
-	static void LoadAllAudio() {
+	public static void Play(string _name, bool _loop = false) {
+		if(Instance.audioList.ContainsKey(_name)) {
+			// 存在則撥放
+			Instance.audioList[_name].Play(_loop);
+		}
+		else {
+			// 不存在則讀取
+			AudioUnit audioUnit = null;
+			LoadSound(_name, out audioUnit);
+			if(audioUnit != null) {
+				// 讀取成功則撥放
+				audioUnit.Play(_loop);
+			}
+		}
+	}
+	
+	public static void LoadAllAudio() {
 		// 將所有聲音檔讀入
 		foreach (Object obj in Resources.LoadAll("Sounds/")) {
 			AudioClip audioClip = (AudioClip)obj;
-			GameObject go = new GameObject();
-			go.name = audioClip.name;
-			go.transform.parent = Instance.transform;
-			AudioSource audioSource = go.AddComponent<AudioSource>();
-			audioSource.clip = audioClip;
-			
-			Instance.audioList.Add(audioClip.name, new AudioUnit(audioSource));
+			Instance.audioList.Add(audioClip.name, new AudioUnit(audioClip));
 		}
 	}
 	
-	static void Play(string _name, bool _loop = false) {
-		AudioUnit audioUnit = Instance.audioList[_name];
-		if(audioUnit != null) {
-			audioUnit.audioSource.loop = _loop;
-			audioUnit.audioSource.Play();
+	public static void UnloadAllAudio() {
+		foreach(KeyValuePair<string, AudioUnit> kvp in Instance.audioList) {
+			AudioUnit audioUnit = kvp.Value;
+			audioUnit.Stop();
+			Resources.UnloadAsset(audioUnit.audioSource.clip);
+			Destroy(audioUnit.audioSource.gameObject);
 		}
+		Instance.audioList.Clear();
 	}
 }
