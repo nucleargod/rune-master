@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public struct themeConstrain{
+	public int target;
+	public float threshold;
+}
+
 [System.Serializable]
 public class themeRecord {
 	//-1: no such record
@@ -11,6 +16,7 @@ public class themeRecord {
 	public float			score = 0.0f;
 	public ThemeStatus		status = ThemeStatus.unlocked;
 	public chapterRecord[]	chapters = null;
+	public themeConstrain[] constrain = null;
 	
 	public enum ThemeStatus{
 		locked,
@@ -31,6 +37,10 @@ public class themeRecord {
 	
 	public void unlock(){
 		status = ThemeStatus.unlocked;
+	}
+	
+	public void _lock(){
+		status = ThemeStatus.locked;
 	}
 	
 	public bool loadImage(string path){

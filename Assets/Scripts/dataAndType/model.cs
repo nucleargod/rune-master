@@ -228,6 +228,25 @@ public class model : MonoBehaviour {
 			if(c_themes == null){
 				description = db.errMsg;
 				toggle = true;
+				return null;
+			}
+			//get constrains to judge the themes are locked or not
+			description = "";
+			for(int i=0; i<c_themes.Length; i++){
+				//get constrains
+				themeConstrain[] _c = db.getThemeConstrains(i);
+				if(_c == null){
+					description += db.errMsg;
+					toggle = true;
+				}
+				else c_themes[i].constrain = _c;
+				//judge constrains
+				foreach(themeConstrain cons in _c){
+					if(c_themes[cons.target].score < cons.threshold){
+						c_themes[i]._lock();
+						break;
+					}
+				}
 			}
 			return c_themes;
 		}

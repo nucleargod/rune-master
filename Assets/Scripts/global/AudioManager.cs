@@ -1,4 +1,4 @@
-﻿// #define _TEST_AUDIOMANAGER_
+﻿#define _TEST_AUDIOMANAGER_
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;

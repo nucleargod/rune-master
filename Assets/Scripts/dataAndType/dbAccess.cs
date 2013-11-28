@@ -589,4 +589,28 @@ public class dbAccess {
 		
 		return true;
 	}
+	
+	public themeConstrain[] getThemeConstrains(int themeId){
+		string query = "SELECT * FROM theme_constrain WHERE themeId='" + themeId + "'";
+		
+		try {
+			dbcmd = dbcon.CreateCommand();
+			dbcmd.CommandText = query;
+			reader = dbcmd.ExecuteReader();
+		} catch(Exception e){
+			Debug.Log(e);
+			errMsg = e.ToString();
+			return null;
+		}
+		
+		System.Collections.Generic.List<themeConstrain> constrains = new System.Collections.Generic.List<themeConstrain>();
+		while(reader.Read()){
+			themeConstrain _constrain = new themeConstrain();
+			_constrain.target    = reader.GetInt32(1);
+			_constrain.threshold = reader.GetFloat(2);
+			constrains.Add(_constrain);
+		}
+		
+		return constrains.ToArray();
+	}
 }
