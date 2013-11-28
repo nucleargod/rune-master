@@ -253,6 +253,25 @@ public class model : MonoBehaviour {
 		return null;
 	}
 	
+	public void updateThemeStatus(){
+		for(int i=0; i<c_themes.Length; i++){
+			//skip themes that is already unlocked
+			if(c_themes[i].status == themeRecord.ThemeStatus.unlocked)
+				continue;
+			//get constrains
+			themeConstrain[] _c = c_themes[i].constrain;
+			//judge constrains
+			bool d=true;
+			foreach(themeConstrain cons in _c){
+				if(c_themes[cons.target].score < cons.threshold){
+					d=false;
+					break;
+				}
+			}
+			if(d) c_themes[i].unlock();
+		}
+	}
+	
 	//get the theme of given id
 	public themeRecord getTheme(int id){
 		if(c_themes == null) getThemes();
@@ -290,7 +309,7 @@ public class model : MonoBehaviour {
 	}
 	
 	//get all Chapters of given theme
-	public chapterRecord[] getCapters(int themeId){
+	public chapterRecord[] getChapters(int themeId){
 		if(c_themes == null) getThemes();
 		
 		if(c_themes != null && c_themes.Length > themeId){
@@ -316,13 +335,13 @@ public class model : MonoBehaviour {
 	}
 	
 	//update given chapter's score
-	public bool updateCapter(int number, int themeId, float score){
+	public bool updateChapter(int number, int themeId, float score){
 		if(c_themes == null) getThemes();
 		
 		chapterRecord[] chapters;
 		if(c_themes != null && c_themes.Length > themeId){
 			chapters = c_themes[themeId].chapters;
-			if(chapters == null) chapters = getCapters(themeId);
+			if(chapters == null) chapters = getChapters(themeId);
 			
 			if(chapters != null && chapters.Length > number) 
 				chapters[number].score = score;
@@ -345,8 +364,8 @@ public class model : MonoBehaviour {
 	}
 	
 	//update given chapter's score
-	public bool updateCapter(chapterRecord chapter){
-		return updateCapter(chapter.id, chapter.themeId, chapter.score);
+	public bool updateChapter(chapterRecord chapter){
+		return updateChapter(chapter.id, chapter.themeId, chapter.score);
 	}
 	
 	void OnDestroy(){

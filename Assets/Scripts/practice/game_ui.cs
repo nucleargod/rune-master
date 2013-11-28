@@ -50,11 +50,11 @@ public class game_ui : MonoBehaviour {
 		//*/
 		
 		/*
-		wordList = DataManager.Instance.modelComponent.getWords("金汁");
+		wordList = DataManager.modelComponent.getWords("金汁");
 		//*/
 		
-		wordList = DataManager.Instance.modelComponent.getWords(
-			DataManager.Instance.modelComponent.getCapters(
+		wordList = DataManager.modelComponent.getWords(
+			DataManager.modelComponent.getChapters(
 				Global.Instance.seletedTheme
 			)[Global.Instance.seletedChapter].name
 		);
@@ -93,10 +93,10 @@ public class game_ui : MonoBehaviour {
 		// get global record and database
 		//GameObject o = GameObject.Find("GlobalRecord");
 		//rcd = o.GetComponent<GlobalRecord>();
-		rcd = DataManager.Instance.recordComponent;
+		rcd = DataManager.recordComponent;
 		//o = GameObject.Find("database");
 		//db = o.GetComponent<model>();
-		db = DataManager.Instance.modelComponent;
+		db = DataManager.modelComponent;
 			
 		// load words
 		LoadWords();

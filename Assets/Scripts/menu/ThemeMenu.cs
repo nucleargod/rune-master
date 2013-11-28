@@ -26,7 +26,7 @@ public class ThemeMenu : MonoBehaviour {
 		//	else
 		//		themes[i].status = themeRecord.ThemeStatus.locked;
 		//}
-		themes = DataManager.Instance.modelComponent.getThemes();
+		themes = DataManager.modelComponent.getThemes();
 	}
 	
 	// Update is called once per frame

@@ -17,7 +17,7 @@ public class ChapterMenu : MonoBehaviour {
 		groupArea.width = Screen.width;
 		
 		print("theme: " + Global.Instance.seletedTheme);
-		chapters = DataManager.Instance.modelComponent.getCapters(Global.Instance.seletedTheme);
+		chapters = DataManager.modelComponent.getChapters(Global.Instance.seletedTheme);
 		//chapters = new chapterRecord[5];
 		//for(int i = 0; i < chapters.Length; i++)
 		//{

@@ -22,7 +22,7 @@ public class GlobalRecord : MonoBehaviour {
 	
 	void Update() {
 		//database = GameObject.Find("database").GetComponent<model>();
-		database = DataManager.Instance.modelComponent;
+		database = DataManager.modelComponent;
 		wordList = database.getWords();
 		
 		DontDestroyOnLoad(gameObject);

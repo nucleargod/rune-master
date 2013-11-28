@@ -34,10 +34,12 @@ public class Result : MonoBehaviour {
 		rTheme = new Rect(w*0.5f-50, h-50.0f, 100.0f, 50.0f);
 		
 		// 初始化章節資訊
-		currentTheme = DataManager.Instance.modelComponent.getTheme(Global.Instance.seletedTheme);
-		nextTheme = DataManager.Instance.modelComponent.getTheme(Global.Instance.seletedTheme+1);
+		currentTheme = DataManager.modelComponent.getTheme(Global.Instance.seletedTheme);
+		nextTheme = DataManager.modelComponent.getTheme(Global.Instance.seletedTheme+1);
 		currentChapter = currentTheme.chapters[Global.Instance.seletedChapter];
-		nextChapter = nextTheme.chapters[Global.Instance.seletedChapter+1];
+		if(Global.Instance.seletedChapter + 1 < currentTheme.chapters.Length)
+			nextChapter = currentTheme.chapters[Global.Instance.seletedChapter+1];
+		else nextChapter=null;
 		
 		// 計算此次遊戲結果
 		if(Global.Instance.battleResult > (float)Rank.A)

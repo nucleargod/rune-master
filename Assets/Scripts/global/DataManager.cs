@@ -6,8 +6,8 @@ using System.Collections;
 
 public class DataManager : MonoBehaviour {
 	public static DataManager Instance = null;
-	public model modelComponent;
-	public GlobalRecord recordComponent;
+	public static model modelComponent = null;
+	public static GlobalRecord recordComponent = null;
 	// Use this for initialization
 	void Start () {
 		if(Instance == null) {
