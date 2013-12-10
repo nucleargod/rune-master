@@ -139,11 +139,15 @@ public class model : MonoBehaviour {
 			}
 			else{
 				for(int i=0; i<str.Length; i++){
-					for(int j=i+1; j<str.Length; j++){
+					for(int j=0; j<d.Length; j++){
 						if(str[i].ToString() == d[j].wordName){
-							Word w = d[i];
-							d[i] = d[j];
-							d[j] = w;
+							if(i==j) break;
+							else if(d[i] == null) d[i] = d[j];
+							else{
+								Word w = d[i];
+								d[i] = d[j];
+								d[j] = w;
+							}
 						}
 					}
 				}

@@ -274,6 +274,7 @@ public class dbAccess {
 		}
 		Word[] d = new Word[r.Length];
 		int top=0;
+		errMsg = null;
 		while(reader.Read()){
 			if(reader.FieldCount != 9){
 				errMsg = "FieldCount error!";
@@ -296,7 +297,8 @@ public class dbAccess {
 				top++;
 			}
 		}
-		return d;
+		if(errMsg == null) return d;
+		else return null;
 	}
 	
 	public Word getWord(string r){
