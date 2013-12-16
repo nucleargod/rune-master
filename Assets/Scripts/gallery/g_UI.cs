@@ -40,7 +40,7 @@ public class g_UI : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		rcd = GameObject.Find("GlobalRecord").GetComponent<GlobalRecord>();
+		rcd = DataManager.recordComponent;
 		wordRecords = rcd.records;
 		
 		wordViewPos = wordView.transform.position;
