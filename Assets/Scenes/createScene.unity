@@ -111,7 +111,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9c6c80ffee6e024387635e4bcfd38d2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
   toggle: 0
 --- !u!1 &663613128
 GameObject:
@@ -214,8 +213,6 @@ AudioSource:
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -439,7 +436,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22c3e136dd53a2a44b34dc13d0259c1d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
   canvasSize: 0
   frontDisplay: {fileID: 0}
   backDisplay: {fileID: 0}
@@ -453,7 +449,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9df2ef23ccc1eac4ebc49e321b1afbd7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
   color: {r: 0, g: 0, b: 0, a: 0}
   strokeDisplayList: []
   effect: {fileID: 100000, guid: 21ef917bd76179949b105ccf6724d435, type: 2}
@@ -467,7 +462,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9df2ef23ccc1eac4ebc49e321b1afbd7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
   color: {r: 0, g: 0, b: 0, a: 0}
   strokeDisplayList: []
   effect: {fileID: 100000, guid: 90602e567d17b9a4ca389d9f6b16c1ca, type: 2}
@@ -635,7 +629,7 @@ ParticleSystemRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10301, guid: 0000000000000000e000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -1697,7 +1691,6 @@ ParticleSystem:
       m_Bits: 4294967295
     quality: 0
     voxelSize: .5
-    collisionMessages: 0
   SubModule:
     enabled: 0
     subEmitterBirth: {fileID: 0}
@@ -1748,7 +1741,7 @@ ParticleSystemRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10301, guid: 0000000000000000e000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -2810,7 +2803,6 @@ ParticleSystem:
       m_Bits: 4294967295
     quality: 0
     voxelSize: .5
-    collisionMessages: 0
   SubModule:
     enabled: 0
     subEmitterBirth: {fileID: 0}
@@ -2830,7 +2822,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 910940cc4944b214d88aaa56727a541e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
 --- !u!4 &2135365206
 Transform:
@@ -2882,7 +2873,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86e3bd459d2b386459a6394b82b269ca, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
   canvas: {fileID: 0}
   wordDisplay: {fileID: 0}
   backWordDisplay: {fileID: 0}
@@ -2892,6 +2882,7 @@ MonoBehaviour:
   length: 0
   sound_O: {fileID: 100000, guid: af0ef5951a1754242922c7811704916a, type: 2}
   sound_X: {fileID: 100000, guid: 15f967046ac71c146be47a345740c6c4, type: 2}
+  db: {fileID: 302218587}
   emitter: {fileID: 1982978877}
   defaultMat: {fileID: 2100000, guid: 81aa7d0c07b1f2d46a0549e192f289ba, type: 2}
   blender: {fileID: 4800000, guid: 53b3960ee3d3d4a5caa8d5473d120187, type: 3}
@@ -3144,4 +3135,3 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1599b41f3f9699d4a9388da7534e6585, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
