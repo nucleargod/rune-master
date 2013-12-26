@@ -20,7 +20,7 @@ public class creater_UI : MonoBehaviour {
 	public Object sound_O;
 	public Object sound_X;
 	
-	private model db;
+	public model db;
 	//private GlobalRecord rcd;
 	
 	public GameObject emitter;
@@ -87,7 +87,7 @@ public class creater_UI : MonoBehaviour {
 		//rcd = DataManager.recordComponent;
 		//o = GameObject.Find("database");
 		//db = o.GetComponent<model>();
-		db = DataManager.modelComponent;
+		//db = DataManager.modelComponent;
 			
 		// load words
 		LoadWords();
